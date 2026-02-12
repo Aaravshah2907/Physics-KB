@@ -80,7 +80,8 @@ Generate a comprehensive, research-grade physics note on '$TOPIC'.
    Order sections strictly descending by score (Fundamentals first).
 2. Ensure all LaTeX is correct and backlinks are logically placed.
 3. If relevant local images are missing from the context, use your tools to find a high-quality historical or conceptual diagram link from Wikipedia.
-4. Output ONLY raw markdown content. Start with YAML metadata."
+4. Use your tools to adding a 'References' section with real, clickable DOI/arXiv links for key papers.
+5. Output ONLY raw markdown content. Start with YAML metadata."
 
 call_gemini "$FULL_PROMPT" > "$OUTPUT_FILE"
 
@@ -88,8 +89,10 @@ if [ $? -eq 0 ] && [ -s "$OUTPUT_FILE" ]; then
     # Step 4: Finalizing
     draw_task_progress 4 4 "Indexing links"
     download_external_images "$OUTPUT_FILE"
+    extract_simulations "$OUTPUT_FILE"
     sync_backlinks "$OUTPUT_FILE"
     cleanup_todo "$TOPIC"
+    git_snapshot "Generate note: $TOPIC"
     echo -e "\r\033[K   ✅ Saved to $FILE_NAME.md" >&2
 else
     echo -e "\r\033[K   ❌ Generation failed." >&2

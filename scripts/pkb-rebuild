@@ -118,8 +118,9 @@ TASK:
    - Even if the sub-topics are closely related, extract any major sub-concept, detailed derivation, or significant application into its own file to maintain focus.
    - Choose split points that have the potential to grow into substantial research-grade notes themselves.
 4. If relevant local images are missing from the context, use your tools to find a high-quality historical or conceptual diagram link from Wikipedia.
-5. If splitting, use the delimiter '---NEXT_FILE:filename.md---' before each new file's content (including YAML).
-6. Output ONLY the raw markdown content (or multiple blocks with the delimiter).
+5. Use your tools to include/verify a 'References' section with real, clickable DOI/arXiv links.
+6. If splitting, use the delimiter '---NEXT_FILE:filename.md---' before each new file's content (including YAML).
+7. Output ONLY the raw markdown content (or multiple blocks with the delimiter).
 
 Output ONLY the raw markdown content. No extra markers outside the splitter."
 
@@ -165,6 +166,7 @@ if [ $? -eq 0 ] && [ -s "$TEMP_DIR/output.txt" ]; then
 
             TOUCHED_FILES+="$NEW_PATH "
             download_external_images "$NEW_PATH"
+            extract_simulations "$NEW_PATH"
             SB_TOUCHED=$(sync_backlinks "$NEW_PATH")
             TOUCHED_FILES+="$SB_TOUCHED "
         done
@@ -192,6 +194,7 @@ if [ $? -eq 0 ] && [ -s "$TEMP_DIR/output.txt" ]; then
         
         TOUCHED_FILES+="$TARGET_FILE "
         download_external_images "$TARGET_FILE"
+        extract_simulations "$TARGET_FILE"
         SB_TOUCHED=$(sync_backlinks "$TARGET_FILE")
         TOUCHED_FILES+="$SB_TOUCHED "
     fi
@@ -209,6 +212,8 @@ if [ $? -eq 0 ] && [ -s "$TEMP_DIR/output.txt" ]; then
             "$PKB_SCRIPTS_DIR/pkb-rebuild" "$T_FILE"
         fi
     done
+    
+    git_snapshot "Rebuild $(basename "$TARGET_FILE")"
 
     echo ""
     echo "✅ Success! File(s) optimized."

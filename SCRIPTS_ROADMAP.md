@@ -19,19 +19,20 @@ This document summarizes the completed features and tracks the implementation of
 ## ⏳ Future Implementation Queue
 
 ### 1. 🐍 Interactive Python "Physics Labs"
-- [ ] Update `GEMINI.md` to require `python` (NumPy/Matplotlib) simulation blocks in complex notes.
-- [ ] Ensure blocks are formatted for Obsidian's "Execute Code" plugin.
+- [x] Update `GEMINI.md` to require `python` (NumPy/Matplotlib) simulation blocks in complex notes.
+- [x] Ensure blocks are formatted for Obsidian's "Execute Code" plugin.
 
 ### 2. 📜 Scholarly Reference Engine
-- [ ] Enable AI tool-access to source real, clickable DOI and arXiv links for major results.
-- [ ] Implement a `References` section template that prioritizes verified peer-reviewed sources.
+- [x] Enable AI tool-access to source real, clickable DOI and arXiv links for major results.
+- [x] Implement a `References` section template that prioritizes verified peer-reviewed sources.
 
 ### 3. 📉 "Knowledge Decay" & Dashboard 2.0
-- [ ] Add "Stale Factor" to `pkb-stats` (tracking notes not updated in X months).
-- [ ] Identify "Knowledge Islands" (orphaned notes with zero inbound/outbound links).
+### 3. 📉 "Knowledge Decay" & Dashboard 2.0
+- [x] Added "Stale Factor" to `pkb-stats` (tracking notes not updated in >90 days).
+- [x] Identified "Knowledge Islands" (orphaned notes with zero inbound links).
 
 ### 🤖 Semantic "Bridge" Suggestions (`pkb-bridge`)
 - [x] Created `pkb-bridge` for semantic link suggestions and suggest high-utility links between conceptually related notes that are currently disconnected.
 
 ### 🔄 Git Integration (`pkb-git`)
-- [ ] Implement `git_snapshot` in `pkb-common.sh` to auto-commit structural changes (renames/splits) with descriptive logs.
+- [x] Implemented `git_snapshot` in `pkb-common.sh` to auto-commit structural changes (renames/splits) with descriptive logs.

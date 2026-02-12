@@ -58,7 +58,8 @@ Modify the note according to this instruction: '$INSTRUCTION'.
 2. CRITICAL: Do not simply append information. Integrate it logically.
 3. Maintain title, update tags/complexity if needed.
 4. If relevant local images are missing from the context, use your tools to find a high-quality historical or conceptual diagram link from Wikipedia.
-5. Output ONLY raw markdown."
+5. If modifying the end of the note, update the 'References' section with real DOI/arXiv links.
+6. Output ONLY raw markdown."
 
 TEMP_FILE=$(mktemp)
 echo "" # For spinner
@@ -70,7 +71,9 @@ if [ $? -eq 0 ] && [ -s "$TEMP_FILE" ]; then
     # Step 3: Deployment & Sync
     draw_task_progress 3 3 "Syncing backlinks"
     download_external_images "$TARGET_FILE"
+    extract_simulations "$TARGET_FILE"
     sync_backlinks "$TARGET_FILE"
+    git_snapshot "Refine $(basename "$TARGET_FILE"): $INSTRUCTION"
     echo ""
     echo "✅ Success! Refined $(basename "$TARGET_FILE")."
 else

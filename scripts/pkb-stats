@@ -35,14 +35,38 @@ while read -r LINE; do
 done <<< "$COMPLEXITIES"
 echo ""
 
-# 3. Top Backlinked "Power Nodes"
+# 3. Knowledge Health & Decay
+echo -e "\033[1m📉 Knowledge Health:\033[0m"
+
+# Stale Notes (Modified > 90 days ago)
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    STALE_COUNT=$(find "$NOTES_DIR" -name "*.md" -mtime +90 | wc -l | tr -d ' ')
+else
+    STALE_COUNT=$(find "$NOTES_DIR" -name "*.md" -mtime +90 | wc -l)
+fi
+printf "   %-25s \033[33m%d\033[0m\n" "Stale Notes (>3 months):" "$STALE_COUNT"
+
+# Orphaned Notes (Zero inbound links)
+ALL_BASENAMES=$(find "$NOTES_DIR" -maxdepth 1 -name "*.md" -exec basename {} .md \;)
+LINKED_TOPICS=$(grep -rEoh "\[\[[^]]+\]\]" "$NOTES_DIR" | sed -E 's/\[\[([^]|#]+).*\]\]/\1/' | sort -u)
+ORPHAN_COUNT=0
+
+for BASE in $ALL_BASENAMES; do
+    if ! echo "$LINKED_TOPICS" | grep -q "^$BASE$"; then
+        ORPHAN_COUNT=$((ORPHAN_COUNT + 1))
+    fi
+done
+printf "   %-25s \033[31m%d\033[0m\n" "Orphaned Notes:" "$ORPHAN_COUNT"
+echo ""
+
+# 4. Top Backlinked "Power Nodes"
 echo -e "\033[1m🔗 Top Power Nodes (Most Backlinked):\033[0m"
-BACKLINK_COUNTS=$(grep -rE "\[\[.*\]\]" "$NOTES_DIR" | grep -oE "\[\[[^]]+\]\]" | sed -E 's/\[\[([^]|]+)(\|[^]|]+)?\]\]/\1/' | sort | uniq -c | sort -rn | head -5)
+BACKLINK_COUNTS=$(grep -rEoh "\[\[[^]]+\]\]" "$NOTES_DIR" | sed -E 's/\[\[([^]|#]+).*\]\]/\1/' | sort | uniq -c | sort -rn | head -5)
 
 while read -r LINE; do
     COUNT=$(echo "$LINE" | awk '{print $1}')
     TOPIC=$(echo "$LINE" | cut -d' ' -f2-)
-    printf "   %-20s %d links\n" "$TOPIC" "$COUNT"
+    printf "   %-25s %d links\n" "$TOPIC" "$COUNT"
 done <<< "$BACKLINK_COUNTS"
 echo ""
 

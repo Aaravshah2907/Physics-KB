@@ -111,6 +111,8 @@ for SOURCE_FILE in "${URGENT_FILES[@]}"; do
     draw_task_progress "$CURRENT" "$TOTAL_SYNC" "Syncing backlinks"
     sync_backlinks "$SOURCE_FILE"
 done
+done
 echo ""
 
+git_snapshot "Refresh KB: Pruned $CURRENT files & synced backlinks"
 echo "✨ Refresh complete!"

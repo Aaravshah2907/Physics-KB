@@ -10,6 +10,16 @@ NOTES_DIR="$PROJ_ROOT/notes"
 GEMINI_CONF="$PROJ_ROOT/GEMINI.md"
 TODO_FILE="$PROJ_ROOT/additional_topics.txt"
 ASSETS_IMG_DIR="$PROJ_ROOT/assets/images"
+SIMULATIONS_DIR="$PROJ_ROOT/simulations"
+
+# --- Versioning ---
+git_snapshot() {
+    local message="$1"
+    if [ -d "$PROJ_ROOT/.git" ]; then
+        (cd "$PROJ_ROOT" && git add . && git commit -m "$message" >/dev/null 2>&1)
+        printf "\r\033[K      📸 Git snapshot: $message\n" >&2
+    fi
+}
 
 # --- UI Helpers ---
 
@@ -168,6 +178,74 @@ download_external_images() {
         printf "\r\033[K      🖼️  Localized: [[$FILENAME]]\n" >&2
         
     done <<< "$URLS"
+}
+
+extract_simulations() {
+    local FILE="$1"
+    [ ! -f "$FILE" ] && return
+    
+    # Check for SIMULATION blocks
+    if grep -q "\-\-\-SIMULATION:" "$FILE"; then
+        printf "\r\033[K      🧪 Extracting simulations...\n" >&2
+        mkdir -p "$SIMULATIONS_DIR"
+        
+        # Temporary file for the modified markdown content
+        local TEMP_MD=$(mktemp)
+        
+        # Use awk to process the file: extract code to files and replace in markdown
+        awk -v outdir="$SIMULATIONS_DIR" -v relative_dir="simulations" '
+        BEGIN { in_block=0; print_line=1 }
+        
+        /^---SIMULATION:/ {
+            # Start of a simulation block
+            # Parse header: ---SIMULATION:lang:filename.ext---
+            msg=$0
+            gsub(/---/, "", msg)
+            split(msg, parts, ":")
+            lang = parts[2]
+            fname = parts[3]
+            
+            current_file = outdir "/" fname
+            relative_path = relative_dir "/" fname
+            
+            # Create/Empty the simulation file
+            printf "" > current_file
+            
+            in_block=1
+            print_line=0 # Stop printing to markdown
+            
+            # Print replacement link to markdown immediately
+            print "\n> [!code] **Simulation Code**" 
+            print "> The source code for this simulation is available in: `simulations/" fname "`"
+            print "> ```" lang
+            next
+        }
+        
+        /^```/ {
+             if (in_block) {
+                 # End of simulation block
+                 in_block=0
+                 print_line=1
+                 print "```" # Close the markdown code block
+                 print "      💾 Saved simulation: " current_file > "/dev/stderr"
+                 next
+             }
+        }
+        
+        {
+            if (in_block) {
+                # content of the simulation function
+                print $0 >> current_file
+                print $0 # Also print to markdown to keep the code visible
+            } else {
+                print $0
+            }
+        }
+        ' "$FILE" > "$TEMP_MD"
+        
+        # Replace original file with processed content
+        mv "$TEMP_MD" "$FILE"
+    fi
 }
 
 check_heading_limit() {
