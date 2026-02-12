@@ -1,0 +1,220 @@
+#!/bin/bash
+# pkb-rebuild: Restructures an existing physics note for better flow, fills gaps, and ensures logical order.
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/pkb-common.sh"
+
+if [ ! -d "$NOTES_DIR" ] || [ -z "$(ls -A "$NOTES_DIR")" ]; then
+    echo "❌ No notes found in $NOTES_DIR"
+    exit 1
+fi
+
+FILE_ARG="$1"
+
+# If no file provided, use fzf to select one (filenames only)
+if [ -z "$FILE_ARG" ]; then
+    echo "📂 Select a note to rebuild..."
+    SELECTED_NAME=$(find "$NOTES_DIR" -maxdepth 1 -name "*.md" -exec basename {} \; | fzf --height 40% --layout=reverse --border --preview "grep -E '^#+' $NOTES_DIR/{} | bat --color=always --style=plain --language markdown")
+    
+    if [ -z "$SELECTED_NAME" ]; then
+        echo "No file selected."
+        exit 0
+    fi
+    TARGET_FILE="$NOTES_DIR/$SELECTED_NAME"
+else
+    if [[ "$FILE_ARG" == *.md ]]; then
+        TARGET_FILE="$NOTES_DIR/$FILE_ARG"
+    else
+        CLEAN_NAME=$(sanitize_filename "$FILE_ARG")
+        TARGET_FILE="$NOTES_DIR/$CLEAN_NAME.md"
+    fi
+fi
+
+if [ ! -f "$TARGET_FILE" ]; then
+    echo "❌ Error: File not found at $TARGET_FILE"
+    exit 1
+fi
+
+# Track already rebuilt files to prevent infinite loops (recursive)
+if [ -z "$PKB_REBUILT_SET" ]; then
+    PKB_REBUILT_SET="|$TARGET_FILE|"
+else
+    if [[ "$PKB_REBUILT_SET" == *"|$TARGET_FILE|"* ]]; then
+        exit 0
+    fi
+    PKB_REBUILT_SET="$PKB_REBUILT_SET$TARGET_FILE|"
+fi
+export PKB_REBUILT_SET
+
+echo "🏗️  Rebuilding $(basename "$TARGET_FILE")..."
+
+# Step 1: Data Preparation
+draw_task_progress 1 4 "Gathering context"
+SYSTEM_PROMPT=$(cat "$GEMINI_CONF")
+CURRENT_CONTENT=$(cat "$TARGET_FILE")
+EXISTING_NOTES=$(get_existing_notes_list)
+AVAILABLE_IMAGES=$(get_available_images)
+echo ""
+
+# Step 2: Heading Count & Pre-Split Logic
+HEADING_COUNT=$(grep -c "^##" "$TARGET_FILE")
+
+# If extremely large (>35 headings), perform a mechanical pre-split to avoid token/rate limits
+if [ "$HEADING_COUNT" -gt 35 ]; then
+    printf "\r\033[K   🚨 Critical size ($HEADING_COUNT headings). Performing mechanical pre-split...\n" >&2
+    
+    MID_POINT=$(( HEADING_COUNT / 2 ))
+    SPLIT_LINE=$(grep -n "^## " "$TARGET_FILE" | sed -n "${MID_POINT}p" | cut -d: -f1)
+    
+    YAML_HEAD=$(sed -n '1,/---/p' "$TARGET_FILE" | head -n 20) # Grab YAML
+    TITLE=$(echo "$YAML_HEAD" | grep "^title: " | sed 's/title: //;s/"//g;s/'\''//g')
+    
+    PART1_FILE="$NOTES_DIR/pre-split-1-$(basename "$TARGET_FILE")"
+    PART2_FILE="$NOTES_DIR/pre-split-2-$(basename "$TARGET_FILE")"
+    
+    # Create Part 1
+    echo "$YAML_HEAD" > "$PART1_FILE"
+    sed -n "1,$((SPLIT_LINE-1))p" "$TARGET_FILE" | sed '1,/---/d' >> "$PART1_FILE"
+    
+    # Create Part 2
+    echo "$YAML_HEAD" > "$PART2_FILE"
+    sed -n "$SPLIT_LINE,\$p" "$TARGET_FILE" >> "$PART2_FILE"
+    
+    # Update titles to distinguish
+    sed -i '' "s/title: .*/title: \"$TITLE (Part 1)\"/" "$PART1_FILE"
+    sed -i '' "s/title: .*/title: \"$TITLE (Part 2)\"/" "$PART2_FILE"
+    
+    rm "$TARGET_FILE"
+    
+    # Trigger recursive rebuilds
+    "$PKB_SCRIPTS_DIR/pkb-rebuild" "$PART1_FILE"
+    "$PKB_SCRIPTS_DIR/pkb-rebuild" "$PART2_FILE"
+    
+    echo "✅ Mechanical split complete. Parts are being optimized."
+    exit 0
+fi
+
+if ! check_heading_limit "$TARGET_FILE" 20; then
+    FORCE_SPLIT="true"
+fi
+
+draw_task_progress 2 4 "AI Optimization"
+REBUILD_PROMPT="SYSTEM INSTRUCTIONS:
+$SYSTEM_PROMPT
+
+CONTEXT:
+Other existing topics: [$EXISTING_NOTES]
+Available images in assets: [$AVAILABLE_IMAGES]
+Current file: $(basename "$TARGET_FILE") (Heading count: $HEADING_COUNT)
+
+TASK:
+1. Restructure the current content into a more logical order using a 'Logical Development Score' (1-100).
+   - High Score (100-80): Summaries, fundamental definitions, and core physical intuition.
+   - Mid Score (79-40): Mathematical formalism, derivations, and primary consequences.
+   - Low Score (39-1): Specialized applications, edge cases, and historical context.
+   Order the note strictly descending by this score (Fundamentals first).
+2. Fill gaps where necessary.
+3. CRITICAL: HARD LIMIT of 20 subheadings. If there are more than 20 subheadings (current: $HEADING_COUNT), you MUST SPLIT the content into two or more 'atomic' files.
+   - Even if the sub-topics are closely related, extract any major sub-concept, detailed derivation, or significant application into its own file to maintain focus.
+   - Choose split points that have the potential to grow into substantial research-grade notes themselves.
+4. If relevant local images are missing from the context, use your tools to find a high-quality historical or conceptual diagram link from Wikipedia.
+5. If splitting, use the delimiter '---NEXT_FILE:filename.md---' before each new file's content (including YAML).
+6. Output ONLY the raw markdown content (or multiple blocks with the delimiter).
+
+Output ONLY the raw markdown content. No extra markers outside the splitter."
+
+TEMP_DIR=$(mktemp -d)
+echo "" # For the spinner
+call_gemini "$REBUILD_PROMPT" > "$TEMP_DIR/output.txt"
+
+TOUCHED_FILES=""
+
+if [ $? -eq 0 ] && [ -s "$TEMP_DIR/output.txt" ]; then
+    # Step 3: Deployment (Handling possible splits/moves)
+    draw_task_progress 3 4 "Applying changes"
+    OLD_BASE=$(basename "$TARGET_FILE" .md)
+    
+    if grep -q -- "---NEXT_FILE:" "$TEMP_DIR/output.txt"; then
+        # Handle multiple files (Atomic Splits/Moves)
+        csplit -k -s -f "$TEMP_DIR/part" "$TEMP_DIR/output.txt" "/---NEXT_FILE:/" "{*}"
+        
+        for PART in "$TEMP_DIR"/part*; do
+            [ ! -s "$PART" ] && continue
+            FNAME_RAW=$(grep -- "---NEXT_FILE:" "$PART" | sed 's/---NEXT_FILE:\(.*\).md---/\1/' | head -1 | tr -d '\r')
+            FNAME=$(sanitize_filename "$FNAME_RAW")
+            [ -z "$FNAME" ] && FNAME="$OLD_BASE"
+            
+            NEW_PATH="$NOTES_DIR/$FNAME.md"
+            EXISTS=false
+            [ -f "$NEW_PATH" ] && EXISTS=true
+            
+            sed '/---NEXT_FILE:/d' "$PART" > "$NEW_PATH"
+            
+            if [ "$FNAME" == "$OLD_BASE" ]; then
+                printf "\r\033[K   💾 Updated core file: $FNAME.md\n" >&2
+            elif $EXISTS; then
+                printf "\r\033[K   🚚 Moved content to existing: $FNAME.md\n" >&2
+            else
+                printf "\r\033[K   💾 Created atomic file: $FNAME.md\n" >&2
+            fi
+            
+            # If we renamed or pivoted away from original base
+            if [ "$FNAME" != "$OLD_BASE" ] && [[ "$FNAME_RAW" == *"$OLD_BASE"* ]]; then
+                 update_global_links "$OLD_BASE" "$FNAME"
+            fi
+
+            TOUCHED_FILES+="$NEW_PATH "
+            download_external_images "$NEW_PATH"
+            SB_TOUCHED=$(sync_backlinks "$NEW_PATH")
+            TOUCHED_FILES+="$SB_TOUCHED "
+        done
+        
+        # Delete original if it was fully evacuated/renamed
+        if ! grep -q -- "---NEXT_FILE:$(basename "$TARGET_FILE")" "$TEMP_DIR/output.txt" && ! grep -q -- "---NEXT_FILE:$OLD_BASE" "$TEMP_DIR/output.txt"; then
+             [ -n "$TOUCHED_FILES" ] && rm "$TARGET_FILE"
+        fi
+    else
+        # Single file (Potentially Renamed)
+        NEW_TITLE=$(grep "^title: " "$TEMP_DIR/output.txt" | head -1 | sed 's/title: //;s/"//g;s/'\''//g')
+        NEW_FNAME=$(sanitize_filename "$NEW_TITLE")
+        
+        if [ -n "$NEW_FNAME" ] && [ "$NEW_FNAME" != "$OLD_BASE" ]; then
+            NEW_PATH="$NOTES_DIR/$NEW_FNAME.md"
+            [ -f "$NEW_PATH" ] && printf "\r\033[K   🚚 Merged content into: $NEW_FNAME.md\n" >&2 || printf "\r\033[K   🏷️  Renamed to: $NEW_FNAME.md\n" >&2
+            
+            mv "$TEMP_DIR/output.txt" "$NEW_PATH"
+            rm -f "$TARGET_FILE"
+            update_global_links "$OLD_BASE" "$NEW_FNAME"
+            TARGET_FILE="$NEW_PATH"
+        else
+            mv "$TEMP_DIR/output.txt" "$TARGET_FILE"
+        fi
+        
+        TOUCHED_FILES+="$TARGET_FILE "
+        download_external_images "$TARGET_FILE"
+        SB_TOUCHED=$(sync_backlinks "$TARGET_FILE")
+        TOUCHED_FILES+="$SB_TOUCHED "
+    fi
+    echo ""
+    
+    # Step 4: Recursive Rebuild of Modified Files
+    draw_task_progress 4 4 "Indexing & cleaning up"
+    
+    UNIQUE_TOUCHED=$(echo "$TOUCHED_FILES" | tr ' ' '\n' | sort -u | tr '\n' ' ')
+    
+    for T_FILE in $UNIQUE_TOUCHED; do
+        if [ -f "$T_FILE" ] && [ "$T_FILE" != "$TARGET_FILE" ]; then
+            # Ensure the relative path is full
+            [[ "$T_FILE" != /* ]] && T_FILE="$NOTES_DIR/$T_FILE"
+            "$PKB_SCRIPTS_DIR/pkb-rebuild" "$T_FILE"
+        fi
+    done
+
+    echo ""
+    echo "✅ Success! File(s) optimized."
+else
+    echo "❌ Error during rebuild. Original file preserved."
+    rm -rf "$TEMP_DIR"
+    exit 1
+fi
+rm -rf "$TEMP_DIR"

@@ -1,0 +1,34 @@
+#!/bin/bash
+# pkb-batch: Automatically generates notes for topics listed in additional_topics.txt
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/pkb-common.sh"
+
+export PKB_IN_BATCH=1
+
+LIMIT="${1:-3}"
+if [ ! -f "$TODO_FILE" ] || [ ! -s "$TODO_FILE" ]; then
+    echo "✨ No pending topics."
+    exit 0
+fi
+
+TOTAL_AVAILABLE=$(wc -l < "$TODO_FILE" | tr -d ' ')
+[ "$LIMIT" -gt "$TOTAL_AVAILABLE" ] && LIMIT=$TOTAL_AVAILABLE
+
+IFS=$'\n' read -d '' -r -a TOPICS < <(head -n "$LIMIT" "$TODO_FILE")
+
+COUNT=0
+for TOPIC in "${TOPICS[@]}"; do
+    [ -z "$TOPIC" ] && continue
+    COUNT=$((COUNT + 1))
+    
+    # Draw Persistent Master UI
+    draw_master_progress "$COUNT" "$LIMIT" "$TOPIC"
+    
+    # Call pkb-gen
+    "$PKB_SCRIPTS_DIR/pkb-gen" "$TOPIC"
+    
+    sleep 1
+done
+
+echo -e "\n\033[1;32m✅ Batch generation complete!\033[0m"

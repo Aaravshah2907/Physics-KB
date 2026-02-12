@@ -1,0 +1,80 @@
+#!/bin/bash
+# pkb-refine: Iteratively improves existing physics notes.
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/pkb-common.sh"
+
+FILE_ARG="$1"
+INSTRUCTION="$2"
+
+if [ -z "$FILE_ARG" ] || [ -z "$INSTRUCTION" ]; then
+    echo "Usage: pkb-refine <filename.md or topic> \"<instruction>\""
+    exit 1
+fi
+
+# Resolve file path
+if [[ "$FILE_ARG" == *.md ]]; then
+    TARGET_FILE="$NOTES_DIR/$FILE_ARG"
+else
+    CLEAN_NAME=$(sanitize_filename "$FILE_ARG")
+    TARGET_FILE="$NOTES_DIR/$CLEAN_NAME.md"
+fi
+
+if [ ! -f "$TARGET_FILE" ]; then
+    echo "❌ Error: File not found at $TARGET_FILE"
+    exit 1
+fi
+
+echo "🔧 Refining $(basename "$TARGET_FILE")..."
+
+# Step 1: Preparation
+draw_task_progress 1 3 "Gathering context"
+SYSTEM_PROMPT=$(cat "$GEMINI_CONF")
+CURRENT_CONTENT=$(cat "$TARGET_FILE")
+EXISTING_NOTES=$(get_existing_notes_list)
+AVAILABLE_IMAGES=$(get_available_images)
+echo ""
+
+# Step 2: AI Refinement
+draw_task_progress 2 3 "AI Refinement"
+REFINE_PROMPT="SYSTEM INSTRUCTIONS:
+$SYSTEM_PROMPT
+
+CONTEXT:
+Other existing topics: [$EXISTING_NOTES]
+Available images in assets: [$AVAILABLE_IMAGES]
+If highly relevant, you may reference available images using ![[image_name.png]].
+
+CURRENT NOTE CONTENT:
+$CURRENT_CONTENT
+
+TASK:
+Modify the note according to this instruction: '$INSTRUCTION'.
+1. Use a 'Logical Development Score' (1-100) to maintain/improve the structure:
+   - High Score (100-80): Summaries, basic definitions, and core intuition.
+   - Mid Score (79-40): Derivations and consequences.
+   - Low Score (39-1): Details and edge cases.
+   Always keep the note ordered descending by score.
+2. CRITICAL: Do not simply append information. Integrate it logically.
+3. Maintain title, update tags/complexity if needed.
+4. If relevant local images are missing from the context, use your tools to find a high-quality historical or conceptual diagram link from Wikipedia.
+5. Output ONLY raw markdown."
+
+TEMP_FILE=$(mktemp)
+echo "" # For spinner
+call_gemini "$REFINE_PROMPT" > "$TEMP_FILE"
+
+if [ $? -eq 0 ] && [ -s "$TEMP_FILE" ]; then
+    mv "$TEMP_FILE" "$TARGET_FILE"
+    
+    # Step 3: Deployment & Sync
+    draw_task_progress 3 3 "Syncing backlinks"
+    download_external_images "$TARGET_FILE"
+    sync_backlinks "$TARGET_FILE"
+    echo ""
+    echo "✅ Success! Refined $(basename "$TARGET_FILE")."
+else
+    echo "❌ Error during refinement. Original file preserved."
+    rm -f "$TEMP_FILE"
+    exit 1
+fi

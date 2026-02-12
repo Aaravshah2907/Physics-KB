@@ -1,0 +1,59 @@
+#!/bin/bash
+# pkb-todo: Scans for missing topics linked in existing notes, updates a list, and provides an fzf interface to generate them.
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/pkb-common.sh"
+
+if [ ! -d "$NOTES_DIR" ]; then
+    echo "❌ Notes directory not found at $NOTES_DIR"
+    exit 1
+fi
+
+echo "🔍 Scanning for missing topics (excluding References)..."
+
+# 1. Get all normalized existing filenames
+EXISTING_NORM=$(find "$NOTES_DIR" -maxdepth 1 -name "*.md" -exec basename {} \; | sed 's/\.md$//' | tr '[:upper:]' '[:lower:]' | sed "s/[^a-z0-9]//g" | sort -u)
+
+# 2. Extract all topics from links [[Topic]] or [[Topic|Alias]] across all files
+ALL_LINKS=""
+while read -r FILE; do
+    LINKS=$(extract_links_filtered "$FILE")
+    ALL_LINKS+="$LINKS"$'\n'
+done < <(find "$NOTES_DIR" -maxdepth 1 -name "*.md")
+
+RAW_LINKS=$(echo "$ALL_LINKS" | sort -u)
+
+MISSING_WITH_CONTEXT=""
+while read -r TOPIC; do
+    [ -z "$TOPIC" ] && continue
+    [[ "$TOPIC" == *"'"* ]] || [[ "$TOPIC" == *'"'* ]] && continue
+    NORM_TOPIC=$(sanitize_filename "$TOPIC" | tr -d '-')
+    
+    if ! echo "$EXISTING_NORM" | grep -qx "$NORM_TOPIC"; then
+        # Find the first file that contains this link to use as context
+        SOURCE=$(grep -lF "[[$TOPIC]]" "$NOTES_DIR"/*.md | head -1 | xargs basename 2>/dev/null | sed 's/\.md//')
+        MISSING_WITH_CONTEXT+="$TOPIC|$SOURCE"$'\n'
+    fi
+done <<< "$RAW_LINKS"
+
+# 3. Update the 'additional topics' file (case-insensitive deduplication)
+if [ -n "$MISSING_WITH_CONTEXT" ]; then
+    echo -n "$MISSING_WITH_CONTEXT" | sort -f -t'|' -k1,1 -u > "$TODO_FILE"
+    COUNT=$(wc -l < "$TODO_FILE" | tr -d ' ')
+    echo "📝 Updated $TODO_FILE with $COUNT missing topics (context saved)."
+else
+    > "$TODO_FILE"
+    echo "✨ No missing topics found!"
+fi
+
+# 4. FZF selection
+if [ ! -s "$TODO_FILE" ]; then
+    exit 0
+fi
+
+SELECTED=$(fzf --height 50% --layout=reverse --border --prompt="Select a topic to generate: " --header="Missing Topics (Quotes/References excluded, press ESC to cancel)" < "$TODO_FILE")
+
+if [ -n "$SELECTED" ]; then
+    echo "🚀 Triggering generation for: $SELECTED"
+    "$PKB_SCRIPTS_DIR/pkb-gen" "$SELECTED"
+fi

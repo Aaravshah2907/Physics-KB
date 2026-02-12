@@ -1,0 +1,54 @@
+#!/bin/bash
+# pkb-audit: Performs health checks on LaTeX and assets.
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/pkb-common.sh"
+
+echo -e "\033[1;33m🧪 STARTING KB AUDIT...\033[0m\n"
+
+ERR_COUNT=0
+WARN_COUNT=0
+
+# 1. LaTeX Validation (Check for unclosed $)
+echo "📐 Checking LaTeX syntax..."
+FILES=$(find "$NOTES_DIR" -maxdepth 1 -name "*.md")
+for FILE in $FILES; do
+    # Count occurrences of $, if odd, it might be unclosed
+    COUNT=$(tr -cd '$' < "$FILE" | wc -c)
+    if (( COUNT % 2 != 0 )); then
+        echo -e "   ❌ \033[1;31mUnclosed LaTeX ($)\033[0m in $(basename "$FILE")"
+        ERR_COUNT=$((ERR_COUNT + 1))
+    fi
+done
+
+# 2. Asset Validation (Broken links)
+echo -e "\n🖼️  Checking image links..."
+for FILE in $FILES; do
+    IMAGE_LINKS=$(grep -oE "!\[\[[^]]+\]\]" "$FILE" | sed -E 's/!\[\[([^]]+)\]\]/\1/')
+    while read -r IMG; do
+        [ -z "$IMG" ] && continue
+        if [ ! -f "$ASSETS_IMG_DIR/$IMG" ]; then
+            echo -e "   ❌ \033[1;31mDead link:\033[0m [[$IMG]] in $(basename "$FILE")"
+            ERR_COUNT=$((ERR_COUNT + 1))
+        fi
+    done <<< "$IMAGE_LINKS"
+done
+
+# 3. Orphaned Assets
+echo -e "\n🧹 Checking for orphaned images..."
+if [ -d "$ASSETS_IMG_DIR" ]; then
+    ALL_IMAGES=$(find "$ASSETS_IMG_DIR" -type f -exec basename {} \;)
+    for IMG in $ALL_IMAGES; do
+        if ! grep -rqF "[[$IMG]]" "$NOTES_DIR"; then
+            echo -e "   ⚠️  \033[1;33mOrphaned image:\033[0m $IMG (Not used in any note)"
+            WARN_COUNT=$((WARN_COUNT + 1))
+        fi
+    done
+fi
+
+echo -e "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+if [ $ERR_COUNT -eq 0 ]; then
+    echo -e "✅ \033[1;32mAUDIT PASSED ($WARN_COUNT warnings)\033[0m"
+else
+    echo -e "❌ \033[1;31mAUDIT FAILED ($ERR_COUNT errors, $WARN_COUNT warnings)\033[0m"
+fi

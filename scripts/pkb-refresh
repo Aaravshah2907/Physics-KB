@@ -1,0 +1,116 @@
+#!/bin/bash
+# pkb-refresh: Maintenance script for the Physics Knowledge Base.
+# Updates todo list, syncs bidirectional backlinks, and prunes empty notes.
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/pkb-common.sh"
+
+if [ ! -d "$NOTES_DIR" ]; then
+    echo "❌ Notes directory not found at $NOTES_DIR"
+    exit 1
+fi
+
+echo "🔄 Starting Physics-KB Refresh..."
+
+# --- 1. Prune Empty or Placeholder Notes ---
+echo "🗑️  Step 1/3: Checking for empty notes..."
+FILES_TO_CHECK=($(find "$NOTES_DIR" -maxdepth 1 -name "*.md"))
+TOTAL_FILES=${#FILES_TO_CHECK[@]}
+CURRENT=0
+
+for FILE in "${FILES_TO_CHECK[@]}"; do
+    CURRENT=$((CURRENT + 1))
+    draw_task_progress "$CURRENT" "$TOTAL_FILES" "Pruning empty notes"
+    
+    CONTENT=$(awk 'BEGIN {count=0} /^---$/ {count++; next} count >= 2 {print}' "$FILE" | grep -vE "^[[:space:]]*$" | tr -d '\r')
+    CONTENT_LINES=$(echo "$CONTENT" | grep -vE "^[[:space:]]*$" | wc -l | tr -d ' ')
+    
+    if [ "$CONTENT_LINES" -le 1 ]; then
+        printf "\r\033[K" # Clear progress bar for prompt
+        echo "❓ Found potentially empty note: $(basename "$FILE")"
+        read -p "   Do you want to delete this file? (y/N): " -n 1 -r < /dev/tty
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            rm "$FILE"
+            echo "   ✅ Deleted."
+        fi
+    fi
+done
+echo ""
+
+# --- 2. Smart Link Redirection & Missing Topics ---
+echo "📝 Step 2/3: Checking links and redirects..."
+HEADINGS_MAP=$(find "$NOTES_DIR" -maxdepth 1 -name "*.md" -exec awk '
+    /^#+ / {
+        h=$0; sub(/^#+ /, "", h); 
+        clean_h=h; sub(/^[0-9. ]+/, "", clean_h);
+        norm_h=tolower(clean_h); gsub(/[^a-z0-9]/, "", norm_h);
+        fname=FILENAME; sub(/.*\//, "", fname); sub(/\.md$/, "", fname);
+        print norm_h "|" fname "|" h
+    }
+' {} \;)
+
+EXISTING_NORM=$(find "$NOTES_DIR" -maxdepth 1 -name "*.md" -exec basename {} \; | sed 's/\.md$//' | tr '[:upper:]' '[:lower:]' | sed "s/[^a-z0-9]//g" | sort -u)
+
+ALL_LINKS=""
+CURRENT=0
+for FILE in "${FILES_TO_CHECK[@]}"; do
+    [ ! -f "$FILE" ] && continue
+    CURRENT=$((CURRENT + 1))
+    draw_task_progress "$CURRENT" "$TOTAL_FILES" "Scanning links"
+    LINKS=$(extract_links_filtered "$FILE")
+    ALL_LINKS+="$LINKS"$'\n'
+done
+echo ""
+
+RAW_LINKS_ARR=($(echo "$ALL_LINKS" | sort -u))
+TOTAL_LINKS=${#RAW_LINKS_ARR[@]}
+CURRENT=0
+MISSING_TOPICS=""
+
+for TOPIC in "${RAW_LINKS_ARR[@]}"; do
+    CURRENT=$((CURRENT + 1))
+    draw_task_progress "$CURRENT" "$TOTAL_LINKS" "Validating topics"
+    
+    [ -z "$TOPIC" ] && continue
+    [[ "$TOPIC" == *"'"* ]] || [[ "$TOPIC" == *'"'* ]] && continue
+    
+    NORM_TOPIC=$(sanitize_filename "$TOPIC" | tr -d '-')
+    
+    if ! echo "$EXISTING_NORM" | grep -qx "$NORM_TOPIC"; then
+        MATCH=$(echo "$HEADINGS_MAP" | awk -F'|' -v nt="$NORM_TOPIC" '$1 == nt {print $2 "|" $3; exit}')
+        
+        if [ -n "$MATCH" ]; then
+            TARGET_BASE=$(echo "$MATCH" | cut -d'|' -f1)
+            TARGET_HD=$(echo "$MATCH" | cut -d'|' -f2)
+            printf "\r\033[K🔗 Redirecting: [[$TOPIC]] -> [[$TARGET_BASE#$TARGET_HD]]\n"
+            ESCAPED_TOPIC=$(echo "$TOPIC" | sed 's/[^^]/[&]/g; s/\^/\\^/g')
+            find "$NOTES_DIR" -maxdepth 1 -name "*.md" -exec sed -i '' -E "s/\[\[$ESCAPED_TOPIC(\|[^]]+)?\]\]/[[$TARGET_BASE#$TARGET_HD\1]]/gI" {} +
+        else
+            MISSING_TOPICS+="$TOPIC"$'\n'
+        fi
+    fi
+done
+echo ""
+
+if [ -n "$MISSING_TOPICS" ]; then
+    echo -n "$MISSING_TOPICS" | sort -f -u > "$TODO_FILE"
+    echo "✅ Updated $TODO_FILE"
+else
+    > "$TODO_FILE"
+    echo "✅ No missing topics found."
+fi
+
+# --- 3. Sync Bidirectional Backlinks ---
+echo "🔗 Step 3/3: Syncing bidirectional links..."
+URGENT_FILES=($(find "$NOTES_DIR" -maxdepth 1 -name "*.md"))
+TOTAL_SYNC=${#URGENT_FILES[@]}
+CURRENT=0
+for SOURCE_FILE in "${URGENT_FILES[@]}"; do
+    CURRENT=$((CURRENT + 1))
+    draw_task_progress "$CURRENT" "$TOTAL_SYNC" "Syncing backlinks"
+    sync_backlinks "$SOURCE_FILE"
+done
+echo ""
+
+echo "✨ Refresh complete!"

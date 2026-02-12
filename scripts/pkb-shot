@@ -1,0 +1,34 @@
+#!/bin/bash
+# pkb-shot: A utility to capture screenshots, move them to assets/images/, and copy the Obsidian link.
+
+# Define project root
+PROJ_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+IMAGES_DIR="$PROJ_ROOT/assets/images"
+
+# Ensure images directory exists
+mkdir -p "$IMAGES_DIR"
+
+# Generate unique filename based on timestamp
+TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+FILENAME="screenshot_$TIMESTAMP.png"
+FILEPATH="$IMAGES_DIR/$FILENAME"
+
+echo "📸 Select area to capture..."
+
+# Capture screenshot interactively (-i) and save to file
+screencapture -i "$FILEPATH"
+
+if [ -f "$FILEPATH" ]; then
+    # Create the Obsidian-formatted link
+    # Using the assets/images/ prefix for clarity
+    LINK="![[$FILENAME]]"
+    
+    # Copy to clipboard
+    echo -n "$LINK" | pbcopy
+    
+    echo "✅ Screenshot saved to: assets/images/$FILENAME"
+    echo "📋 Obsidian link copied to clipboard: $LINK"
+else
+    echo "❌ Screenshot cancelled or failed."
+    exit 1
+fi

@@ -1,0 +1,80 @@
+#!/bin/bash
+# pkb-bridge: Identifies semantic connections between notes and suggests new links.
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/pkb-common.sh"
+
+echo -e "\033[1;35m🤖 SEMANTIC BRIDGE GENERATOR\033[0m"
+echo -e "\033[1;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+
+draw_task_progress 1 3 "Analyzing library structure"
+
+# 1. Gather Titles and Summaries
+NOTE_DATA=""
+FILES=$(find "$NOTES_DIR" -maxdepth 1 -name "*.md")
+TOTAL_FILES=$(echo "$FILES" | wc -l | tr -d ' ')
+
+for FILE in $FILES; do
+    FNAME=$(basename "$FILE")
+    TITLE=$(grep "^title: " "$FILE" | head -1 | sed 's/title: //;s/"//g;s/'\''//g')
+    [ -z "$TITLE" ] && TITLE="$FNAME"
+    
+    # Extract the summary section (content between # Summary and the next ## or end)
+    SUMMARY=$(sed -n '/^# Summary/,/^##/p' "$FILE" | grep -vE "^(# Summary|##)" | head -n 5 | tr '\n' ' ' | sed "s/\"/'/g")
+    
+    # Get existing links to avoid redundant suggestions
+    LINKS=$(extract_links_filtered "$FILE" | tr '\n' ',' | sed 's/,$//')
+    
+    NOTE_DATA+="$FNAME|$TITLE|$SUMMARY|LINKS:[$LINKS]\n"
+done
+
+# 2. Batch Analysis via Gemini
+draw_task_progress 2 3 "Finding hidden connections"
+
+BRIDGE_PROMPT="Given the following list of physics notes (Format: Filename|Title|Summary|ExistingLinks):
+
+$NOTE_DATA
+
+TASK:
+Identify 5-10 HIGH-VALUE semantic connections that are currently MISSING in the 'ExistingLinks' of the source notes.
+Focus on relationships where one concept provides the 'physical origin', 'mathematical foundation', or a 'direct consequence' of another.
+
+Output ONLY in this format, one per line:
+SOURCE_FILE|TARGET_FILE|REASON
+Example: 'quantum-tunneling.md|alpha-decay.md|Tunneling is the physical mechanism behind alpha particle emission.'
+No extra markers or conversational text."
+
+TEMP_DIR=$(mktemp -d)
+echo "" # For spinner
+call_gemini "$BRIDGE_PROMPT" > "$TEMP_DIR/suggestions.txt"
+
+# 3. Interactive Application
+draw_task_progress 3 3 "Reviewing suggestions"
+echo ""
+
+if [ ! -s "$TEMP_DIR/suggestions.txt" ]; then
+    echo "✨ No new high-value connections found. Your KB is well-linked!"
+    rm -rf "$TEMP_DIR"
+    exit 0
+fi
+
+# Filter for valid lines and display in fzf
+SELECTED=$(grep "|" "$TEMP_DIR/suggestions.txt" | fzf --height 50% --layout=reverse --border \
+    --prompt="Select a bridge to build: " \
+    --header="Format: Source -> Target | Reason (Press ESC to cancel)")
+
+if [ -n "$SELECTED" ]; then
+    SRC_FILE=$(echo "$SELECTED" | cut -d'|' -f1)
+    TGT_FILE=$(echo "$SELECTED" | cut -d'|' -f2)
+    REASON=$(echo "$SELECTED" | cut -d'|' -f3)
+    
+    TGT_TITLE=$(grep "^title: " "$NOTES_DIR/$TGT_FILE" | head -1 | sed 's/title: //;s/"//g;s/'\''//g')
+    [ -z "$TGT_TITLE" ] && TGT_TITLE=$(basename "$TGT_FILE" .md)
+
+    echo -e "\n🚀 Building bridge: \033[1;34m$SRC_FILE\033[0m -> \033[1;32m$TGT_TITLE\033[0m"
+    echo -e "💡 Context: $REASON\n"
+    
+    "$PKB_SCRIPTS_DIR/pkb-refine" "$SRC_FILE" "Add a contextual link to [[$TGT_TITLE]] because: $REASON. Ensure this link is integrated into the structural flow, not just appended."
+fi
+
+rm -rf "$TEMP_DIR"

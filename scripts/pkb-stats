@@ -1,0 +1,49 @@
+#!/bin/bash
+# pkb-stats: Generates a high-level dashboard of the Physics Knowledge Base.
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/pkb-common.sh"
+
+echo -e "\033[1;36m📊 PHYSICS-KB DASHBOARD\033[0m"
+echo -e "\033[1;36m━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+
+# 1. General Metrics
+TOTAL_NOTES=$(find "$NOTES_DIR" -maxdepth 1 -name "*.md" | wc -l | tr -d ' ')
+TOTAL_IMAGES=$(find "$ASSETS_IMG_DIR" -type f | wc -l | tr -d ' ' 2>/dev/null || echo 0)
+PENDING_TOPICS=$(wc -l < "$TODO_FILE" | tr -d ' ' 2>/dev/null || echo 0)
+
+echo -e "\033[1m📁 Library Size:\033[0m"
+printf "   %-20s %d\n" "Total Notes:" "$TOTAL_NOTES"
+printf "   %-20s %d\n" "Local Images:" "$TOTAL_IMAGES"
+printf "   %-20s %d\n" "Pending Topics:" "$PENDING_TOPICS"
+echo ""
+
+# 2. Complexity Distribution
+COMPLEXITIES=$(grep "^complexity:" "$NOTES_DIR"/*.md 2>/dev/null | cut -d':' -f3 | tr -d ' ' | tr '[:upper:]' '[:lower:]' | sort | uniq -c)
+
+echo -e "\033[1m🚀 Complexity Distribution:\033[0m"
+while read -r LINE; do
+    COUNT=$(echo "$LINE" | awk '{print $1}')
+    LEVEL=$(echo "$LINE" | awk '{print $2}')
+    PERCENT=$(( 100 * COUNT / TOTAL_NOTES ))
+    printf "   %-15s %3d (%d%%) [" "$LEVEL" "$COUNT" "$PERCENT"
+    BAR_LEN=$(( PERCENT / 5 ))
+    printf "\033[32m%${BAR_LEN}s\033[0m" | tr ' ' '━'
+    REMAIN=$(( 20 - BAR_LEN ))
+    printf "%${REMAIN}s" | tr ' ' ' '
+    echo "]"
+done <<< "$COMPLEXITIES"
+echo ""
+
+# 3. Top Backlinked "Power Nodes"
+echo -e "\033[1m🔗 Top Power Nodes (Most Backlinked):\033[0m"
+BACKLINK_COUNTS=$(grep -rE "\[\[.*\]\]" "$NOTES_DIR" | grep -oE "\[\[[^]]+\]\]" | sed -E 's/\[\[([^]|]+)(\|[^]|]+)?\]\]/\1/' | sort | uniq -c | sort -rn | head -5)
+
+while read -r LINE; do
+    COUNT=$(echo "$LINE" | awk '{print $1}')
+    TOPIC=$(echo "$LINE" | cut -d' ' -f2-)
+    printf "   %-20s %d links\n" "$TOPIC" "$COUNT"
+done <<< "$BACKLINK_COUNTS"
+echo ""
+
+echo -e "\033[1;32m✨ Knowledge Base analysis complete!\033[0m"
