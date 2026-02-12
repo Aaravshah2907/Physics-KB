@@ -48,8 +48,8 @@ FILE_NAME=$(sanitize_filename "$SUGGESTED_NAME")
 [ -z "$FILE_NAME" ] && FILE_NAME=$(sanitize_filename "$TOPIC")
 OUTPUT_FILE="$NOTES_DIR/$FILE_NAME.md"
 
-# Step 3: Generation
-draw_task_progress 3 4 "Generating content"
+# Step 3: Multi-Phase Generation (Skeleton Builder)
+draw_task_progress 3 5 "Designing structure"
 SYSTEM_PROMPT=$(cat "$GEMINI_CONF")
 EXISTING_NOTES=$(get_existing_notes_list)
 AVAILABLE_IMAGES=$(get_available_images)
@@ -64,35 +64,102 @@ if [ -f "$TODO_FILE" ]; then
     fi
 fi
 
-FULL_PROMPT="SYSTEM INSTRUCTIONS:
+# Phase 1: The Blueprint
+OUTLINE_PROMPT="SYSTEM INSTRUCTIONS:
 $SYSTEM_PROMPT
 CONTEXT:
 Existing topics: [$EXISTING_NOTES]
-Available images: [$AVAILABLE_IMAGES]
 $TOPIC_CONTEXT
 
 TASK:
-Generate a comprehensive, research-grade physics note on '$TOPIC'.
-1. Use a 'Logical Development Score' (1-100) to structure the note:
-   - High Score (100-80): Summaries, fundamental definitions, and core physical intuition.
-   - Mid Score (79-40): Mathematical formalism, derivations, and primary consequences.
-   - Low Score (39-1): Specialized applications, edge cases, and historical context.
-   Order sections strictly descending by score (Fundamentals first).
-2. Ensure all LaTeX is correct and backlinks are logically placed.
-3. If relevant local images are missing from the context, use your tools to find a high-quality historical or conceptual diagram link from Wikipedia.
-4. Use your tools to adding a 'References' section with real, clickable DOI/arXiv links for key papers.
-5. Output ONLY raw markdown content. Start with YAML metadata."
+Create a detailed, research-grade OUTLINE for the topic '$TOPIC'.
+1. Use the 'Logical Development Score' (100-1) strategy.
+2. Return ONLY a list of headings (H1, H2, H3), starting with the main Title as H1.
+3. Do not include any content, just the structure.
+4. Ensure the structure covers: Fundamentals, Mathematical Formalism, Intuition, Key Derivations, Applications, and History.
 
-call_gemini "$FULL_PROMPT" > "$OUTPUT_FILE"
+Output Format:
+# Title
+## Section 1
+## Section 2
+...
+"
 
-if [ $? -eq 0 ] && [ -s "$OUTPUT_FILE" ]; then
+OUTLINE=$(call_gemini "$OUTLINE_PROMPT")
+
+if [ -z "$OUTLINE" ]; then
+    echo -e "\r\033[K   ❌ Outline generation failed." >&2
+    exit 1
+fi
+
+# Initialize output file with YAML metadata (generated from outline title)
+TITLE=$(echo "$OUTLINE" | grep "^# " | head -1 | sed 's/# //')
+[ -z "$TITLE" ] && TITLE="$TOPIC"
+
+cat <<EOF > "$OUTPUT_FILE"
+---
+title: "$TITLE"
+tags: [physics]
+date: $(date +%Y-%m-%d)
+complexity: advanced
+---
+
+# $TITLE
+
+Summary: This note explores the core principles of $TITLE, delving into its mathematical foundations and physical consequences.
+
+EOF
+
+# Phase 2: Iterative Expansion
+# Extract H2 headings to generate content section by section
+SECTIONS=$(echo "$OUTLINE" | grep "^## " | sed 's/## //')
+TOTAL_SECTIONS=$(echo "$SECTIONS" | wc -l | tr -d ' ')
+CURRENT_SEC=0
+
+IFS=$'\n'
+for SECTION_TITLE in $SECTIONS; do
+    CURRENT_SEC=$((CURRENT_SEC + 1))
+    draw_task_progress 3 5 "Writing: $SECTION_TITLE"
+    
+    SECTION_PROMPT="SYSTEM INSTRUCTIONS:
+$SYSTEM_PROMPT
+CONTEXT:
+Topic: $TITLE
+Current Section: '$SECTION_TITLE'
+Full Outline:
+$OUTLINE
+
+TASK:
+Write the complete content for the section '## $SECTION_TITLE'.
+1. Include detailed mathematical derivations, physical intuition, and diagrams/simulations where relevant.
+2. Use LaTeX for all math.
+3. Use the search tools to inject real DOI/arXiv references if discussing key papers.
+4. If a dynamic system is involved, include a Python simulation block.
+5. If local images are missing, find Wikipedia diagram links.
+6. Output ONLY the content for this section (start with '## $SECTION_TITLE'). Do not repeat the main title.
+"
+    
+    SECTION_CONTENT=$(call_gemini "$SECTION_PROMPT")
+    echo "" >> "$OUTPUT_FILE"
+    echo "$SECTION_CONTENT" >> "$OUTPUT_FILE"
+    echo "" >> "$OUTPUT_FILE"
+done
+unset IFS
+
+if [ -s "$OUTPUT_FILE" ]; then
     # Step 4: Finalizing
-    draw_task_progress 4 4 "Indexing links"
+    draw_task_progress 4 5 "Indexing & polishing"
+    
+    # Use pkb-refine to smooth transitions (light pass)
+    # create a temporary instruction to smooth connections between sections
+    "$PKB_SCRIPTS_DIR/pkb-refine" "$OUTPUT_FILE" "Ensure smooth transitions between the separately generated sections. Remove any redundant intro/outro text from the sub-sections."
+    
+    draw_task_progress 5 5 "Assets & Links"
     download_external_images "$OUTPUT_FILE"
     extract_simulations "$OUTPUT_FILE"
     sync_backlinks "$OUTPUT_FILE"
     cleanup_todo "$TOPIC"
-    git_snapshot "Generate note: $TOPIC"
+    git_snapshot "Generate deep-dive: $TOPIC"
     echo -e "\r\033[K   ✅ Saved to $FILE_NAME.md" >&2
 else
     echo -e "\r\033[K   ❌ Generation failed." >&2
