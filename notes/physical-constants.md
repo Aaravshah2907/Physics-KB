@@ -10,7 +10,7 @@ Physical constants are scalar quantities believed to be universal in nature and 
 
 This note categorizes fundamental constants, provides their 2019 SI redefinition values, and explores their role in theoretical frameworks like [[Maxwell's Equations]] and [[Hamiltonian Mechanics]].
 
-![SI Base Units](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/SI_base_unit.svg/600px-SI_base_unit.svg.png)
+![SI Base Units](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/SI_base_unit.svg/600px-SI_base_unit..svgpng)
 
 # Classification of Constants
 

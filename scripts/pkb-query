@@ -1,0 +1,144 @@
+#!/bin/bash
+# pkb-query: Query the topic index with various filters
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJ_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+INDEX_JSON="$PROJ_ROOT/topic_index.json"
+
+if ! command -v jq &> /dev/null; then
+    echo "❌ Error: jq is required. Install with: brew install jq"
+    exit 1
+fi
+
+if [ ! -f "$INDEX_JSON" ]; then
+    echo "❌ Index not found. Run: pkb-index"
+    exit 1
+fi
+
+# Parse command
+CMD="$1"
+ARG="$2"
+
+case "$CMD" in
+    stats|"")
+        echo "📊 Index Statistics"
+        echo "==================="
+        echo ""
+        echo "Total files: $(jq -r '.total_files' "$INDEX_JSON")"
+        echo "Total topics: $(jq -r '.total_topics' "$INDEX_JSON")"
+        echo "Avg topics/file: $(jq -r '(.total_topics / .total_files * 10 | round / 10)' "$INDEX_JSON")"
+        echo ""
+        echo "📈 Complexity Distribution:"
+        jq -r '.files | group_by(.complexity) | .[] | "  " + (.[0].complexity | ascii_upcase | .[0:1]) + (.[0].complexity | .[1:]) + ": " + (length|tostring) + " files"' "$INDEX_JSON"
+        echo ""
+        echo "🏷️  Top Tags:"
+        jq -r '.files | map(.tags[]) | group_by(.) | map({tag: .[0], count: length}) | sort_by(.count) | reverse | .[0:5] | .[] | "  " + .tag + ": " + (.count|tostring) + " files"' "$INDEX_JSON"
+        echo ""
+        echo "📚 Largest Files:"
+        jq -r '.files | sort_by(.topic_count) | reverse | .[0:5] | .[] | "  " + .title + ": " + (.topic_count|tostring) + " topics"' "$INDEX_JSON"
+        ;;
+    
+    tag)
+        if [ -z "$ARG" ]; then
+            echo "Usage: pkb-query tag <tag_name>"
+            echo ""
+            echo "Available tags:"
+            jq -r '.files | map(.tags[]) | unique | .[] | "  - " + .' "$INDEX_JSON"
+            exit 1
+        fi
+        echo "📋 Files tagged '$ARG':"
+        jq -r --arg tag "$ARG" '.files[] | select(.tags[] | contains($tag)) | "  • " + .title + " (" + .path + ")"' "$INDEX_JSON"
+        ;;
+    
+    complexity)
+        if [ -z "$ARG" ]; then
+            echo "Usage: pkb-query complexity <level>"
+            echo "  Levels: basic, intermediate, advanced"
+            exit 1
+        fi
+        echo "📊 Files with complexity '$ARG':"
+        jq -r --arg comp "$ARG" '.files[] | select(.complexity == $comp) | "  • " + .title + " (" + (.topic_count|tostring) + " topics)"' "$INDEX_JSON"
+        ;;
+    
+    find)
+        if [ -z "$ARG" ]; then
+            echo "Usage: pkb-query find <keyword>"
+            exit 1
+        fi
+        echo "🔍 Topics containing '$ARG':"
+        jq -r --arg query "$ARG" '
+        def flatten_topics(path; file):
+            if .children and (.children | length) > 0 then
+                (.children[] | flatten_topics(path + " > " + .title; file)),
+                {file: file, path: (path + " > " + .title), line: .line, title: .title}
+            else
+                {file: file, path: (path + " > " + .title), line: .line, title: .title}
+            end;
+        
+        .files[] | 
+        .hierarchy[] as $topic |
+        flatten_topics(.title; .path) |
+        select(.title | ascii_downcase | contains($query | ascii_downcase)) |
+        "  • " + .path + " (line " + (.line|tostring) + ")"
+        ' "$INDEX_JSON"
+        ;;
+    
+    file)
+        if [ -z "$ARG" ]; then
+            echo "Usage: pkb-query file <filename.md>"
+            exit 1
+        fi
+        echo "📄 Topics in '$ARG':"
+        jq -r --arg file "$ARG" '
+        def print_tree(indent):
+            ("  " * indent) + "• " + .title + " (L" + (.level|tostring) + ", line " + (.line|tostring) + ")",
+            (.children[]? | print_tree(indent + 1));
+        
+        .files[] | select(.filename == $file) | .hierarchy[] | print_tree(0)
+        ' "$INDEX_JSON"
+        ;;
+    
+    largest)
+        echo "📚 Largest Files (by topic count):"
+        jq -r '.files | sort_by(.topic_count) | reverse | .[0:10] | .[] | "  " + (.topic_count|tostring) + " topics - " + .title' "$INDEX_JSON"
+        ;;
+    
+    deepest)
+        echo "🌳 Deepest Hierarchies:"
+        jq -r '.files | sort_by(.max_depth) | reverse | .[0:10] | .[] | "  " + (.max_depth|tostring) + " levels - " + .title' "$INDEX_JSON"
+        ;;
+    
+    help|--help|-h)
+        cat << 'HELP'
+pkb-query - Query the Physics KB topic index
+
+USAGE:
+  pkb-query [command] [argument]
+
+COMMANDS:
+  stats              Show index statistics (default)
+  tag <name>         List files with specific tag
+  complexity <lvl>   List files by complexity (basic/intermediate/advanced)
+  find <keyword>     Find topics containing keyword
+  file <name.md>     Show topic tree for specific file
+  largest            Show files with most topics
+  deepest            Show files with deepest hierarchies
+  help               Show this help message
+
+EXAMPLES:
+  pkb-query stats
+  pkb-query tag electromagnetism
+  pkb-query complexity advanced
+  pkb-query find Lagrangian
+  pkb-query file classical-mechanics.md
+  pkb-query largest
+
+HELP
+        ;;
+    
+    *)
+        echo "❌ Unknown command: $CMD"
+        echo "Run 'pkb-query help' for usage information"
+        exit 1
+        ;;
+esac

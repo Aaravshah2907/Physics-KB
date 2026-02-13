@@ -1,0 +1,226 @@
+#!/bin/bash
+# pkb-index: Generate comprehensive topic index from all markdown notes
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJ_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+NOTES_DIR="$PROJ_ROOT/notes"
+INDEX_JSON="$PROJ_ROOT/topic_index.json"
+INDEX_MD="$PROJ_ROOT/TOPIC_INDEX.md"
+
+# Check if jq is available
+if ! command -v jq &> /dev/null; then
+    echo "❌ Error: jq is required but not installed."
+    echo "   Install with: brew install jq"
+    exit 1
+fi
+
+echo "Physics Knowledge Base - Topic Index Generator"
+echo "=================================================="
+echo "Scanning: $NOTES_DIR"
+echo ""
+
+# Function to extract YAML metadata
+extract_yaml_field() {
+    local file="$1"
+    local field="$2"
+    
+    awk '/^---$/{if(++c==2)exit;next}c==1' "$file" | \
+    grep "^${field}:" | \
+    sed "s/^${field}:[[:space:]]*//" | \
+    sed 's/^["'\'']//' | sed 's/["'\'']$//'
+}
+
+# Function to extract tags as JSON array
+extract_tags() {
+    local file="$1"
+    local tags=$(extract_yaml_field "$file" "tags")
+    
+    if [[ "$tags" =~ ^\[.*\]$ ]]; then
+        echo "$tags" | sed 's/\[//;s/\]//' | tr ',' '\n' | \
+        sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | \
+        sed 's/^["'\'']//' | sed 's/["'\'']$//' | \
+        jq -R . | jq -s .
+    else
+        echo "[]"
+    fi
+}
+
+# Function to extract headings in required format (level|line|title)
+extract_headings_raw() {
+    local file="$1"
+    
+    grep -n "^#" "$file" | \
+    while IFS=: read -r line_num heading; do
+        level=$(echo "$heading" | sed 's/^\(#*\).*/\1/' | wc -c | tr -d ' ')
+        level=$((level - 1))
+        
+        title=$(echo "$heading" | sed 's/^#* *//' | \
+                sed 's/\*\*//g' | sed 's/\*//g' | sed 's/`//g' | \
+                sed 's/\[\[\([^]]*\)\]\]/\1/g' | \
+                sed 's/\\/\\\\/g' | sed 's/"/\\"/g')
+        
+        echo "$level|$line_num|$title"
+    done
+}
+
+# Initialize JSON
+cat > "$INDEX_JSON" << EOF
+{
+  "generated_at": "$(date -u +"%Y-%m-%dT%H:%M:%S")Z",
+  "total_files": 0,
+  "total_topics": 0,
+  "files": []
+}
+EOF
+
+# Process each file
+total_files=0
+total_topics=0
+files_json="[]"
+
+for md_file in "$NOTES_DIR"/*.md; do
+    [ ! -f "$md_file" ] && continue
+    
+    filename=$(basename "$md_file")
+    filepath="notes/$filename"
+    
+    # Extract metadata
+    title=$(extract_yaml_field "$md_file" "title")
+    [ -z "$title" ] && title="${filename%.md}"
+    
+    tags=$(extract_tags "$md_file")
+    complexity=$(extract_yaml_field "$md_file" "complexity")
+    [ -z "$complexity" ] && complexity="unknown"
+    
+    date=$(extract_yaml_field "$md_file" "date")
+    [ -z "$date" ] && date="unknown"
+    
+    # Extract headings and build hierarchy using external python script
+    hierarchy=$(extract_headings_raw "$md_file" | python3 "$SCRIPT_DIR/pkb_hierarchy.py")
+    
+    topic_count=$(echo "$hierarchy" | jq '[.. | objects | select(has("title"))] | length')
+    max_depth=$(echo "$hierarchy" | jq '[.. | objects | select(has("level")) | .level] | max // 0')
+    
+    # Build file entry
+    file_entry=$(jq -n \
+        --arg filename "$filename" \
+        --arg path "$filepath" \
+        --arg title "$title" \
+        --argjson tags "$tags" \
+        --arg complexity "$complexity" \
+        --arg date "$date" \
+        --argjson topic_count "$topic_count" \
+        --argjson max_depth "$max_depth" \
+        --argjson hierarchy "$hierarchy" \
+        '{
+            filename: $filename,
+            path: $path,
+            title: $title,
+            tags: $tags,
+            complexity: $complexity,
+            date: $date,
+            topic_count: $topic_count,
+            max_depth: $max_depth,
+            hierarchy: $hierarchy
+        }')
+    
+    files_json=$(echo "$files_json" | jq --argjson entry "$file_entry" '. += [$entry]')
+    
+    total_files=$((total_files + 1))
+    total_topics=$((total_topics + topic_count))
+done
+
+# Update final JSON
+jq --argjson files "$files_json" \
+   --argjson total_files "$total_files" \
+   --argjson total_topics "$total_topics" \
+   '.files = $files | .total_files = $total_files | .total_topics = $total_topics' \
+   "$INDEX_JSON" > "${INDEX_JSON}.tmp" && mv "${INDEX_JSON}.tmp" "$INDEX_JSON"
+
+echo "✓ JSON index saved to: $INDEX_JSON"
+
+# Generate Markdown index
+{
+    cat << 'MDEOF'
+# Physics Knowledge Base - Topic Index
+
+MDEOF
+
+    echo "**Generated:** $(date '+%Y-%m-%d %H:%M:%S')"
+    echo "**Total Files:** $total_files"
+    echo "**Total Topics:** $total_topics"
+    echo ""
+    echo "---"
+    echo ""
+    echo "## Table of Contents"
+    echo ""
+    
+    i=1
+    jq -r '.files[] | "\(.title)|\(.topic_count)|\(.filename)"' "$INDEX_JSON" | while IFS='|' read -r title count filename; do
+        anchor=$(echo "$filename" | sed 's/\.md$//' | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
+        echo "$i. [$title](#$anchor) ($count topics)"
+        i=$((i + 1))
+    done
+    
+    echo ""
+    echo "---"
+    echo ""
+    
+    # Detailed sections
+    jq -c '.files[]' "$INDEX_JSON" | while read -r file; do
+        title=$(echo "$file" | jq -r '.title')
+        path=$(echo "$file" | jq -r '.path')
+        complexity=$(echo "$file" | jq -r '.complexity')
+        date=$(echo "$file" | jq -r '.date')
+        topic_count=$(echo "$file" | jq -r '.topic_count')
+        max_depth=$(echo "$file" | jq -r '.max_depth')
+        tags=$(echo "$file" | jq -r '.tags | map("`" + . + "`") | join(", ")')
+        
+        echo "## $title"
+        echo ""
+        echo "**File:** \`$path\`  "
+        echo "**Complexity:** $complexity  "
+        echo "**Date:** $date  "
+        echo "**Topics:** $topic_count  "
+        echo "**Max Depth:** $max_depth  "
+        [ -n "$tags" ] && echo "**Tags:** $tags  "
+        echo ""
+        echo "### Topic Hierarchy"
+        echo ""
+        
+        # Print hierarchy
+        echo "$file" | jq -r '
+        def print_tree(indent):
+            "  " * indent + "- **" + .title + "** (L" + (.level|tostring) + ", line " + (.line|tostring) + ")",
+            (.children[]? | print_tree(indent + 1));
+        
+        .hierarchy[] | print_tree(0)
+        '
+        
+        echo ""
+        echo "---"
+        echo ""
+    done
+    
+    # Statistics
+    echo "## Statistics"
+    echo ""
+    echo "### Topics by Complexity"
+    echo ""
+    
+    jq -r '.files | group_by(.complexity) | .[] | "- **" + (.[0].complexity | ascii_upcase | .[0:1]) + (.[0].complexity | .[1:]) + ":** " + (length|tostring) + " files"' "$INDEX_JSON"
+    
+    echo ""
+    echo "### Topics by Tag"
+    echo ""
+    
+    jq -r '.files | map(.tags[]) | group_by(.) | map({tag: .[0], count: length}) | sort_by(.count) | reverse | .[] | "- **" + .tag + ":** " + (.count|tostring) + " files"' "$INDEX_JSON"
+    
+} > "$INDEX_MD"
+
+echo "✓ Markdown index saved to: $INDEX_MD"
+echo ""
+echo "Summary:"
+echo "  Files processed: $total_files"
+echo "  Total topics: $total_topics"
+[ $total_files -gt 0 ] && echo "  Avg topics/file: $(echo "scale=1; $total_topics / $total_files" | bc)"

@@ -1,0 +1,53 @@
+#!/bin/bash
+# pkb-help: Displays usage examples and descriptions for all Physics KB scripts
+
+# Colors
+BLUE='\033[1;34m'
+CYAN='\033[1;36m'
+GREEN='\033[1;32m'
+YELLOW='\033[1;33m'
+RESET='\033[0m'
+BOLD='\033[1m'
+
+echo -e "${BLUE}Physics Knowledge Base - CLI Toolkit${RESET}"
+echo -e "${BLUE}====================================${RESET}"
+echo ""
+
+# Helper function to print tool info
+print_tool() {
+    local name="$1"
+    local desc="$2"
+    local usage="$3"
+    
+    echo -e "${GREEN}• $name${RESET}"
+    echo -e "  ${CYAN}Desc:${RESET} $desc"
+    echo -e "  ${YELLOW}Usage:${RESET} $usage"
+    echo ""
+}
+
+echo -e "${BOLD}🔎 Search & Indexing${RESET}"
+print_tool "pkb-index" "Generates topic index (JSON/Markdown) & hierarchy." "pkb-index"
+print_tool "pkb-search" "Interactive hierarchical search & file viewing." "pkb-search [query]"
+print_tool "pkb-query" "CLI query tool for index stats & filtering." "pkb-query [stats|find|tag|complexity] [args]"
+
+echo -e "${BOLD}📝 Content Creation${RESET}"
+print_tool "pkb-gen" "Generates new notes from a topic/title." "pkb-gen \"Concept Name\""
+print_tool "pkb-rebuild" "Restructures & smart-splits existing notes." "pkb-rebuild [filename]"
+print_tool "pkb-refine" "Polishes specific sections of a note." "pkb-refine [filename]"
+print_tool "pkb-batch" "Batch generation from a list of topics." "pkb-batch topics.txt"
+
+echo -e "${BOLD}🛠️ Maintenance & Quality${RESET}"
+print_tool "pkb-audit" "Checks for broken links, syntax errors, etc." "pkb-audit"
+print_tool "pkb-stats" "Shows KB health, complexity & growth stats." "pkb-stats"
+print_tool "pkb-refresh" "Updates backlinks, images & formatting." "pkb-refresh [filename]"
+print_tool "pkb-todo" "Finds & aggregates 'TODO' items in notes." "pkb-todo"
+
+echo -e "${BOLD}🌐 Connections & git${RESET}"
+print_tool "pkb-bridge" "Finds hidden semantic connections between notes." "pkb-bridge"
+print_tool "pkb-shot" "Creates a git snapshot with a timestamp." "pkb-shot \"Commit message\""
+
+echo -e "${BOLD}💡 Pro Tips${RESET}"
+echo -e "  - Run ${CYAN}setup-global-scripts.sh${RESET} to add these to your PATH."
+echo -e "  - Most tools support fuzzy selection if no argument is provided."
+echo -e "  - Use ${CYAN}pkb-query stats${RESET} for a quick KB overview."
+echo ""

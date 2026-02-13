@@ -4,9 +4,26 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/pkb-common.sh"
 
-TOPIC="$1"
+# Parse optional flags
+WITH_CODE=false
+TOPIC=""
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --with-code)
+            WITH_CODE=true
+            shift
+            ;;
+        *)
+            TOPIC="$1"
+            shift
+            ;;
+    esac
+done
+
 if [ -z "$TOPIC" ]; then
-    echo "Usage: pkb-gen <Topic Name>"
+    echo "Usage: pkb-gen <Topic Name> [--with-code]"
+    echo "  --with-code: Generate simulation code for dynamic systems"
     exit 1
 fi
 
@@ -119,7 +136,7 @@ CURRENT_SEC=0
 IFS=$'\n'
 for SECTION_TITLE in $SECTIONS; do
     CURRENT_SEC=$((CURRENT_SEC + 1))
-    draw_task_progress 3 5 "Writing: $SECTION_TITLE"
+    draw_task_progress $CURRENT_SEC $TOTAL_SECTIONS "Section $CURRENT_SEC/$TOTAL_SECTIONS: ${SECTION_TITLE:0:40}"
     
     SECTION_PROMPT="SYSTEM INSTRUCTIONS:
 $SYSTEM_PROMPT
@@ -131,13 +148,24 @@ $OUTLINE
 
 TASK:
 Write the complete content for the section '## $SECTION_TITLE'.
-1. Include detailed mathematical derivations, physical intuition, and diagrams/simulations where relevant.
+1. Include detailed mathematical derivations, physical intuition, and diagrams where relevant.
 2. Use LaTeX for all math.
-3. Use the search tools to inject real DOI/arXiv references if discussing key papers.
-4. If a dynamic system is involved, include a Python simulation block.
+3. Use the search tools to inject real DOI/arXiv references if discussing key papers."
+
+    if [ "$WITH_CODE" = true ]; then
+        SECTION_PROMPT+="
+4. If a dynamic system is involved, include a Python simulation block using the format:
+   ---SIMULATION:python:filename.py---
+   ```python
+   # code here
+   ```
 5. If local images are missing, find Wikipedia diagram links.
-6. Output ONLY the content for this section (start with '## $SECTION_TITLE'). Do not repeat the main title.
-"
+6. Output ONLY the content for this section (start with '## $SECTION_TITLE'). Do not repeat the main title."
+    else
+        SECTION_PROMPT+="
+4. If local images are missing, find Wikipedia diagram links.
+5. Output ONLY the content for this section (start with '## $SECTION_TITLE'). Do not repeat the main title."
+    fi
     
     SECTION_CONTENT=$(call_gemini "$SECTION_PROMPT")
     echo "" >> "$OUTPUT_FILE"
@@ -156,10 +184,19 @@ if [ -s "$OUTPUT_FILE" ]; then
     
     draw_task_progress 5 5 "Assets & Links"
     download_external_images "$OUTPUT_FILE"
-    extract_simulations "$OUTPUT_FILE"
+    if [ "$WITH_CODE" = true ]; then
+        extract_simulations "$OUTPUT_FILE"
+    fi
     sync_backlinks "$OUTPUT_FILE"
     cleanup_todo "$TOPIC"
     git_snapshot "Generate deep-dive: $TOPIC"
+    
+    # Update Index and Todo List (unless in batch mode)
+    if [ -z "$PKB_IN_BATCH" ]; then
+        "$PKB_SCRIPTS_DIR/pkb-index" >/dev/null 2>&1
+        "$PKB_SCRIPTS_DIR/pkb-todo" --update-only >/dev/null 2>&1
+    fi
+    
     echo -e "\r\033[K   ✅ Saved to $FILE_NAME.md" >&2
 else
     echo -e "\r\033[K   ❌ Generation failed." >&2

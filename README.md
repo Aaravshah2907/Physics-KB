@@ -36,20 +36,29 @@ This project transforms a folder of Markdown notes into a living, rigorous, and 
 - **Health Dashboard** (`pkb-stats`): Tracks "Stale Notes" (untouched >90 days) and "Knowledge Islands" (orphaned notes).
 - **Quality Audit** (`pkb-audit`): Scans for LaTeX syntax errors and broken image references.
 
+### 7. **Intelligent Indexing & Splitting**
+- **Deep Topic Index** (`pkb-index`): Uses `pkb_hierarchy.py` to generate a comprehensive JSON/Markdown index of all topics and subtopics.
+- **Smart Splitting** (`pkb-rebuild`): Uses `pkb_split_planner.py` to detect large files (>15 topics) and intelligently extracts sections into new notes.
+- **CLI Query Tool** (`pkb-query`): Filter notes by complexity, tags, or search for topics directly from the terminal.
+
 ---
 
 ## 🛠️ Usage Guide
 
+**Tip:** Run `./scripts/setup-global-scripts.sh` to use these commands globally!
+
 | Task | Command | Description |
 | :--- | :--- | :--- |
-| **New Note** | `./scripts/pkb-gen "Topic"` | Generates a deep-dive note from scratch. |
-| **Refactor** | `./scripts/pkb-rebuild "File"` | Completely restructures an existing note. |
-| **Edit** | `./scripts/pkb-refine "File" "Instr"` | Surgically updates a note with specific instructions. |
-| **Search** | `./scripts/pkb-search "Query"` | RAG-based semantic search with AI summaries. |
-| **Connect** | `./scripts/pkb-bridge` | Finds and builds missing semantic links. |
-| **Fix** | `./scripts/pkb-refresh` | Prunes empty notes and syncs all backlinks. |
-| **Audit** | `./scripts/pkb-audit` | Checks for broken syntax/links. |
-| **Stats** | `./scripts/pkb-stats` | View library health and metrics. |
+| **New Note** | `pkb-gen "Topic"` | Generates a deep-dive note from scratch. |
+| **Refactor** | `pkb-rebuild "File"` | Smartly restructures & splits large notes. |
+| **Index** | `pkb-index` | Generates topic index & hierarchy. |
+| **Search** | `pkb-search "Query"` | Interactive search with `bat` preview. |
+| **Query** | `pkb-query [stats/find]` | Query index stats & filters. |
+| **Connect** | `pkb-bridge` | Finds and builds missing semantic links. |
+| **Fix** | `pkb-refresh` | Prunes empty notes and syncs backlinks. |
+| **Audit** | `pkb-audit` | Checks for broken syntax/links. |
+| **Stats** | `pkb-stats` | View library health and metrics. |
+| **Help** | `pkb-help` | Show usage examples for all tools. |
 
 ---
 

@@ -1,9 +1,7 @@
-Newtonian Mechanics
-Optics
-Poynting Vector
-quantum mechanics
-quantum-mechanics
-Radiation Pressure
-statistical mechanics
-Virtual Work
-Wave Equation
+Divergence Theorem|gauss-law
+Lagrangian mechanics|hamiltonian-mechanics
+Newtonian Mechanics|eulerlagrange-equations-for-unconstrained-systems
+quantum mechanics|hamiltonian-mechanics
+quantum-mechanics|hamiltonian-mechanics
+statistical mechanics|hamiltonian-mechanics
+Virtual Work|eulerlagrange-equations-for-constrained-systems

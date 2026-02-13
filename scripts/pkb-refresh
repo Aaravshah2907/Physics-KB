@@ -86,20 +86,15 @@ for TOPIC in "${RAW_LINKS_ARR[@]}"; do
             printf "\r\033[K🔗 Redirecting: [[$TOPIC]] -> [[$TARGET_BASE#$TARGET_HD]]\n"
             ESCAPED_TOPIC=$(echo "$TOPIC" | sed 's/[^^]/[&]/g; s/\^/\\^/g')
             find "$NOTES_DIR" -maxdepth 1 -name "*.md" -exec sed -i '' -E "s/\[\[$ESCAPED_TOPIC(\|[^]]+)?\]\]/[[$TARGET_BASE#$TARGET_HD\1]]/gI" {} +
-        else
-            MISSING_TOPICS+="$TOPIC"$'\n'
         fi
     fi
 done
 echo ""
 
-if [ -n "$MISSING_TOPICS" ]; then
-    echo -n "$MISSING_TOPICS" | sort -f -u > "$TODO_FILE"
-    echo "✅ Updated $TODO_FILE"
-else
-    > "$TODO_FILE"
-    echo "✅ No missing topics found."
-fi
+# Delegate Todo List Update to specialized script
+echo "📝 Updating todo list..."
+"$PKB_SCRIPTS_DIR/pkb-todo" --update-only >/dev/null 2>&1
+
 
 # --- 3. Sync Bidirectional Backlinks ---
 echo "🔗 Step 3/3: Syncing bidirectional links..."
@@ -111,8 +106,11 @@ for SOURCE_FILE in "${URGENT_FILES[@]}"; do
     draw_task_progress "$CURRENT" "$TOTAL_SYNC" "Syncing backlinks"
     sync_backlinks "$SOURCE_FILE"
 done
-done
 echo ""
+
+# Update Index
+"$PKB_SCRIPTS_DIR/pkb-index" >/dev/null 2>&1
+
 
 git_snapshot "Refresh KB: Pruned $CURRENT files & synced backlinks"
 echo "✨ Refresh complete!"

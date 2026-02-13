@@ -1,0 +1,1043 @@
+{
+  "generated_at": "2026-02-13T08:34:43Z",
+  "total_files": 9,
+  "total_topics": 142,
+  "files": [
+    {
+      "filename": "classical-mechanics.md",
+      "path": "notes/classical-mechanics.md",
+      "title": "Classical Mechanics",
+      "tags": [
+        "physics",
+        "mechanics",
+        "theoretical-physics"
+      ],
+      "complexity": "advanced",
+      "date": "2026-02-12",
+      "topic_count": 24,
+      "max_depth": 3,
+      "hierarchy": [
+        {
+          "title": "Classical Mechanics",
+          "level": 1,
+          "line": 8,
+          "children": [
+            {
+              "title": "Summary",
+              "level": 2,
+              "line": 10,
+              "children": []
+            },
+            {
+              "title": "Fundamental Principles (Newtonian Formalism)",
+              "level": 2,
+              "line": 13,
+              "children": [
+                {
+                  "title": "Newton's Laws of Motion",
+                  "level": 3,
+                  "line": 15,
+                  "children": []
+                },
+                {
+                  "title": "Space and Time",
+                  "level": 3,
+                  "line": 25,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "Lagrangian Formalism (Analytical Mechanics)",
+              "level": 2,
+              "line": 31,
+              "children": [
+                {
+                  "title": "The Principle of Least Action",
+                  "level": 3,
+                  "line": 35,
+                  "children": []
+                },
+                {
+                  "title": "Euler-Lagrange Equations",
+                  "level": 3,
+                  "line": 40,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "Hamiltonian Formalism",
+              "level": 2,
+              "line": 45,
+              "children": [
+                {
+                  "title": "The Legendre Transform",
+                  "level": 3,
+                  "line": 49,
+                  "children": []
+                },
+                {
+                  "title": "Hamilton's Equations",
+                  "level": 3,
+                  "line": 54,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "Conservation Laws and Symmetries",
+              "level": 2,
+              "line": 59,
+              "children": []
+            },
+            {
+              "title": "Central Force Motion",
+              "level": 2,
+              "line": 69,
+              "children": [
+                {
+                  "title": "The Kepler Problem",
+                  "level": 3,
+                  "line": 73,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "Small Oscillations",
+              "level": 2,
+              "line": 78,
+              "children": []
+            },
+            {
+              "title": "Rigid Body Dynamics",
+              "level": 2,
+              "line": 84,
+              "children": [
+                {
+                  "title": "The Inertia Tensor",
+                  "level": 3,
+                  "line": 88,
+                  "children": []
+                },
+                {
+                  "title": "Euler's Equations",
+                  "level": 3,
+                  "line": 93,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "Limits and Extensions",
+              "level": 2,
+              "line": 98,
+              "children": [
+                {
+                  "title": "Chaos Theory",
+                  "level": 3,
+                  "line": 100,
+                  "children": []
+                },
+                {
+                  "title": "Relativistic Mechanics",
+                  "level": 3,
+                  "line": 103,
+                  "children": []
+                },
+                {
+                  "title": "Electrodynamics",
+                  "level": 3,
+                  "line": 106,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "References",
+              "level": 2,
+              "line": 109,
+              "children": [
+                {
+                  "title": "Related Notes",
+                  "level": 3,
+                  "line": 114,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "electromagnetic-waves.md",
+      "path": "notes/electromagnetic-waves.md",
+      "title": "Electromagnetic Waves",
+      "tags": [
+        "physics",
+        "electromagnetism",
+        "waves",
+        "optics"
+      ],
+      "complexity": "intermediate",
+      "date": "2026-02-12",
+      "topic_count": 16,
+      "max_depth": 2,
+      "hierarchy": [
+        {
+          "title": "Summary",
+          "level": 1,
+          "line": 8,
+          "children": []
+        },
+        {
+          "title": "Derivation from Maxwell's Equations",
+          "level": 1,
+          "line": 14,
+          "children": [
+            {
+              "title": "Vacuum Equations",
+              "level": 2,
+              "line": 18,
+              "children": []
+            },
+            {
+              "title": "The Wave Equation",
+              "level": 2,
+              "line": 28,
+              "children": []
+            },
+            {
+              "title": "Speed of Light",
+              "level": 2,
+              "line": 49,
+              "children": []
+            }
+          ]
+        },
+        {
+          "title": "Monochromatic Plane Waves",
+          "level": 1,
+          "line": 60,
+          "children": [
+            {
+              "title": "Mathematical Representation",
+              "level": 2,
+              "line": 64,
+              "children": []
+            },
+            {
+              "title": "Transverse Nature",
+              "level": 2,
+              "line": 79,
+              "children": []
+            },
+            {
+              "title": "Orthogonality of Fields",
+              "level": 2,
+              "line": 86,
+              "children": []
+            }
+          ]
+        },
+        {
+          "title": "Energy and Momentum",
+          "level": 1,
+          "line": 101,
+          "children": [
+            {
+              "title": "Energy Density",
+              "level": 2,
+              "line": 105,
+              "children": []
+            },
+            {
+              "title": "Poynting Vector",
+              "level": 2,
+              "line": 118,
+              "children": []
+            },
+            {
+              "title": "Intensity",
+              "level": 2,
+              "line": 126,
+              "children": []
+            },
+            {
+              "title": "Momentum and Radiation Pressure",
+              "level": 2,
+              "line": 132,
+              "children": []
+            }
+          ]
+        },
+        {
+          "title": "Polarization",
+          "level": 1,
+          "line": 141,
+          "children": []
+        },
+        {
+          "title": "References",
+          "level": 1,
+          "line": 151,
+          "children": []
+        }
+      ]
+    },
+    {
+      "filename": "eulerlagrange-equations-for-constrained-systems.md",
+      "path": "notes/eulerlagrange-equations-for-constrained-systems.md",
+      "title": "Euler-Lagrange Equations for Constrained Systems",
+      "tags": [
+        "physics",
+        "classical-mechanics",
+        "lagrangian-mechanics",
+        "constraints"
+      ],
+      "complexity": "advanced",
+      "date": "2026-02-12",
+      "topic_count": 10,
+      "max_depth": 2,
+      "hierarchy": [
+        {
+          "title": "Summary",
+          "level": 1,
+          "line": 8,
+          "children": []
+        },
+        {
+          "title": "Types of Constraints",
+          "level": 1,
+          "line": 12,
+          "children": [
+            {
+              "title": "Holonomic Constraints",
+              "level": 2,
+              "line": 16,
+              "children": []
+            },
+            {
+              "title": "Non-Holonomic Constraints",
+              "level": 2,
+              "line": 23,
+              "children": []
+            }
+          ]
+        },
+        {
+          "title": "Modified Hamilton's Principle",
+          "level": 1,
+          "line": 30,
+          "children": []
+        },
+        {
+          "title": "The Euler-Lagrange Equations with Multipliers",
+          "level": 1,
+          "line": 47,
+          "children": []
+        },
+        {
+          "title": "Physical Interpretation of Lagrange Multipliers",
+          "level": 1,
+          "line": 67,
+          "children": []
+        },
+        {
+          "title": "Example: Particle on a Sphere",
+          "level": 1,
+          "line": 76,
+          "children": []
+        },
+        {
+          "title": "See Also",
+          "level": 1,
+          "line": 104,
+          "children": []
+        },
+        {
+          "title": "References",
+          "level": 1,
+          "line": 110,
+          "children": []
+        }
+      ]
+    },
+    {
+      "filename": "eulerlagrange-equations-for-unconstrained-systems.md",
+      "path": "notes/eulerlagrange-equations-for-unconstrained-systems.md",
+      "title": "Euler-Lagrange Equations for Unconstrained Systems",
+      "tags": [
+        "physics",
+        "mechanics",
+        "lagrangian-mechanics"
+      ],
+      "complexity": "advanced",
+      "date": "2026-02-12",
+      "topic_count": 14,
+      "max_depth": 3,
+      "hierarchy": [
+        {
+          "title": "Euler-Lagrange Equations for Unconstrained Systems",
+          "level": 1,
+          "line": 8,
+          "children": [
+            {
+              "title": "Summary",
+              "level": 2,
+              "line": 10,
+              "children": []
+            },
+            {
+              "title": "Generalized Coordinates",
+              "level": 2,
+              "line": 14,
+              "children": []
+            },
+            {
+              "title": "The Lagrangian",
+              "level": 2,
+              "line": 25,
+              "children": []
+            },
+            {
+              "title": "Hamilton's Principle (Principle of Least Action)",
+              "level": 2,
+              "line": 33,
+              "children": []
+            },
+            {
+              "title": "Derivation from Calculus of Variations",
+              "level": 2,
+              "line": 43,
+              "children": []
+            },
+            {
+              "title": "The Euler-Lagrange Equations",
+              "level": 2,
+              "line": 62,
+              "children": [
+                {
+                  "title": "Generalized Momentum",
+                  "level": 3,
+                  "line": 68,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "Equivalence to Newton's Laws",
+              "level": 2,
+              "line": 80,
+              "children": []
+            },
+            {
+              "title": "Conservation Laws",
+              "level": 2,
+              "line": 101,
+              "children": [
+                {
+                  "title": "Cyclic Coordinates",
+                  "level": 3,
+                  "line": 103,
+                  "children": []
+                },
+                {
+                  "title": "Conservation of Energy (Jacobi Integral)",
+                  "level": 3,
+                  "line": 111,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "Example: The Harmonic Oscillator",
+              "level": 2,
+              "line": 118,
+              "children": []
+            },
+            {
+              "title": "References",
+              "level": 2,
+              "line": 136,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "four-vectors.md",
+      "path": "notes/four-vectors.md",
+      "title": "Four-Vectors",
+      "tags": [
+        "physics",
+        "relativity",
+        "tensors",
+        "math"
+      ],
+      "complexity": "advanced",
+      "date": "2026-02-12",
+      "topic_count": 14,
+      "max_depth": 2,
+      "hierarchy": [
+        {
+          "title": "Summary",
+          "level": 1,
+          "line": 8,
+          "children": []
+        },
+        {
+          "title": "Introduction to Minkowski Space",
+          "level": 1,
+          "line": 12,
+          "children": [
+            {
+              "title": "Lorentz Transformations",
+              "level": 2,
+              "line": 24,
+              "children": []
+            }
+          ]
+        },
+        {
+          "title": "Tensor Notation: Contravariant vs. Covariant",
+          "level": 1,
+          "line": 48,
+          "children": [
+            {
+              "title": "The Metric Tensor",
+              "level": 2,
+              "line": 52,
+              "children": []
+            },
+            {
+              "title": "Raising and Lowering Indices",
+              "level": 2,
+              "line": 64,
+              "children": []
+            },
+            {
+              "title": "The Scalar Product (Lorentz Invariant)",
+              "level": 2,
+              "line": 78,
+              "children": []
+            }
+          ]
+        },
+        {
+          "title": "Fundamental Four-Vectors",
+          "level": 1,
+          "line": 87,
+          "children": [
+            {
+              "title": "1. Four-Velocity",
+              "level": 2,
+              "line": 89,
+              "children": []
+            },
+            {
+              "title": "2. Four-Momentum",
+              "level": 2,
+              "line": 103,
+              "children": []
+            },
+            {
+              "title": "3. Four-Current",
+              "level": 2,
+              "line": 122,
+              "children": []
+            },
+            {
+              "title": "4. Four-Potential",
+              "level": 2,
+              "line": 134,
+              "children": []
+            }
+          ]
+        },
+        {
+          "title": "Calculus on Four-Vectors",
+          "level": 1,
+          "line": 143,
+          "children": []
+        },
+        {
+          "title": "References",
+          "level": 1,
+          "line": 163,
+          "children": []
+        }
+      ]
+    },
+    {
+      "filename": "gauss-law.md",
+      "path": "notes/gauss-law.md",
+      "title": "Gauss's Law",
+      "tags": [
+        "physics",
+        "electromagnetism",
+        "vector-calculus",
+        "maxwell-equations"
+      ],
+      "complexity": "intermediate",
+      "date": "2026-02-12",
+      "topic_count": 17,
+      "max_depth": 3,
+      "hierarchy": [
+        {
+          "title": "Summary",
+          "level": 1,
+          "line": 8,
+          "children": []
+        },
+        {
+          "title": "Electric Flux",
+          "level": 1,
+          "line": 11,
+          "children": []
+        },
+        {
+          "title": "The Integral Form",
+          "level": 1,
+          "line": 20,
+          "children": [
+            {
+              "title": "Physical Interpretation",
+              "level": 3,
+              "line": 25,
+              "children": []
+            }
+          ]
+        },
+        {
+          "title": "The Mathematical Bridge: Divergence Theorem",
+          "level": 1,
+          "line": 30,
+          "children": [
+            {
+              "title": "Mathematical Statement",
+              "level": 2,
+              "line": 33,
+              "children": []
+            },
+            {
+              "title": "Intuition: Sources vs. Flows",
+              "level": 2,
+              "line": 41,
+              "children": []
+            }
+          ]
+        },
+        {
+          "title": "The Differential Form",
+          "level": 1,
+          "line": 49,
+          "children": [
+            {
+              "title": "Derivation",
+              "level": 2,
+              "line": 58,
+              "children": []
+            }
+          ]
+        },
+        {
+          "title": "Gaussian Surfaces and Symmetry",
+          "level": 1,
+          "line": 70,
+          "children": [
+            {
+              "title": "Spherical Symmetry",
+              "level": 3,
+              "line": 78,
+              "children": []
+            },
+            {
+              "title": "Cylindrical Symmetry",
+              "level": 3,
+              "line": 85,
+              "children": []
+            },
+            {
+              "title": "Planar Symmetry",
+              "level": 3,
+              "line": 91,
+              "children": []
+            }
+          ]
+        },
+        {
+          "title": "Conductors in Electrostatic Equilibrium",
+          "level": 1,
+          "line": 98,
+          "children": []
+        },
+        {
+          "title": "Relation to Other Laws",
+          "level": 1,
+          "line": 104,
+          "children": []
+        },
+        {
+          "title": "References",
+          "level": 1,
+          "line": 109,
+          "children": [
+            {
+              "title": "Related Notes",
+              "level": 3,
+              "line": 114,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "hamiltonian-mechanics.md",
+      "path": "notes/hamiltonian-mechanics.md",
+      "title": "Hamiltonian Mechanics",
+      "tags": [
+        "physics",
+        "classical-mechanics",
+        "hamiltonian",
+        "theoretical-physics"
+      ],
+      "complexity": "advanced",
+      "date": "2026-02-12",
+      "topic_count": 13,
+      "max_depth": 3,
+      "hierarchy": [
+        {
+          "title": "Hamiltonian Mechanics",
+          "level": 1,
+          "line": 8,
+          "children": [
+            {
+              "title": "Summary",
+              "level": 2,
+              "line": 10,
+              "children": []
+            },
+            {
+              "title": "Derivation from Lagrangian Mechanics",
+              "level": 2,
+              "line": 15,
+              "children": []
+            },
+            {
+              "title": "Hamilton's Canonical Equations",
+              "level": 2,
+              "line": 37,
+              "children": []
+            },
+            {
+              "title": "Properties of the Hamiltonian",
+              "level": 2,
+              "line": 77,
+              "children": [
+                {
+                  "title": "Conservation of Energy",
+                  "level": 3,
+                  "line": 79,
+                  "children": []
+                },
+                {
+                  "title": "Phase Space and Liouville's Theorem",
+                  "level": 3,
+                  "line": 82,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "Poisson Brackets",
+              "level": 2,
+              "line": 93,
+              "children": []
+            },
+            {
+              "title": "Applications and Extensions",
+              "level": 2,
+              "line": 109,
+              "children": []
+            },
+            {
+              "title": "Further Reading",
+              "level": 2,
+              "line": 119,
+              "children": [
+                {
+                  "title": "Related Notes",
+                  "level": 3,
+                  "line": 127,
+                  "children": []
+                },
+                {
+                  "title": "Related Notes",
+                  "level": 3,
+                  "line": 130,
+                  "children": []
+                },
+                {
+                  "title": "Related Notes",
+                  "level": 3,
+                  "line": 133,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "maxwell's-equations.md",
+      "path": "notes/maxwell's-equations.md",
+      "title": "Maxwell's Equations",
+      "tags": [
+        "physics",
+        "electromagnetism",
+        "classical-field-theory"
+      ],
+      "complexity": "advanced",
+      "date": "2026-02-12",
+      "topic_count": 16,
+      "max_depth": 3,
+      "hierarchy": [
+        {
+          "title": "Maxwell's Equations",
+          "level": 1,
+          "line": 8,
+          "children": [
+            {
+              "title": "Summary",
+              "level": 2,
+              "line": 10,
+              "children": []
+            },
+            {
+              "title": "The Four Fundamental Equations",
+              "level": 2,
+              "line": 13,
+              "children": [
+                {
+                  "title": "1. Gauss's Law (Electric)",
+                  "level": 3,
+                  "line": 17,
+                  "children": []
+                },
+                {
+                  "title": "2. Gauss's Law for Magnetism",
+                  "level": 3,
+                  "line": 25,
+                  "children": []
+                },
+                {
+                  "title": "3. Faraday's Law of Induction",
+                  "level": 3,
+                  "line": 33,
+                  "children": []
+                },
+                {
+                  "title": "4. Ampère-Maxwell Law",
+                  "level": 3,
+                  "line": 43,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "The Displacement Current",
+              "level": 2,
+              "line": 51,
+              "children": [
+                {
+                  "title": "Mathematical Necessity",
+                  "level": 3,
+                  "line": 53,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "Maxwell's Equations in Matter",
+              "level": 2,
+              "line": 64,
+              "children": []
+            },
+            {
+              "title": "Electromagnetic Potentials",
+              "level": 2,
+              "line": 76,
+              "children": [
+                {
+                  "title": "Scalar and Vector Potentials",
+                  "level": 3,
+                  "line": 79,
+                  "children": []
+                },
+                {
+                  "title": "Gauge Transformations",
+                  "level": 3,
+                  "line": 87,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "Derivation of the electromagnetic-waves Equation",
+              "level": 2,
+              "line": 93,
+              "children": []
+            },
+            {
+              "title": "Lorentz Force Law",
+              "level": 2,
+              "line": 102,
+              "children": []
+            },
+            {
+              "title": "References",
+              "level": 2,
+              "line": 106,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "physical-constants.md",
+      "path": "notes/physical-constants.md",
+      "title": "Physical Constants",
+      "tags": [
+        "physics",
+        "metrology",
+        "fundamental-physics"
+      ],
+      "complexity": "basic",
+      "date": "2026-02-12",
+      "topic_count": 18,
+      "max_depth": 3,
+      "hierarchy": [
+        {
+          "title": "Summary",
+          "level": 1,
+          "line": 8,
+          "children": []
+        },
+        {
+          "title": "Classification of Constants",
+          "level": 1,
+          "line": 15,
+          "children": [
+            {
+              "title": "1. Universal Dimensionful Constants",
+              "level": 2,
+              "line": 19,
+              "children": [
+                {
+                  "title": "Speed of Light in Vacuum ($c$)",
+                  "level": 3,
+                  "line": 22,
+                  "children": []
+                },
+                {
+                  "title": "Planck Constant ($h$) and Reduced Planck Constant ($\\\\hbar$)",
+                  "level": 3,
+                  "line": 29,
+                  "children": []
+                },
+                {
+                  "title": "Gravitational Constant ($G$)",
+                  "level": 3,
+                  "line": 36,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "2. Electromagnetic Constants",
+              "level": 2,
+              "line": 43,
+              "children": [
+                {
+                  "title": "Vacuum Permittivity ($\\\\varepsilon_0$)",
+                  "level": 3,
+                  "line": 46,
+                  "children": []
+                },
+                {
+                  "title": "Vacuum Permeability ($\\\\mu_0$)",
+                  "level": 3,
+                  "line": 54,
+                  "children": []
+                },
+                {
+                  "title": "Elementary Charge ($e$)",
+                  "level": 3,
+                  "line": 59,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "3. Thermodynamic and Physico-Chemical Constants",
+              "level": 2,
+              "line": 63,
+              "children": [
+                {
+                  "title": "Boltzmann Constant ($k_B$)",
+                  "level": 3,
+                  "line": 65,
+                  "children": []
+                },
+                {
+                  "title": "Avogadro Constant ($N_A$)",
+                  "level": 3,
+                  "line": 69,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Dimensionless Constants",
+          "level": 1,
+          "line": 73,
+          "children": [
+            {
+              "title": "Fine-Structure Constant ($\\\\alpha$)",
+              "level": 2,
+              "line": 77,
+              "children": []
+            }
+          ]
+        },
+        {
+          "title": "The 2019 SI Redefinition",
+          "level": 1,
+          "line": 84,
+          "children": []
+        },
+        {
+          "title": "Natural Units (Planck Units)",
+          "level": 1,
+          "line": 100,
+          "children": []
+        },
+        {
+          "title": "Further Reading",
+          "level": 1,
+          "line": 105,
+          "children": []
+        }
+      ]
+    }
+  ]
+}

@@ -4,39 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "d16690ed11bcc9a1",
+        "id": "d60486e6e93f7116",
         "type": "tabs",
         "children": [
           {
-            "id": "1ad5c0df05d94750",
+            "id": "b03f54b9dca1754f",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "notes/gauss-law.md",
+                "file": "notes/physical-constants.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "gauss-law"
-            }
-          },
-          {
-            "id": "d1c54f00b0483833",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "notes/trajectory-under-gravity.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "trajectory-under-gravity"
+              "title": "physical-constants"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -198,13 +183,14 @@
       "bases:Create new base": false
     }
   },
-  "active": "d1c54f00b0483833",
+  "active": "b03f54b9dca1754f",
   "lastOpenFiles": [
+    "notes/maxwell's-equations.md",
+    "notes/gauss-law.md",
+    "notes/trajectory-under-gravity.md",
     "README.md",
     "simulations",
-    "notes/maxwell's-equations.md",
     "scripts/pkb-bridge",
-    "notes/trajectory-under-gravity.md",
     "notes/physical-constants.md",
     "notes/classical-mechanics.md",
     "notes/hamiltonian-mechanics.md",
@@ -213,7 +199,6 @@
     "SCRIPTS_ROADMAP.md",
     "notes/electromagnetic-waves.md",
     "notes/four-vectors.md",
-    "notes/gauss-law.md",
     "scripts/pkb-common.sh",
     "scripts/pkb-rebuild",
     "GEMINI.md",

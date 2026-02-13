@@ -110,3 +110,6 @@ The interaction of charged particles with fields connects classical mechanics wi
 *   Goldstein, H. *Classical Mechanics*.
 *   Landau, L.D. & Lifshitz, E.M. *Mechanics*.
 *   Arnold, V.I. *Mathematical Methods of Classical Mechanics*.
+
+### Related Notes
+- [[Hamiltonian Mechanics]]

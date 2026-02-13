@@ -31,4 +31,9 @@ for TOPIC in "${TOPICS[@]}"; do
     sleep 1
 done
 
+# Final Update after Batch
+echo "📝 Updating index and task list..."
+"$PKB_SCRIPTS_DIR/pkb-index" >/dev/null 2>&1
+"$PKB_SCRIPTS_DIR/pkb-todo" --update-only >/dev/null 2>&1
+
 echo -e "\n\033[1;32m✅ Batch generation complete!\033[0m"

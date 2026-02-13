@@ -1,68 +1,165 @@
 #!/bin/bash
-# pkb-search: RAG-based search that queries local knowledge before answering.
+# pkb-search: Index-based search with focused viewing using bat
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/pkb-common.sh"
 
-QUERY="$1"
+INDEX_JSON="$PROJ_ROOT/topic_index.json"
 
-if [ ! -d "$NOTES_DIR" ] || [ -z "$(ls -A "$NOTES_DIR")" ]; then
-    echo "❌ No notes found."
+# Check dependencies
+if ! command -v jq &> /dev/null; then
+    echo "❌ Error: jq is required. Install with: brew install jq"
     exit 1
 fi
 
-# 1. Browse Mode (No Query)
+if ! command -v bat &> /dev/null; then
+    echo "❌ Error: bat is required. Install with: brew install bat"
+    exit 1
+fi
+
+if ! command -v fzf &> /dev/null; then
+    echo "❌ Error: fzf is required. Install with: brew install fzf"
+    exit 1
+fi
+
+# Ensure index exists
+if [ ! -f "$INDEX_JSON" ]; then
+    echo "⚠️  Index not found. Generating..."
+    "$SCRIPT_DIR/pkb-index"
+fi
+
+QUERY="$1"
+
+# Function to display topic with bat at specific line
+view_topic() {
+    local file="$1"
+    local line="$2"
+    local title="$3"
+    
+    echo -e "\n\033[1;34m📖 Viewing: $title\033[0m"
+    echo -e "\033[0;36m   File: $file (line $line)\033[0m\n"
+    
+    # Use bat with line highlighting
+    bat --color=always \
+        --style=numbers,grid \
+        --highlight-line "$line" \
+        --line-range "$line:" \
+        "$NOTES_DIR/$(basename "$file")"
+}
+
+# Browse Mode (No Query) - Show all topics hierarchically
 if [ -z "$QUERY" ]; then
-    SELECTED_NAME=$(find "$NOTES_DIR" -maxdepth 1 -name "*.md" -exec basename {} \; | fzf --height 40% --layout=reverse --border --preview "grep -E '^#+' $NOTES_DIR/{} | bat --color=always --style=plain --language markdown")
-    if [ -n "$SELECTED_NAME" ]; then
-        echo -e "\n\033[1;34m📖 Outline of $SELECTED_NAME:\033[0m"
-        grep -E '^#+' "$NOTES_DIR/$SELECTED_NAME" | bat --color=always --style=plain --language markdown
+    echo -e "\033[1;36m📚 Browse Physics KB Topics\033[0m"
+    echo ""
+    
+    # Build searchable list: "File > Topic Path (line X)"
+    TOPICS=$(jq -r '
+    def flatten_topics(path; file):
+        if .children and (.children | length) > 0 then
+            (.children[] | flatten_topics(path + " > " + .title; file)),
+            {file: file, path: (path + " > " + .title), line: .line, title: .title}
+        else
+            {file: file, path: (path + " > " + .title), line: .line, title: .title}
+        end;
+    
+    .files[] | 
+    .hierarchy[] as $topic |
+    flatten_topics(.title; .path) |
+    .file + " │ " + .path + " │ L" + (.line|tostring)
+    ' "$INDEX_JSON")
+    
+    # Use fzf for selection with preview
+    SELECTED=$(echo "$TOPICS" | fzf \
+        --height 80% \
+        --layout=reverse \
+        --border \
+        --prompt="🔍 Search topics: " \
+        --preview-window=right:60% \
+        --preview 'FILE=$(echo {} | cut -d"│" -f1 | xargs); LINE=$(echo {} | cut -d"│" -f3 | sed "s/L//"); bat --color=always --style=numbers --highlight-line $LINE --line-range $((LINE > 5 ? LINE - 5 : 1)):$((LINE + 20)) "'"$NOTES_DIR"'/$FILE"')
+    
+    if [ -n "$SELECTED" ]; then
+        FILE=$(echo "$SELECTED" | cut -d'│' -f1 | xargs)
+        TITLE=$(echo "$SELECTED" | cut -d'│' -f2 | xargs)
+        LINE=$(echo "$SELECTED" | cut -d'│' -f3 | sed 's/L//' | xargs)
+        
+        view_topic "$FILE" "$LINE" "$TITLE"
     fi
     exit 0
 fi
 
-echo -e "\033[1;36m🧠 Searching local Physics-KB for: '$QUERY'...\033[0m"
+# Search Mode - Find topics matching query
+echo -e "\033[1;36m🔍 Searching for: '$QUERY'\033[0m"
+echo ""
 
-# 2. Retrieval Phase (RAG)
-# Find top 3 relevant files using grep scores
-RETRIEVED_CONTEXT=""
-SEARCH_RESULTS=$(grep -riIl "$QUERY" "$NOTES_DIR" | head -n 3)
+# Search in topic titles and file content
+MATCHING_TOPICS=$(jq -r --arg query "$QUERY" '
+def flatten_topics(path; file):
+    if .children and (.children | length) > 0 then
+        (.children[] | flatten_topics(path + " > " + .title; file)),
+        {file: file, path: (path + " > " + .title), line: .line, title: .title}
+    else
+        {file: file, path: (path + " > " + .title), line: .line, title: .title}
+    end;
 
-if [ -n "$SEARCH_RESULTS" ]; then
-    for FILE in $SEARCH_RESULTS; do
-        CONTENT=$(grep -iC 5 "$QUERY" "$FILE" | head -n 20)
-        RETRIEVED_CONTEXT+="--- From $(basename "$FILE") ---\n$CONTENT\n\n"
-    done
-fi
+.files[] | 
+.hierarchy[] as $topic |
+flatten_topics(.title; .path) |
+select(.title | ascii_downcase | contains($query | ascii_downcase)) |
+.file + " │ " + .path + " │ L" + (.line|tostring)
+' "$INDEX_JSON")
 
-# 3. Generation Phase
-ANSWER_PROMPT="You are the Physics KB Assistant. Use the following retrieved local context to answer the user's query.
-
-LOCAL KB CONTEXT:
-$RETRIEVED_CONTEXT
-
-USER QUERY: $QUERY
-
-INSTRUCTIONS:
-- Answer the query accurately based on the physics in your local KB.
-- If the local KB doesn't have the info, say 'According to my general knowledge...' but prioritize local context.
-- Mention which files you are referencing.
-- Format with LaTeX.
-
-Output the answer or say no relevant notes found. No tools."
-
-echo -e "\033[1;33m💡 AI Answer:\033[0m"
-call_gemini "$ANSWER_PROMPT"
-echo -e "\n\033[1;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-
-# 4. Interactive selection
-echo -e "\033[1mSelect a note to open (Filtered by relevance):\033[0m"
-FILE_LIST=$(find "$NOTES_DIR" -name "*.md" -maxdepth 1 -exec basename {} \;)
-RANKED_FILES=$(call_gemini "Based on query '$QUERY', rank these: [$FILE_LIST]. Output filenames only." | grep ".md")
-
-SELECTED_NAME=$(echo "$RANKED_FILES" | fzf --height 40% --layout=reverse --border --preview "grep -E '^#+' $NOTES_DIR/{} | bat --color=always --style=plain --language markdown")
-
-if [ -n "$SELECTED_NAME" ]; then
-    echo -e "\n\033[1;34m📖 Outline of $SELECTED_NAME:\033[0m"
-    grep -E '^#+' "$NOTES_DIR/$SELECTED_NAME" | bat --color=always --style=plain --language markdown
+if [ -z "$MATCHING_TOPICS" ]; then
+    echo "❌ No topics found matching '$QUERY'"
+    echo ""
+    echo "💡 Searching file content instead..."
+    
+    # Fall back to grep search
+    GREP_RESULTS=$(grep -rn "$QUERY" "$NOTES_DIR"/*.md 2>/dev/null | head -20)
+    
+    if [ -z "$GREP_RESULTS" ]; then
+        echo "❌ No results found in file content either."
+        exit 1
+    fi
+    
+    # Format grep results for fzf
+    SEARCH_RESULTS=$(echo "$GREP_RESULTS" | while IFS=: read -r file line content; do
+        filename=$(basename "$file")
+        echo "$filename │ $content │ L$line"
+    done)
+    
+    SELECTED=$(echo "$SEARCH_RESULTS" | fzf \
+        --height 80% \
+        --layout=reverse \
+        --border \
+        --prompt="📄 Content matches: " \
+        --preview-window=right:60% \
+        --preview 'FILE=$(echo {} | cut -d"│" -f1 | xargs); LINE=$(echo {} | cut -d"│" -f3 | sed "s/L//"); bat --color=always --style=numbers --highlight-line $LINE --line-range $((LINE > 5 ? LINE - 5 : 1)):$((LINE + 20)) "'"$NOTES_DIR"'/$FILE"')
+    
+    if [ -n "$SELECTED" ]; then
+        FILE=$(echo "$SELECTED" | cut -d'│' -f1 | xargs)
+        CONTENT=$(echo "$SELECTED" | cut -d'│' -f2 | xargs)
+        LINE=$(echo "$SELECTED" | cut -d'│' -f3 | sed 's/L//' | xargs)
+        
+        view_topic "$FILE" "$LINE" "$CONTENT"
+    fi
+else
+    echo -e "\033[1;32m✓ Found matching topics\033[0m"
+    echo ""
+    
+    # Use fzf for selection
+    SELECTED=$(echo "$MATCHING_TOPICS" | fzf \
+        --height 80% \
+        --layout=reverse \
+        --border \
+        --prompt="📑 Select topic: " \
+        --preview-window=right:60% \
+        --preview 'FILE=$(echo {} | cut -d"│" -f1 | xargs); LINE=$(echo {} | cut -d"│" -f3 | sed "s/L//"); bat --color=always --style=numbers --highlight-line $LINE --line-range $((LINE > 5 ? LINE - 5 : 1)):$((LINE + 20)) "'"$NOTES_DIR"'/$FILE"')
+    
+    if [ -n "$SELECTED" ]; then
+        FILE=$(echo "$SELECTED" | cut -d'│' -f1 | xargs)
+        TITLE=$(echo "$SELECTED" | cut -d'│' -f2 | xargs)
+        LINE=$(echo "$SELECTED" | cut -d'│' -f3 | sed 's/L//' | xargs)
+        
+        view_topic "$FILE" "$LINE" "$TITLE"
+    fi
 fi

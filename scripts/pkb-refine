@@ -4,11 +4,31 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/pkb-common.sh"
 
-FILE_ARG="$1"
-INSTRUCTION="$2"
+# Parse optional flags
+WITH_CODE=false
+FILE_ARG=""
+INSTRUCTION=""
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --with-code)
+            WITH_CODE=true
+            shift
+            ;;
+        *)
+            if [ -z "$FILE_ARG" ]; then
+                FILE_ARG="$1"
+            else
+                INSTRUCTION="$1"
+            fi
+            shift
+            ;;
+    esac
+done
 
 if [ -z "$FILE_ARG" ] || [ -z "$INSTRUCTION" ]; then
-    echo "Usage: pkb-refine <filename.md or topic> \"<instruction>\""
+    echo "Usage: pkb-refine <File> \"<Instruction>\" [--with-code]"
+    echo "  --with-code: Allow generation of simulation code"
     exit 1
 fi
 
@@ -71,9 +91,16 @@ if [ $? -eq 0 ] && [ -s "$TEMP_FILE" ]; then
     # Step 3: Deployment & Sync
     draw_task_progress 3 3 "Syncing backlinks"
     download_external_images "$TARGET_FILE"
-    extract_simulations "$TARGET_FILE"
+    if [ "$WITH_CODE" = true ]; then
+        extract_simulations "$TARGET_FILE"
+    fi
     sync_backlinks "$TARGET_FILE"
     git_snapshot "Refine $(basename "$TARGET_FILE"): $INSTRUCTION"
+    
+    # Update Index and Todo List
+    "$PKB_SCRIPTS_DIR/pkb-index" >/dev/null 2>&1
+    "$PKB_SCRIPTS_DIR/pkb-todo" --update-only >/dev/null 2>&1
+    
     echo ""
     echo "✅ Success! Refined $(basename "$TARGET_FILE")."
 else

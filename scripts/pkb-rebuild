@@ -56,47 +56,36 @@ EXISTING_NOTES=$(get_existing_notes_list)
 AVAILABLE_IMAGES=$(get_available_images)
 echo ""
 
-# Step 2: Heading Count & Pre-Split Logic
-HEADING_COUNT=$(grep -c "^##" "$TARGET_FILE")
+# Step 2: Smart Index-Based Splitting
+# Update index first to ensure we have latest structure
+"$PKB_SCRIPTS_DIR/pkb-index" >/dev/null 2>&1
 
-# If extremely large (>35 headings), perform a mechanical pre-split to avoid token/rate limits
-if [ "$HEADING_COUNT" -gt 35 ]; then
-    printf "\r\033[K   🚨 Critical size ($HEADING_COUNT headings). Performing mechanical pre-split...\n" >&2
+INDEX_JSON="$PROJ_ROOT/topic_index.json"
+TARGET_BASENAME=$(basename "$TARGET_FILE")
+
+# Use Python to analyze index and generate split plan
+SPLIT_PLAN=$(python3 "$PKB_SCRIPTS_DIR/pkb_split_planner.py" "$INDEX_JSON" "$TARGET_BASENAME" --threshold 15)
+
+if [ "$SPLIT_PLAN" != "NO_SPLIT" ] && [ "$SPLIT_PLAN" != "NO_DATA" ] && [ -n "$SPLIT_PLAN" ]; then
+    TOPIC_COUNT=$(jq -r '.topic_count // 0' <<< "$(jq -r ".files[] | select(.filename == \"$TARGET_BASENAME\")" "$INDEX_JSON")")
+    printf "\r\033[K   ✂️  Large file detected ($TOPIC_COUNT topics). Performing smart split...\n" >&2
     
-    MID_POINT=$(( HEADING_COUNT / 2 ))
-    SPLIT_LINE=$(grep -n "^## " "$TARGET_FILE" | sed -n "${MID_POINT}p" | cut -d: -f1)
+    # Execute split plan using external script
+    python3 "$PKB_SCRIPTS_DIR/pkb_split_executor.py" "$SPLIT_PLAN" "$NOTES_DIR" "$TARGET_FILE"
     
-    YAML_HEAD=$(sed -n '1,/---/p' "$TARGET_FILE" | head -n 20) # Grab YAML
-    TITLE=$(echo "$YAML_HEAD" | grep "^title: " | sed 's/title: //;s/"//g;s/'\''//g')
+    # After separation, update the index
+    "$PKB_SCRIPTS_DIR/pkb-index" >/dev/null 2>&1
     
-    PART1_FILE="$NOTES_DIR/pre-split-1-$(basename "$TARGET_FILE")"
-    PART2_FILE="$NOTES_DIR/pre-split-2-$(basename "$TARGET_FILE")"
-    
-    # Create Part 1
-    echo "$YAML_HEAD" > "$PART1_FILE"
-    sed -n "1,$((SPLIT_LINE-1))p" "$TARGET_FILE" | sed '1,/---/d' >> "$PART1_FILE"
-    
-    # Create Part 2
-    echo "$YAML_HEAD" > "$PART2_FILE"
-    sed -n "$SPLIT_LINE,\$p" "$TARGET_FILE" >> "$PART2_FILE"
-    
-    # Update titles to distinguish
-    sed -i '' "s/title: .*/title: \"$TITLE (Part 1)\"/" "$PART1_FILE"
-    sed -i '' "s/title: .*/title: \"$TITLE (Part 2)\"/" "$PART2_FILE"
-    
-    rm "$TARGET_FILE"
-    
-    # Trigger recursive rebuilds
-    "$PKB_SCRIPTS_DIR/pkb-rebuild" "$PART1_FILE"
-    "$PKB_SCRIPTS_DIR/pkb-rebuild" "$PART2_FILE"
-    
-    echo "✅ Mechanical split complete. Parts are being optimized."
+    echo "✅ Smart split complete. Core file updated with links."
     exit 0
 fi
 
 if ! check_heading_limit "$TARGET_FILE" 20; then
     FORCE_SPLIT="true"
 fi
+
+# Recalculate heading count for context
+HEADING_COUNT=$(grep -c "^##" "$TARGET_FILE")
 
 draw_task_progress 2 4 "AI Optimization"
 REBUILD_PROMPT="SYSTEM INSTRUCTIONS:
@@ -214,6 +203,10 @@ if [ $? -eq 0 ] && [ -s "$TEMP_DIR/output.txt" ]; then
     done
     
     git_snapshot "Rebuild $(basename "$TARGET_FILE")"
+
+    # Update Index and Todo List
+    "$PKB_SCRIPTS_DIR/pkb-index" >/dev/null 2>&1
+    "$PKB_SCRIPTS_DIR/pkb-todo" --update-only >/dev/null 2>&1
 
     echo ""
     echo "✅ Success! File(s) optimized."
