@@ -113,3 +113,6 @@ The interaction of charged particles with fields connects classical mechanics wi
 
 ### Related Notes
 - [[Hamiltonian Mechanics]]
+
+### Related Notes
+- [[Trajectory of a Particle Under Gravity]]

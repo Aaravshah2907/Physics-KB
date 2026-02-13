@@ -182,18 +182,17 @@ call_gemini() {
             fi
         fi
 
-        local CMD="gemini"
+        local MODEL_ARGS=()
         if [ "$MODEL_NAME" != "default" ]; then
-            CMD="gemini -m $MODEL_NAME"
+            MODEL_ARGS=(-m "$MODEL_NAME")
         fi
-        CMD="$CMD -p"
         
         local RETRY_DELAY=5
         local ATTEMPT=1
         
         while [ $ATTEMPT -le $MAX_RETRIES ]; do
             # Execute command with prompt
-            $CMD "$FULL_PROMPT" > "$OUT_FILE" 2> "$ERR_FILE" </dev/null &
+            gemini "${MODEL_ARGS[@]}" -p "$FULL_PROMPT" > "$OUT_FILE" 2> "$ERR_FILE" </dev/null &
             local PID=$!
             
             # Show spinner while waiting

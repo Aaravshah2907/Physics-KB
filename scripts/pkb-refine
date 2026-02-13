@@ -33,9 +33,14 @@ if [ -z "$FILE_ARG" ] || [ -z "$INSTRUCTION" ]; then
 fi
 
 # Resolve file path
-TARGET_FILE_NAME=$(resolve_target_file "$FILE_ARG" "🔧 Select a note to refine:")
-[ -z "$TARGET_FILE_NAME" ] && exit 0
-TARGET_FILE="$NOTES_DIR/$TARGET_FILE_NAME"
+TARGET_PATH_OR_NAME=$(resolve_target_file "$FILE_ARG" "🔧 Select a note to refine:")
+[ -z "$TARGET_PATH_OR_NAME" ] && exit 0
+
+if [[ "$TARGET_PATH_OR_NAME" == /* ]]; then
+    TARGET_FILE="$TARGET_PATH_OR_NAME"
+else
+    TARGET_FILE="$NOTES_DIR/$TARGET_PATH_OR_NAME"
+fi
 
 if [ ! -f "$TARGET_FILE" ]; then
     echo "❌ Error: File not found at $TARGET_FILE"

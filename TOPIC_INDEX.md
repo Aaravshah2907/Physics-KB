@@ -1,8 +1,8 @@
 # Physics Knowledge Base - Topic Index
 
-**Generated:** 2026-02-13 22:41:48
-**Total Files:** 11
-**Total Topics:** 144
+**Generated:** 2026-02-13 22:42:14
+**Total Files:** 10
+**Total Topics:** 143
 
 ---
 
@@ -16,9 +16,8 @@
 6. [Gauss's Law](#gauss-law) (17 topics)
 7. [Hamiltonian Mechanics](#hamiltonian-mechanics) (13 topics)
 8. [Maxwell's Equations](#maxwell's-equations) (16 topics)
-9. [Trajectory of a Particle in a Uniform Gravitational Field](#particle-trajectory-gravity) (1 topics)
-10. [Trajectory of a Particle Under Gravity](#particle-trajectory) (1 topics)
-11. [Physical Constants](#physical-constants) (18 topics)
+9. [Physical Constants](#physical-constants) (18 topics)
+10. [Projectile Motion under Gravity](#projectile-motion) (1 topics)
 
 ---
 
@@ -258,36 +257,6 @@
 
 ---
 
-## Trajectory of a Particle in a Uniform Gravitational Field
-
-**File:** `notes/particle-trajectory-gravity.md`  
-**Complexity:** advanced  
-**Date:** 2026-02-13  
-**Topics:** 1  
-**Max Depth:** 1  
-**Tags:** `physics`  
-
-### Topic Hierarchy
-
-- **Trajectory of a Particle in a Uniform Gravitational Field** (L1, line 8)
-
----
-
-## Trajectory of a Particle Under Gravity
-
-**File:** `notes/particle-trajectory.md`  
-**Complexity:** advanced  
-**Date:** 2026-02-13  
-**Topics:** 1  
-**Max Depth:** 1  
-**Tags:** `physics`  
-
-### Topic Hierarchy
-
-- **Trajectory of a Particle Under Gravity** (L1, line 8)
-
----
-
 ## Physical Constants
 
 **File:** `notes/physical-constants.md`  
@@ -320,17 +289,32 @@
 
 ---
 
+## Projectile Motion under Gravity
+
+**File:** `notes/projectile-motion.md`  
+**Complexity:** advanced  
+**Date:** 2026-02-13  
+**Topics:** 1  
+**Max Depth:** 1  
+**Tags:** `physics`  
+
+### Topic Hierarchy
+
+- **Projectile Motion under Gravity** (L1, line 8)
+
+---
+
 ## Statistics
 
 ### Topics by Complexity
 
-- **Advanced:** 8 files
+- **Advanced:** 7 files
 - **Basic:** 1 files
 - **Intermediate:** 2 files
 
 ### Topics by Tag
 
-- **physics:** 11 files
+- **physics:** 10 files
 - **electromagnetism:** 3 files
 - **theoretical-physics:** 2 files
 - **mechanics:** 2 files

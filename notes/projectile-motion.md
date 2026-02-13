@@ -9,27 +9,3 @@ complexity: advanced
 
 Summary: This note explores the core principles of Projectile Motion under Gravity, delving into its mathematical foundations and physical consequences.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
