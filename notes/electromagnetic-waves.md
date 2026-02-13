@@ -11,15 +11,15 @@ Electromagnetic (EM) waves are synchronized oscillations of electric and magneti
 
 ![Electromagnetic Wave Propagation](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Electromagneticwave3D.png/640px-Electromagneticwave3D.png)
 
-# Derivation from Maxwell's Equations
+# Derivation from [[Maxwell's Equations]]
 
 To understand the origin of electromagnetic waves, we consider **Maxwell's equations** in a vacuum (source-free region), where charge density $\rho = 0$ and current density $\mathbf{J} = 0$.
 
 ## Vacuum Equations
 Using the standard formulation in [[maxwell's-equations]]:
 
-1.  **Gauss's Law**: $\nabla \cdot \mathbf{E} = 0$
-2.  **Gauss's Law for Magnetism**: $\nabla \cdot \mathbf{B} = 0$
+1.  **[[Gauss's Law]]**: $\nabla \cdot \mathbf{E} = 0$
+2.  **[[Gauss's Law]] for Magnetism**: $\nabla \cdot \mathbf{B} = 0$
 3.  **Faraday's Law**: $\nabla \times \mathbf{E} = -\frac{\partial \mathbf{B}}{\partial t}$
 4.  **Ampère-Maxwell Law**: $\nabla \times \mathbf{B} = \mu_0 \epsilon_0 \frac{\partial \mathbf{E}}{\partial t}$
 
@@ -31,7 +31,7 @@ $$
 \nabla \times (\nabla \times \mathbf{E}) = -\frac{\partial}{\partial t} (\nabla \times \mathbf{B})
 $$
 
-Using the vector identity $\nabla \times (\nabla \times \mathbf{A}) = \nabla(\nabla \cdot \mathbf{A}) - \nabla^2 \mathbf{A}$, and substituting Gauss's Law ($\nabla \cdot \mathbf{E} = 0$):
+Using the vector identity $\nabla \times (\nabla \times \mathbf{A}) = \nabla(\nabla \cdot \mathbf{A}) - \nabla^2 \mathbf{A}$, and substituting [[Gauss's Law]] ($\nabla \cdot \mathbf{E} = 0$):
 $$
 -\nabla^2 \mathbf{E} = -\frac{\partial}{\partial t} \left( \mu_0 \epsilon_0 \frac{\partial \mathbf{E}}{\partial t} \right)
 $$
@@ -77,7 +77,7 @@ Where:
 The physical fields are the real parts of these complex expressions: $\mathbf{E} = \text{Re}(\tilde{\mathbf{E}})$.
 
 ## Transverse Nature
-Applying Gauss's Law $\nabla \cdot \mathbf{E} = 0$ to the plane wave solution implies:
+Applying [[Gauss's Law]] $\nabla \cdot \mathbf{E} = 0$ to the plane wave solution implies:
 $$
 \mathbf{k} \cdot \tilde{\mathbf{E}} = 0 \quad \text{and} \quad \mathbf{k} \cdot \tilde{\mathbf{B}} = 0
 $$

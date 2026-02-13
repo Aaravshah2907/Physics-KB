@@ -15,6 +15,7 @@ graph TD
   trajectory_under_gravity([Trajectory of a Particle Under Gravity])
   virtual_work([Virtual Work])
   classical_mechanics --> hamiltonian_mechanics
+  classical_mechanics --> projectile_motion
   classical_mechanics --> trajectory_under_gravity
   eulerlagrange_equations_for_constrained_systems --> hamiltonian_mechanics
   eulerlagrange_equations_for_constrained_systems --> virtual_work

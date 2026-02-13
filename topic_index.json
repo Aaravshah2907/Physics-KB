@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-02-13T17:17:30Z",
+  "generated_at": "2026-02-13T17:45:28Z",
   "total_files": 12,
-  "total_topics": 169,
+  "total_topics": 192,
   "files": [
     {
       "filename": "classical-mechanics.md",
@@ -15,7 +15,7 @@
       ],
       "complexity": "advanced",
       "date": "2026-02-12",
-      "topic_count": 25,
+      "topic_count": 26,
       "max_depth": 3,
       "hierarchy": [
         {
@@ -170,6 +170,12 @@
                   "title": "Related Notes",
                   "level": 3,
                   "line": 117,
+                  "children": []
+                },
+                {
+                  "title": "Related Notes",
+                  "level": 3,
+                  "line": 120,
                   "children": []
                 }
               ]
@@ -1065,13 +1071,16 @@
       "filename": "projectile-motion.md",
       "path": "notes/projectile-motion.md",
       "title": "Projectile Motion under Gravity",
-      "summary": "This note explores the core principles of Projectile Motion under Gravity, delving into its mathematical foundations and physical consequences.",
+      "summary": "This note explores the core principles of Projectile Motion under Gravity, from its idealized mathematical foundations in a vacuum to complex ballistic modeling involving fluid resistance and geophysical perturbations.",
       "tags": [
-        "physics"
+        "physics",
+        "mechanics",
+        "ballistics",
+        "fluid-dynamics"
       ],
       "complexity": "advanced",
       "date": "2026-02-13",
-      "topic_count": 11,
+      "topic_count": 26,
       "max_depth": 4,
       "hierarchy": [
         {
@@ -1093,7 +1102,7 @@
                 {
                   "title": "Real-World Dynamics and Drag",
                   "level": 3,
-                  "line": 31,
+                  "line": 26,
                   "children": []
                 }
               ]
@@ -1101,46 +1110,141 @@
             {
               "title": "Fundamental Principles and Assumptions",
               "level": 2,
-              "line": 42,
+              "line": 30,
               "children": [
                 {
                   "title": "The Ideal Projectile Model",
                   "level": 3,
-                  "line": 46,
+                  "line": 34,
                   "children": []
                 },
                 {
                   "title": "Independence of Horizontal and Vertical Motions",
                   "level": 3,
-                  "line": 55,
+                  "line": 41,
                   "children": [
-                    {
-                      "title": "Vector Decomposition",
-                      "level": 4,
-                      "line": 64,
-                      "children": []
-                    },
                     {
                       "title": "Simulation: Independence of Motion",
                       "level": 4,
-                      "line": 84,
+                      "line": 53,
                       "children": []
                     }
                   ]
-                },
+                }
+              ]
+            },
+            {
+              "title": "Kinematics of Ideal Projectile Motion",
+              "level": 2,
+              "line": 79,
+              "children": [
                 {
-                  "title": "Inertial Reference Frames",
+                  "title": "Initial Conditions",
                   "level": 3,
-                  "line": 138,
+                  "line": 83,
                   "children": []
                 },
                 {
-                  "title": "References",
+                  "title": "Velocity and Position Vectors",
                   "level": 3,
-                  "line": 145,
+                  "line": 87,
                   "children": []
                 }
               ]
+            },
+            {
+              "title": "Mathematical Formalism",
+              "level": 2,
+              "line": 98,
+              "children": [
+                {
+                  "title": "Derivation of Motion Parameters",
+                  "level": 3,
+                  "line": 100,
+                  "children": []
+                },
+                {
+                  "title": "The Trajectory Equation",
+                  "level": 3,
+                  "line": 107,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "Air Resistance and Fluid Dynamics",
+              "level": 2,
+              "line": 113,
+              "children": [
+                {
+                  "title": "The Drag Force Model",
+                  "level": 3,
+                  "line": 117,
+                  "children": []
+                },
+                {
+                  "title": "Linear Air Resistance (Stokes' Drag)",
+                  "level": 3,
+                  "line": 132,
+                  "children": []
+                },
+                {
+                  "title": "Quadratic Air Resistance (Newtonian Drag)",
+                  "level": 3,
+                  "line": 144,
+                  "children": [
+                    {
+                      "title": "Simulation: Quadratic Drag vs. Vacuum",
+                      "level": 4,
+                      "line": 156,
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "title": "Generalized Projectile Scenarios",
+              "level": 2,
+              "line": 187,
+              "children": [
+                {
+                  "title": "Motion on an Inclined Plane",
+                  "level": 3,
+                  "line": 189,
+                  "children": []
+                },
+                {
+                  "title": "Projectile Motion with Initial Height Offset ($h$)",
+                  "level": 3,
+                  "line": 194,
+                  "children": []
+                },
+                {
+                  "title": "The Envelope of Safety (Parabola of Safety)",
+                  "level": 3,
+                  "line": 198,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "Perturbations and Geophysical Effects",
+              "level": 2,
+              "line": 203,
+              "children": []
+            },
+            {
+              "title": "Historical Context",
+              "level": 2,
+              "line": 213,
+              "children": []
+            },
+            {
+              "title": "References",
+              "level": 2,
+              "line": 220,
+              "children": []
             }
           ]
         }
@@ -1257,14 +1361,59 @@
       ],
       "complexity": "advanced",
       "date": "2026-02-13",
-      "topic_count": 1,
-      "max_depth": 1,
+      "topic_count": 8,
+      "max_depth": 4,
       "hierarchy": [
         {
           "title": "Virtual Work",
           "level": 1,
           "line": 8,
-          "children": []
+          "children": [
+            {
+              "title": "Fundamental Concepts",
+              "level": 2,
+              "line": 13,
+              "children": [
+                {
+                  "title": "Definition of Virtual Displacement",
+                  "level": 3,
+                  "line": 15,
+                  "children": []
+                },
+                {
+                  "title": "Distinction Between Real and Virtual Displacements",
+                  "level": 3,
+                  "line": 26,
+                  "children": []
+                },
+                {
+                  "title": "The Principle of Virtual Work for Statics",
+                  "level": 3,
+                  "line": 37,
+                  "children": []
+                },
+                {
+                  "title": "Physical Intuition: The Vanishing Work of Constraints",
+                  "level": 3,
+                  "line": 44,
+                  "children": []
+                },
+                {
+                  "title": "Classification of Constraints: Ideal vs. Non-Ideal",
+                  "level": 3,
+                  "line": 50,
+                  "children": [
+                    {
+                      "title": "References",
+                      "level": 4,
+                      "line": 124,
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ]
     }

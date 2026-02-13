@@ -14,7 +14,7 @@ Maxwell's equations represent a set of four partial differential equations that 
 
 The equations are most commonly expressed in two equivalent forms: **differential** (local) and **integral** (global). The differential form describes the fields at a specific point in space, while the integral form relates the fields to the total charge and current within a volume or across a surface.
 
-### 1. Gauss's Law (Electric)
+### 1. [[Gauss's Law]] (Electric)
 This law relates the net electric flux through a closed surface to the net internal charge.
 
 *   **Differential Form**: $$\nabla \cdot \mathbf{E} = \frac{\rho}{\epsilon_0}$$
@@ -22,7 +22,7 @@ This law relates the net electric flux through a closed surface to the net inter
 
 It implies that electric field lines originate from positive charges and terminate on negative charges. For a detailed derivation and applications, see [[gauss-law]].
 
-### 2. Gauss's Law for Magnetism
+### 2. [[Gauss's Law]] for Magnetism
 This law states that there are no "magnetic charges" (monopoles); the total magnetic flux through a closed surface is always zero.
 
 *   **Differential Form**: $$\nabla \cdot \mathbf{B} = 0$$
@@ -57,7 +57,7 @@ Since the divergence of a curl is always zero ($\nabla \cdot (\nabla \times \mat
 $$\nabla \cdot \mathbf{J} = -\frac{\partial \rho}{\partial t}$$
 Maxwell resolved this by adding the term $\epsilon_0 \frac{\partial \mathbf{E}}{\partial t}$, ensuring that:
 $$\nabla \cdot (\nabla \times \mathbf{B}) = \mu_0 \left( \nabla \cdot \mathbf{J} + \epsilon_0 \nabla \cdot \frac{\partial \mathbf{E}}{\partial t} \right) = \mu_0 \left( -\frac{\partial \rho}{\partial t} + \frac{\partial (\epsilon_0 \nabla \cdot \mathbf{E})}{\partial t} \right)$$
-Using Gauss's Law ($\epsilon_0 \nabla \cdot \mathbf{E} = \rho$), the terms in the parentheses cancel out to zero, making the equation mathematically consistent with the conservation of charge.
+Using [[Gauss's Law]] ($\epsilon_0 \nabla \cdot \mathbf{E} = \rho$), the terms in the parentheses cancel out to zero, making the equation mathematically consistent with the conservation of charge.
 
 ![Displacement Current in a Capacitor](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Displacement_current_in_a_capacitor.svg/1024px-Displacement_current_in_a_capacitor.svg.png)
 

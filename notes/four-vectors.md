@@ -162,5 +162,5 @@ This operator appears frequently in wave equations, such as those governing [[el
 
 # References
 *   Jackson, J. D. *Classical Electrodynamics*.
-*   Goldstein, H. *Classical Mechanics*.
+*   Goldstein, H. *[[Classical Mechanics]]*.
 *   Griffiths, D. J. *Introduction to Electrodynamics*.

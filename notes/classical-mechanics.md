@@ -44,7 +44,7 @@ This framework is extensively detailed in [[eulerlagrange-equations-for-unconstr
 
 ## Hamiltonian Formalism
 
-**Hamiltonian Mechanics** reformulates the equations of motion in terms of position and momentum, replacing $N$ second-order differential equations with $2N$ first-order differential equations. This takes place in **phase space**.
+**[[Hamiltonian Mechanics]]** reformulates the equations of motion in terms of position and momentum, replacing $N$ second-order differential equations with $2N$ first-order differential equations. This takes place in **phase space**.
 
 ### The Legendre Transform
 The Hamiltonian $H$ is derived from the Lagrangian via a Legendre transformation:

@@ -108,6 +108,6 @@ Here, $\lambda$ represents the **normal force** exerted by the sphere on the par
 *   [[Virtual Work]]
 
 # References
-1.  Goldstein, H., Poole, C., & Safko, J. (2002). *Classical Mechanics* (3rd ed.). Addison-Wesley.
+1.  Goldstein, H., Poole, C., & Safko, J. (2002). *[[Classical Mechanics]]* (3rd ed.). Addison-Wesley.
 2.  Landau, L. D., & Lifshitz, E. M. (1976). *Mechanics* (Vol. 1). Butterworth-Heinemann.
-3.  Taylor, J. R. (2005). *Classical Mechanics*. University Science Books.
+3.  Taylor, J. R. (2005). *[[Classical Mechanics]]*. University Science Books.

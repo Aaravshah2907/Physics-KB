@@ -118,7 +118,7 @@ This structure is directly analogous to the commutator in [[quantum-mechanics]],
 
 ## Further Reading
 
-*   Goldstein, H. *Classical Mechanics*. Addison-Wesley.
+*   Goldstein, H. *[[Classical Mechanics]]*. Addison-Wesley.
 *   Landau, L. D., & Lifshitz, E. M. *Mechanics*. Butterworth-Heinemann.
 *   [[Lagrangian Mechanics]] - The foundation for deriving the Hamiltonian.
 *   [[Noether's Theorem]] - Relating symmetries to conserved quantities.

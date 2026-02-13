@@ -1,14 +1,14 @@
 # Physics Knowledge Base - Topic Index
 
-**Generated:** 2026-02-13 22:47:31
+**Generated:** 2026-02-13 23:15:29
 **Total Files:** 12
-**Total Topics:** 169
+**Total Topics:** 192
 
 ---
 
 ## Table of Contents
 
-1. [Classical Mechanics](#classical-mechanics) (25 topics)
+1. [Classical Mechanics](#classical-mechanics) (26 topics)
 2. [Electromagnetic Waves](#electromagnetic-waves) (16 topics)
 3. [Euler-Lagrange Equations for Constrained Systems](#eulerlagrange-equations-for-constrained-systems) (10 topics)
 4. [Euler-Lagrange Equations for Unconstrained Systems](#eulerlagrange-equations-for-unconstrained-systems) (15 topics)
@@ -17,9 +17,9 @@
 7. [Hamiltonian Mechanics](#hamiltonian-mechanics) (13 topics)
 8. [Maxwell's Equations](#maxwell's-equations) (16 topics)
 9. [Physical Constants](#physical-constants) (18 topics)
-10. [Projectile Motion under Gravity](#projectile-motion) (11 topics)
+10. [Projectile Motion under Gravity](#projectile-motion) (26 topics)
 11. [Trajectory of a Particle Under Gravity](#trajectory-under-gravity) (13 topics)
-12. [Virtual Work](#virtual-work) (1 topics)
+12. [Virtual Work](#virtual-work) (8 topics)
 
 ---
 
@@ -28,7 +28,7 @@
 **File:** `notes/classical-mechanics.md`  
 **Complexity:** advanced  
 **Date:** 2026-02-12  
-**Topics:** 25  
+**Topics:** 26  
 **Max Depth:** 3  
 **Tags:** `physics`, `mechanics`, `theoretical-physics`  
 
@@ -59,6 +59,7 @@
   - **References** (L2, line 109)
     - **Related Notes** (L3, line 114)
     - **Related Notes** (L3, line 117)
+    - **Related Notes** (L3, line 120)
 
 ---
 
@@ -298,23 +299,38 @@
 **File:** `notes/projectile-motion.md`  
 **Complexity:** advanced  
 **Date:** 2026-02-13  
-**Topics:** 11  
+**Topics:** 26  
 **Max Depth:** 4  
-**Tags:** `physics`  
+**Tags:** `physics`, `mechanics`, `ballistics`, `fluid-dynamics`  
 
 ### Topic Hierarchy
 
 - **Projectile Motion under Gravity** (L1, line 8)
   - **Summary** (L2, line 13)
     - **The Idealized Model** (L3, line 17)
-    - **Real-World Dynamics and Drag** (L3, line 31)
-  - **Fundamental Principles and Assumptions** (L2, line 42)
-    - **The Ideal Projectile Model** (L3, line 46)
-    - **Independence of Horizontal and Vertical Motions** (L3, line 55)
-      - **Vector Decomposition** (L4, line 64)
-      - **Simulation: Independence of Motion** (L4, line 84)
-    - **Inertial Reference Frames** (L3, line 138)
-    - **References** (L3, line 145)
+    - **Real-World Dynamics and Drag** (L3, line 26)
+  - **Fundamental Principles and Assumptions** (L2, line 30)
+    - **The Ideal Projectile Model** (L3, line 34)
+    - **Independence of Horizontal and Vertical Motions** (L3, line 41)
+      - **Simulation: Independence of Motion** (L4, line 53)
+  - **Kinematics of Ideal Projectile Motion** (L2, line 79)
+    - **Initial Conditions** (L3, line 83)
+    - **Velocity and Position Vectors** (L3, line 87)
+  - **Mathematical Formalism** (L2, line 98)
+    - **Derivation of Motion Parameters** (L3, line 100)
+    - **The Trajectory Equation** (L3, line 107)
+  - **Air Resistance and Fluid Dynamics** (L2, line 113)
+    - **The Drag Force Model** (L3, line 117)
+    - **Linear Air Resistance (Stokes' Drag)** (L3, line 132)
+    - **Quadratic Air Resistance (Newtonian Drag)** (L3, line 144)
+      - **Simulation: Quadratic Drag vs. Vacuum** (L4, line 156)
+  - **Generalized Projectile Scenarios** (L2, line 187)
+    - **Motion on an Inclined Plane** (L3, line 189)
+    - **Projectile Motion with Initial Height Offset ($h$)** (L3, line 194)
+    - **The Envelope of Safety (Parabola of Safety)** (L3, line 198)
+  - **Perturbations and Geophysical Effects** (L2, line 203)
+  - **Historical Context** (L2, line 213)
+  - **References** (L2, line 220)
 
 ---
 
@@ -350,13 +366,20 @@
 **File:** `notes/virtual-work.md`  
 **Complexity:** advanced  
 **Date:** 2026-02-13  
-**Topics:** 1  
-**Max Depth:** 1  
+**Topics:** 8  
+**Max Depth:** 4  
 **Tags:** `physics`  
 
 ### Topic Hierarchy
 
 - **Virtual Work** (L1, line 8)
+  - **Fundamental Concepts** (L2, line 13)
+    - **Definition of Virtual Displacement** (L3, line 15)
+    - **Distinction Between Real and Virtual Displacements** (L3, line 26)
+    - **The Principle of Virtual Work for Statics** (L3, line 37)
+    - **Physical Intuition: The Vanishing Work of Constraints** (L3, line 44)
+    - **Classification of Constraints: Ideal vs. Non-Ideal** (L3, line 50)
+      - **References** (L4, line 124)
 
 ---
 
@@ -371,10 +394,10 @@
 ### Topics by Tag
 
 - **physics:** 12 files
+- **mechanics:** 3 files
 - **electromagnetism:** 3 files
 - **classical-mechanics:** 3 files
 - **theoretical-physics:** 2 files
-- **mechanics:** 2 files
 - **lagrangian-mechanics:** 2 files
 - **waves:** 1 files
 - **vector-calculus:** 1 files
@@ -388,6 +411,8 @@
 - **kinematics:** 1 files
 - **hamiltonian:** 1 files
 - **fundamental-physics:** 1 files
+- **fluid-dynamics:** 1 files
 - **constraints:** 1 files
 - **classical-field-theory:** 1 files
+- **ballistics:** 1 files
 - **analytical-mechanics:** 1 files

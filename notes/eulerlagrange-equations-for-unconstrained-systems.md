@@ -135,7 +135,7 @@ This is the standard equation for simple harmonic motion.
 
 ## References
 *   Landau, L. D., & Lifshitz, E. M. (1976). *Mechanics*. Butterworth-Heinemann.
-*   Goldstein, H., Poole, C., & Safko, J. (2002). *Classical Mechanics*. Addison Wesley.
+*   Goldstein, H., Poole, C., & Safko, J. (2002). *[[Classical Mechanics]]*. Addison Wesley.
 *   See also: [[eulerlagrange-equations-for-constrained-systems]], [[hamiltonian-mechanics]].
 
 ### Related Notes

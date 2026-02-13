@@ -220,7 +220,7 @@ For long-range ballistics, further corrections are required:
 ## References
 
 - [Discourses and Mathematical Demonstrations Relating to Two New Sciences](https://doi.org/10.1038/050485a0) - Galileo Galilei (1638).
-- [Classical Mechanics](https://books.google.com/books?id=P1S_DQAAQBAJ) - John R. Taylor (2005). Detailed drag derivations.
+- [[[Classical Mechanics]]](https://books.google.com/books?id=P1S_DQAAQBAJ) - John R. Taylor (2005). Detailed drag derivations.
 - [Projectile motion in a medium with quadratic drag at constant horizontal wind](https://doi.org/10.48550/arXiv.2206.02397) - P. S. Chudinov (2022).
 - [Approximate Analytical Description of the Projectile Motion with a Quadratic Drag Force](https://www.researchgate.net/publication/281300000_Approximate_Analytical_Description_of_the_Projectile_Motion_with_a_Quadratic_Drag_Force) - Shishkin (2015).
 - [Range and flight time of quadratic resisted projectile motion using the Lambert W function](https://doi.org/10.1088/0143-0807/35/5/055025) - S. M. Stewart (2014).

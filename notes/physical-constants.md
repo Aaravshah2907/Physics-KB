@@ -6,7 +6,7 @@ complexity: basic
 ---
 
 # Summary
-Physical constants are scalar quantities believed to be universal in nature and unchanging over time. They act as the fundamental parameters of the mathematical frameworks describing physical reality, from **Classical Mechanics** to **Quantum Field Theory**. These constants define the scales of length, mass, time, and energy in the universe.
+Physical constants are scalar quantities believed to be universal in nature and unchanging over time. They act as the fundamental parameters of the mathematical frameworks describing physical reality, from **[[Classical Mechanics]]** to **Quantum Field Theory**. These constants define the scales of length, mass, time, and energy in the universe.
 
 This note categorizes fundamental constants, provides their 2019 SI redefinition values, and explores their role in theoretical frameworks like [[Maxwell's Equations]] and [[Hamiltonian Mechanics]].
 
