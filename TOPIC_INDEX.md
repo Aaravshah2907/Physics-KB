@@ -1,23 +1,24 @@
 # Physics Knowledge Base - Topic Index
 
-**Generated:** 2026-02-13 22:42:14
-**Total Files:** 10
-**Total Topics:** 143
+**Generated:** 2026-02-13 22:45:07
+**Total Files:** 11
+**Total Topics:** 158
 
 ---
 
 ## Table of Contents
 
-1. [Classical Mechanics](#classical-mechanics) (24 topics)
+1. [Classical Mechanics](#classical-mechanics) (25 topics)
 2. [Electromagnetic Waves](#electromagnetic-waves) (16 topics)
 3. [Euler-Lagrange Equations for Constrained Systems](#eulerlagrange-equations-for-constrained-systems) (10 topics)
-4. [Euler-Lagrange Equations for Unconstrained Systems](#eulerlagrange-equations-for-unconstrained-systems) (14 topics)
+4. [Euler-Lagrange Equations for Unconstrained Systems](#eulerlagrange-equations-for-unconstrained-systems) (15 topics)
 5. [Four-Vectors](#four-vectors) (14 topics)
 6. [Gauss's Law](#gauss-law) (17 topics)
 7. [Hamiltonian Mechanics](#hamiltonian-mechanics) (13 topics)
 8. [Maxwell's Equations](#maxwell's-equations) (16 topics)
 9. [Physical Constants](#physical-constants) (18 topics)
 10. [Projectile Motion under Gravity](#projectile-motion) (1 topics)
+11. [Trajectory of a Particle Under Gravity](#trajectory-under-gravity) (13 topics)
 
 ---
 
@@ -26,7 +27,7 @@
 **File:** `notes/classical-mechanics.md`  
 **Complexity:** advanced  
 **Date:** 2026-02-12  
-**Topics:** 24  
+**Topics:** 25  
 **Max Depth:** 3  
 **Tags:** `physics`, `mechanics`, `theoretical-physics`  
 
@@ -56,6 +57,7 @@
     - **Electrodynamics** (L3, line 106)
   - **References** (L2, line 109)
     - **Related Notes** (L3, line 114)
+    - **Related Notes** (L3, line 117)
 
 ---
 
@@ -118,7 +120,7 @@
 **File:** `notes/eulerlagrange-equations-for-unconstrained-systems.md`  
 **Complexity:** advanced  
 **Date:** 2026-02-12  
-**Topics:** 14  
+**Topics:** 15  
 **Max Depth:** 3  
 **Tags:** `physics`, `mechanics`, `lagrangian-mechanics`  
 
@@ -138,6 +140,7 @@
     - **Conservation of Energy (Jacobi Integral)** (L3, line 111)
   - **Example: The Harmonic Oscillator** (L2, line 118)
   - **References** (L2, line 136)
+    - **Related Notes** (L3, line 141)
 
 ---
 
@@ -304,31 +307,61 @@
 
 ---
 
+## Trajectory of a Particle Under Gravity
+
+**File:** `notes/trajectory-under-gravity.md`  
+**Complexity:** advanced  
+**Date:** 2026-02-13  
+**Topics:** 13  
+**Max Depth:** 3  
+**Tags:** `physics`, `classical-mechanics`, `kinematics`, `projectile-motion`, `analytical-mechanics`  
+
+### Topic Hierarchy
+
+- **Trajectory of a Particle Under Gravity** (L1, line 8)
+  - **1. Ideal Projectile Motion (Vacuum)** (L2, line 12)
+    - **1.1. Newtonian Formulation** (L3, line 16)
+    - **1.2. The Trajectory Equation** (L3, line 28)
+    - **1.3. Lagrangian Formalism** (L3, line 40)
+  - **2. Motion with Linear Air Resistance** (L2, line 54)
+    - **2.1. Equations of Motion** (L3, line 58)
+    - **2.2. Analytical Solution** (L3, line 64)
+  - **3. Motion with Quadratic Air Resistance** (L2, line 78)
+    - **3.1. Coupled Non-Linear Equations** (L3, line 82)
+    - **3.2. Qualitative Features** (L3, line 92)
+  - **4. Simulation: Vacuum vs. Drag** (L2, line 98)
+  - **References** (L2, line 180)
+
+---
+
 ## Statistics
 
 ### Topics by Complexity
 
-- **Advanced:** 7 files
+- **Advanced:** 8 files
 - **Basic:** 1 files
 - **Intermediate:** 2 files
 
 ### Topics by Tag
 
-- **physics:** 10 files
+- **physics:** 11 files
 - **electromagnetism:** 3 files
+- **classical-mechanics:** 3 files
 - **theoretical-physics:** 2 files
 - **mechanics:** 2 files
 - **lagrangian-mechanics:** 2 files
-- **classical-mechanics:** 2 files
 - **waves:** 1 files
 - **vector-calculus:** 1 files
 - **tensors:** 1 files
 - **relativity:** 1 files
+- **projectile-motion:** 1 files
 - **optics:** 1 files
 - **metrology:** 1 files
 - **maxwell-equations:** 1 files
 - **math:** 1 files
+- **kinematics:** 1 files
 - **hamiltonian:** 1 files
 - **fundamental-physics:** 1 files
 - **constraints:** 1 files
 - **classical-field-theory:** 1 files
+- **analytical-mechanics:** 1 files

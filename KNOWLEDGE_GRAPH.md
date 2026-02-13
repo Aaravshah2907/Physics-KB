@@ -12,8 +12,11 @@ graph TD
   maxwell_s_equations([Maxwell's Equations])
   physical_constants([Physical Constants])
   projectile_motion([Projectile Motion under Gravity])
+  trajectory_under_gravity([Trajectory of a Particle Under Gravity])
   classical_mechanics --> hamiltonian_mechanics
+  classical_mechanics --> trajectory_under_gravity
   eulerlagrange_equations_for_constrained_systems --> hamiltonian_mechanics
+  eulerlagrange_equations_for_unconstrained_systems --> trajectory_under_gravity
   gauss_law --> maxwell_s_equations
   gauss_law --> physical_constants
   hamiltonian_mechanics --> eulerlagrange_equations_for_constrained_systems
@@ -22,4 +25,6 @@ graph TD
   physical_constants --> eulerlagrange_equations_for_unconstrained_systems
   physical_constants --> hamiltonian_mechanics
   physical_constants --> maxwell_s_equations
+  trajectory_under_gravity --> classical_mechanics
+  trajectory_under_gravity --> eulerlagrange_equations_for_unconstrained_systems
 ```

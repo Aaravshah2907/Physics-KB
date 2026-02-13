@@ -1,4 +1,5 @@
 Divergence Theorem|gauss-law|1
+ideal-projectile-motion-for-different-angles.svg|trajectory-under-gravity|1
 Lagrangian mechanics|hamiltonian-mechanics|1
 Newtonian Mechanics|eulerlagrange-equations-for-unconstrained-systems|1
 quantum mechanics|hamiltonian-mechanics|1

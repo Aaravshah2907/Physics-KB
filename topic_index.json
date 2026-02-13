@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-02-13T17:12:13Z",
-  "total_files": 10,
-  "total_topics": 143,
+  "generated_at": "2026-02-13T17:15:06Z",
+  "total_files": 11,
+  "total_topics": 158,
   "files": [
     {
       "filename": "classical-mechanics.md",
@@ -15,7 +15,7 @@
       ],
       "complexity": "advanced",
       "date": "2026-02-12",
-      "topic_count": 24,
+      "topic_count": 25,
       "max_depth": 3,
       "hierarchy": [
         {
@@ -164,6 +164,12 @@
                   "title": "Related Notes",
                   "level": 3,
                   "line": 114,
+                  "children": []
+                },
+                {
+                  "title": "Related Notes",
+                  "level": 3,
+                  "line": 117,
                   "children": []
                 }
               ]
@@ -380,7 +386,7 @@
       ],
       "complexity": "advanced",
       "date": "2026-02-12",
-      "topic_count": 14,
+      "topic_count": 15,
       "max_depth": 3,
       "hierarchy": [
         {
@@ -466,7 +472,14 @@
               "title": "References",
               "level": 2,
               "line": 136,
-              "children": []
+              "children": [
+                {
+                  "title": "Related Notes",
+                  "level": 3,
+                  "line": 141,
+                  "children": []
+                }
+              ]
             }
           ]
         }
@@ -1066,6 +1079,107 @@
           "level": 1,
           "line": 8,
           "children": []
+        }
+      ]
+    },
+    {
+      "filename": "trajectory-under-gravity.md",
+      "path": "notes/trajectory-under-gravity.md",
+      "title": "Trajectory of a Particle Under Gravity",
+      "summary": "This note explores the motion of a particle subject to a uniform gravitational field, analyzing both the ideal vacuum case and the more realistic scenarios involving aerodynamic drag. We derive the equations of motion using Newtonian and Lagrangian formalisms, examine the resulting parabolic and non-parabolic trajectories, and discuss the analytical and numerical solutions for linear and quadratic air resistance.",
+      "tags": [
+        "physics",
+        "classical-mechanics",
+        "kinematics",
+        "projectile-motion",
+        "analytical-mechanics"
+      ],
+      "complexity": "advanced",
+      "date": "2026-02-13",
+      "topic_count": 13,
+      "max_depth": 3,
+      "hierarchy": [
+        {
+          "title": "Trajectory of a Particle Under Gravity",
+          "level": 1,
+          "line": 8,
+          "children": [
+            {
+              "title": "1. Ideal Projectile Motion (Vacuum)",
+              "level": 2,
+              "line": 12,
+              "children": [
+                {
+                  "title": "1.1. Newtonian Formulation",
+                  "level": 3,
+                  "line": 16,
+                  "children": []
+                },
+                {
+                  "title": "1.2. The Trajectory Equation",
+                  "level": 3,
+                  "line": 28,
+                  "children": []
+                },
+                {
+                  "title": "1.3. Lagrangian Formalism",
+                  "level": 3,
+                  "line": 40,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "2. Motion with Linear Air Resistance",
+              "level": 2,
+              "line": 54,
+              "children": [
+                {
+                  "title": "2.1. Equations of Motion",
+                  "level": 3,
+                  "line": 58,
+                  "children": []
+                },
+                {
+                  "title": "2.2. Analytical Solution",
+                  "level": 3,
+                  "line": 64,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "3. Motion with Quadratic Air Resistance",
+              "level": 2,
+              "line": 78,
+              "children": [
+                {
+                  "title": "3.1. Coupled Non-Linear Equations",
+                  "level": 3,
+                  "line": 82,
+                  "children": []
+                },
+                {
+                  "title": "3.2. Qualitative Features",
+                  "level": 3,
+                  "line": 92,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "4. Simulation: Vacuum vs. Drag",
+              "level": 2,
+              "line": 98,
+              "children": []
+            },
+            {
+              "title": "References",
+              "level": 2,
+              "line": 180,
+              "children": []
+            }
+          ]
         }
       ]
     }
