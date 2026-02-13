@@ -1,0 +1,35 @@
+# System & Workspace
+.obsidian/
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# LLM & Environment
+.env
+.env.local
+.env.*.local
+*.log
+*.tmp
+topic_index.json
+topic_index.json.tmp
+additional_topics.txt.bak
+
+# Local LLM / Ollama Specifics (just in case they are local)
+.ollama/
+models/
+*.bin
+*.gguf
+
+# API & Secrets
+secrets.json
+credentials.json
+.gemini_token
+.openai_token
+
+# Assets & Simulations (Keeping structure, ignoring large binaries if needed)
+# assets/images/*.png
+# assets/images/*.svg
+simulations/__pycache__/
+.pytest_cache/
+.ipynb_checkpoints/
