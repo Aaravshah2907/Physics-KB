@@ -42,9 +42,13 @@ print_tool "pkb-stats" "Shows KB health, complexity & growth stats." "pkb-stats"
 print_tool "pkb-refresh" "Updates backlinks, images & formatting." "pkb-refresh [filename]"
 print_tool "pkb-todo" "Finds & aggregates 'TODO' items in notes." "pkb-todo"
 
+echo -e "${BOLD}🧪 Interactive Simulations${RESET}"
+print_tool "pkb-lab" "Browse and run simulations interactively." "pkb-lab"
+
 echo -e "${BOLD}🌐 Connections & Media${RESET}"
 print_tool "pkb-bridge" "Finds hidden semantic connections between notes." "pkb-bridge"
 print_tool "pkb-shot" "Captures screenshot to /assets/images & copies link." "pkb-shot"
+
 
 echo -e "${BOLD}💡 Pro Tips${RESET}"
 echo -e "  - Run ${CYAN}setup-global-scripts.sh${RESET} to add these to your PATH."

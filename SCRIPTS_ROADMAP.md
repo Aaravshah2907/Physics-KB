@@ -60,13 +60,25 @@ This document summarizes the completed features and tracks the implementation of
 - **Reference Verification**: Real DOI/arXiv links from search tools
 - **Syntax Auditing**: Automated LaTeX and asset integrity checks
 
+### ⚙️ System Configuration & Health
+- **Centralized Config**: `config.env` for managing models, thresholds, and UI settings.
+- **Pre-Flight Health Check**: `check_system_health` function in `pkb-common.sh` verifies dependencies and LLM status.
+
+### 🧪 Interactive Simulations (Enhanced)
+- **Simulation Lab**: `pkb-lab` for interactive browsing and execution of physics simulations with compilation support.
+
+### 🗺️ Concept Mapping
+- **Visual Knowledge Graph**: `pkb-index` now automatically generates `KNOWLEDGE_GRAPH.md` with Mermaid.js relationship maps.
+
 ## 📋 Future Enhancements (Optional)
 
 ### Potential Additions
+- [ ] **Intelligence-Aware Refinement**: Update `pkb-refine` to cross-reference simulation code with note text for technical consistency.
 - [ ] **LaTeX Export**: Generate publication-ready PDFs from note collections
-- [ ] **Concept Maps**: Auto-generate visual knowledge graphs using Mermaid or GraphViz
+- [ ] **Concept Maps**: Auto-generate visual knowledge graphs using Mermaid or GraphViz (Basic version complete)
 - [ ] **Spaced Repetition**: Integration with Anki for active recall
 - [ ] **Citation Network**: Visualize paper citation relationships
+
 - [ ] **Multi-Language**: Support for notes in multiple languages
 
 ---

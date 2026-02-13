@@ -1,0 +1,73 @@
+#!/bin/bash
+# pkb-lab: Browse and execute physics simulations from the /simulations folder.
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/pkb-common.sh"
+
+if [ ! -d "$SIMULATIONS_DIR" ]; then
+    echo "❌ Simulations directory not found at $SIMULATIONS_DIR"
+    exit 1
+fi
+
+echo -e "\033[1;35m🧪 Physics KB - Simulation Lab\033[0m"
+echo -e "\033[1;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+
+# Ensure dependencies for running simulations exist
+check_deps() {
+    local ext=$1
+    case $ext in
+        py)
+            if ! command -v python3 &> /dev/null; then
+                echo "❌ Error: python3 is required for .py files"
+                return 1
+            fi
+            ;;
+        cpp)
+            if ! command -v g++ &> /dev/null; then
+                echo "❌ Error: g++ is required for .cpp files"
+                return 1
+            fi
+            ;;
+    esac
+    return 0
+}
+
+# Selection
+SELECTED=$(find "$SIMULATIONS_DIR" -type f \( -name "*.py" -o -name "*.cpp" -o -name "*.m" \) -exec basename {} \; | fzf \
+    --height 60% \
+    --layout=reverse \
+    --border \
+    --prompt="🚀 Select simulation to run: " \
+    --header="Available Simulations in /simulations" \
+    --preview "bat --color=always '$SIMULATIONS_DIR/{}'")
+
+if [ -n "$SELECTED" ]; then
+    FILE_PATH="$SIMULATIONS_DIR/$SELECTED"
+    EXT="${SELECTED##*.}"
+    
+    echo -e "\n🔥 Running: \033[1;32m$SELECTED\033[0m..."
+    
+    case $EXT in
+        py)
+            python3 "$FILE_PATH"
+            ;;
+        cpp)
+            # Compile and run
+            TEMP_BIN=$(mktemp)
+            g++ "$FILE_PATH" -o "$TEMP_BIN" && "$TEMP_BIN"
+            rm -f "$TEMP_BIN"
+            ;;
+        m)
+            if command -v octave &> /dev/null; then
+                octave "$FILE_PATH"
+            elif command -v matlab &> /dev/null; then
+                matlab -batch "run('$FILE_PATH'); exit;"
+            else
+                echo "❌ Error: Neither Octave nor MATLAB found."
+            fi
+            ;;
+        *)
+            echo "❌ Error: Unsupported file type: .$EXT"
+            ;;
+    esac
+fi

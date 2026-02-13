@@ -6,6 +6,7 @@ PROJ_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 NOTES_DIR="$PROJ_ROOT/notes"
 INDEX_JSON="$PROJ_ROOT/topic_index.json"
 INDEX_MD="$PROJ_ROOT/TOPIC_INDEX.md"
+INDEX_GRAPH_MD="$PROJ_ROOT/KNOWLEDGE_GRAPH.md"
 
 # Check if jq is available
 if ! command -v jq &> /dev/null; then
@@ -237,7 +238,36 @@ MDEOF
     
 } > "$INDEX_MD"
 
-echo "✓ Markdown index saved to: $INDEX_MD"
+# Generate Mermaid graph
+echo "📊 Generating visual knowledge graph..."
+{
+    echo "# Physics Knowledge Base - Visual Concept Map"
+    echo ""
+    echo '```mermaid'
+    echo "graph TD"
+    
+    # 1. Define Nodes
+    jq -r '.files[] | "  \(.filename | gsub("\\.md$"; "") | gsub("[^a-zA-Z0-9]"; "_"))([\(.title)])"' "$INDEX_JSON"
+    
+    # 2. Extract links and build edges
+    for md_file in "$NOTES_DIR"/*.md; do
+        [ ! -f "$md_file" ] && continue
+        source_id=$(basename "$md_file" .md | sed 's/[^a-zA-Z0-9]/_/g')
+        
+        # Extract Obsidian links
+        grep -oE "\[\[[^]]+\]\]" "$md_file" | sed -E 's/\[\[([^]|]+)(\|[^]|]+)?\]\]/\1/' | sort -u | while read -r target_title; do
+            # Find the target ID from index
+            target_id=$(jq -r --arg t "$target_title" '.files[] | select(.title == $t) | .filename' "$INDEX_JSON" | sed 's/\.md$//' | sed 's/[^a-zA-Z0-9]/_/g')
+            if [ -n "$target_id" ] && [ "$source_id" != "$target_id" ]; then
+                echo "  $source_id --> $target_id"
+            fi
+        done
+    done
+    
+    echo '```'
+} > "$INDEX_GRAPH_MD"
+
+echo "✓ Visual graph saved to: $INDEX_GRAPH_MD"
 echo ""
 echo "Summary:"
 echo "  Files processed: $total_files"

@@ -6,11 +6,67 @@ export NODE_NO_WARNINGS=1
 # --- Global Paths ---
 PKB_SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJ_ROOT="$(cd "$PKB_SCRIPTS_DIR/.." && pwd)"
+
+# Load Configuration
+CONFIG_FILE="$PROJ_ROOT/config.env"
+if [ -f "$CONFIG_FILE" ]; then
+    source "$CONFIG_FILE"
+else
+    # Defaults if config missing
+    export PKB_PRIMARY_MODEL="default"
+    export PKB_FLASH_MODEL="gemini-1.5-flash"
+    export PKB_LOCAL_MODEL="deepseek-r1:7b"
+fi
+
 NOTES_DIR="$PROJ_ROOT/notes"
 GEMINI_CONF="$PROJ_ROOT/GEMINI.md"
 TODO_FILE="$PROJ_ROOT/additional_topics.txt"
 ASSETS_IMG_DIR="$PROJ_ROOT/assets/images"
 SIMULATIONS_DIR="$PROJ_ROOT/simulations"
+
+# --- Health Check ---
+check_system_health() {
+    local SILENT=$1
+    local ERRORS=0
+    
+    [ -z "$SILENT" ] && echo -e "\033[1;34m🩺 Performing System Health Check...\033[0m"
+    
+    # Check Gemini CLI
+    if ! command -v gemini &> /dev/null; then
+        echo -e "  ❌ Gemini CLI: Not found"
+        ERRORS=$((ERRORS + 1))
+    else
+        [ -z "$SILENT" ] && echo -e "  ✅ Gemini CLI: Ready"
+    fi
+    
+    # Check Ollama
+    if ! pgrep -x "ollama" > /dev/null && ! pgrep -f "ollama serve" > /dev/null; then
+        echo -e "  ⚠️  Ollama: Not running (Local fallback disabled)"
+    else
+        [ -z "$SILENT" ] && echo -e "  ✅ Ollama: Running ($PKB_LOCAL_MODEL)"
+    fi
+    
+    # Check Index
+    if [ ! -f "$PROJ_ROOT/topic_index.json" ]; then
+        echo -e "  ⚠️  Topic Index: Missing (Context injections will be limited)"
+    else
+        [ -z "$SILENT" ] && echo -e "  ✅ Topic Index: Ready"
+    fi
+    
+    # Check Dependencies
+    for cmd in jq bat fzf python3; do
+        if ! command -v $cmd &> /dev/null; then
+            echo -e "  ❌ Dependency: $cmd missing"
+            ERRORS=$((ERRORS + 1))
+        fi
+    done
+    
+    if [ $ERRORS -gt 0 ]; then
+        echo -e "\n\033[1;31m🚨 System health critical. Please fix errors above.\033[0m"
+        return 1
+    fi
+    return 0
+}
 
 # --- Versioning ---
 git_snapshot() {
@@ -68,7 +124,7 @@ show_spinner() {
 # Strips <think> tags from output
 call_ollama() {
     local PROMPT_TEXT="$1"
-    local MODEL="deepseek-r1:7b"
+    local MODEL="${PKB_LOCAL_MODEL:-deepseek-r1:7b}"
     
     # Check if ollama is running
     if ! pgrep -x "ollama" > /dev/null && ! pgrep -f "ollama serve" > /dev/null; then
@@ -82,7 +138,7 @@ call_ollama() {
 }
 
 # --- Helper: Call LLM with robust retry and fallback ---
-# This function follows the priority: gemini -> gemini-1.5-flash -> ollama
+# This function follows the priority config settings
 call_gemini() {
     export NODE_NO_WARNINGS=1
     local PROMPT_TEXT="$1"
@@ -92,13 +148,13 @@ call_gemini() {
     local ERR_FILE=$(mktemp)
     local OUT_FILE=$(mktemp)
     
-    # Priority: default gemini-cli model -> flash -> ollama
-    local MODELS=("default" "gemini-1.5-flash" "ollama")
+    # Priority from config
+    local MODELS=("$PKB_PRIMARY_MODEL" "$PKB_FLASH_MODEL" "ollama")
     local MAX_RETRIES=2
     
-    for MODEL in "${MODELS[@]}"; do
-        if [ "$MODEL" == "ollama" ]; then
-            printf "\r\033[K   🦙 Trying local model (Ollama: deepseek-r1:7b)...\n" >&2
+    for MODEL_NAME in "${MODELS[@]}"; do
+        if [ "$MODEL_NAME" == "ollama" ]; then
+            printf "\r\033[K   🦙 Trying local model (Ollama: $PKB_LOCAL_MODEL)...\n" >&2
             local RESULT=$(call_ollama "$FULL_PROMPT")
             if [ $? -eq 0 ] && [ -n "$RESULT" ]; then
                 echo "$RESULT"
@@ -111,8 +167,8 @@ call_gemini() {
         fi
 
         local CMD="gemini"
-        if [ "$MODEL" != "default" ]; then
-            CMD="gemini -m $MODEL"
+        if [ "$MODEL_NAME" != "default" ]; then
+            CMD="gemini -m $MODEL_NAME"
         fi
         
         local RETRY_DELAY=5
@@ -163,10 +219,9 @@ call_gemini() {
             fi
         done
         
-        # Fallback messages
-        if [ "$MODEL" == "default" ]; then
-             printf "\r\033[K   🔄 Switching to fallback model: gemini-1.5-flash...\n" >&2
-        elif [ "$MODEL" == "gemini-1.5-flash" ]; then
+        if [ "$MODEL_NAME" == "$PKB_PRIMARY_MODEL" ]; then
+             printf "\r\033[K   🔄 Switching to fallback model: $PKB_FLASH_MODEL...\n" >&2
+        elif [ "$MODEL_NAME" == "$PKB_FLASH_MODEL" ]; then
              printf "\r\033[K   🔄 Switching to local model: Ollama...\n" >&2
         fi
     done
@@ -189,7 +244,7 @@ call_llm_light() {
         return 0
     fi
     # Fallback to flash if Ollama fails
-    gemini -m gemini-1.5-flash "$PROMPT" 2>/dev/null
+    gemini -m "$PKB_FLASH_MODEL" "$PROMPT" 2>/dev/null
 }
 
 # --- Data Helpers ---
