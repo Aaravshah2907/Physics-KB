@@ -48,6 +48,8 @@ print_tool "pkb-shot" "Captures screenshot to /assets/images & copies link." "pk
 
 echo -e "${BOLD}💡 Pro Tips${RESET}"
 echo -e "  - Run ${CYAN}setup-global-scripts.sh${RESET} to add these to your PATH."
+echo -e "  - ${YELLOW}Hybrid Backend:${RESET} These tools auto-fallback to Ollama (DeepSeek) if Gemini hits a rate limit."
+echo -e "  - ${YELLOW}Token Saver:${RESET} Metadata tasks (titles/checks) run locally on Ollama to preserve your Gemini Pro quota."
 echo -e "  - Most tools support fuzzy selection if no argument is provided."
 echo -e "  - Use ${CYAN}pkb-query stats${RESET} for a quick KB overview."
 echo ""

@@ -40,7 +40,7 @@ if [ "$SKIP_CHECK" = false ]; then
 
     if [ -n "$EXISTING_FILES" ]; then
         CHECK_PROMPT="Given these existing physics notes:
-[$EXISTING_FILES]
+$(get_project_context)
 
 Evaluate the redundancy of the new topic '$TOPIC'.
 If it is highly related to an existing note (similarity score 1-100), output: FILENAME|SCORE.
@@ -48,7 +48,7 @@ If it deserves its own note, output: NONE|0.
 Example: 'maxwells-equations.md|95'
 Use a high threshold for score. No extra text."
 
-        MATCH_RAW=$(call_gemini "$CHECK_PROMPT" | grep -iv "NONE" | grep -oE "[a-z0-9'-]+\.md\|[0-9]+")
+        MATCH_RAW=$(call_llm_light "$CHECK_PROMPT" | grep -iv "NONE" | grep -oE "[a-z0-9'-]+\.md\|[0-9]+")
         
         if [ -n "$MATCH_RAW" ]; then
             MATCH_FILE=$(echo "$MATCH_RAW" | cut -d'|' -f1)
@@ -71,7 +71,7 @@ fi
 
 # Step 2: Architecture
 draw_task_progress 2 4 "Defining architecture"
-SUGGESTED_NAME=$(call_gemini "Suggest a short lowercase-kebab-case filename for '$TOPIC'.")
+SUGGESTED_NAME=$(call_llm_light "Suggest a short lowercase-kebab-case filename for '$TOPIC'. Return ONLY the filename.md.")
 FILE_NAME=$(sanitize_filename "$SUGGESTED_NAME")
 [ -z "$FILE_NAME" ] && FILE_NAME=$(sanitize_filename "$TOPIC")
 OUTPUT_FILE="$NOTES_DIR/$FILE_NAME.md"
@@ -79,7 +79,7 @@ OUTPUT_FILE="$NOTES_DIR/$FILE_NAME.md"
 # Step 3: Multi-Phase Generation (Skeleton Builder)
 draw_task_progress 3 5 "Designing structure"
 SYSTEM_PROMPT=$(cat "$GEMINI_CONF")
-EXISTING_NOTES=$(get_existing_notes_list)
+KNOWLEDGE_CONTEXT=$(get_project_context)
 AVAILABLE_IMAGES=$(get_available_images)
 
 # Extract context if topic was found in pkb-todo's list
@@ -96,7 +96,7 @@ fi
 OUTLINE_PROMPT="SYSTEM INSTRUCTIONS:
 $SYSTEM_PROMPT
 CONTEXT:
-Existing topics: [$EXISTING_NOTES]
+$KNOWLEDGE_CONTEXT
 $TOPIC_CONTEXT
 
 TASK:

@@ -63,6 +63,21 @@ extract_headings_raw() {
     done
 }
 
+# Function to extract summary (first paragraph after title or Summary section)
+extract_summary() {
+    local file="$1"
+    # Try to find 'Summary: ...' or content after '# Summary'
+    local summary=$(grep -m 1 "^Summary: " "$file" | sed 's/^Summary: //')
+    if [ -z "$summary" ]; then
+        summary=$(sed -n '/^# Summary/,/^##/p' "$file" | grep -vE "^(# Summary|##)" | head -n 3 | tr '\n' ' ' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+    fi
+    # If still empty, just take the first few lines of content after YAML
+    if [ -z "$summary" ]; then
+        summary=$(awk '/^---$/{if(++c==2)p=1;next} p && !/^#/ && NF {print; exit}' "$file" | head -n 1)
+    fi
+    echo "$summary" | sed 's/"/\\"/g' | sed "s/'/\\'/g"
+}
+
 # Initialize JSON
 cat > "$INDEX_JSON" << EOF
 {
@@ -95,6 +110,8 @@ for md_file in "$NOTES_DIR"/*.md; do
     date=$(extract_yaml_field "$md_file" "date")
     [ -z "$date" ] && date="unknown"
     
+    summary=$(extract_summary "$md_file")
+    
     # Extract headings and build hierarchy using external python script
     hierarchy=$(extract_headings_raw "$md_file" | python3 "$SCRIPT_DIR/pkb_hierarchy.py")
     
@@ -106,6 +123,7 @@ for md_file in "$NOTES_DIR"/*.md; do
         --arg filename "$filename" \
         --arg path "$filepath" \
         --arg title "$title" \
+        --arg summary "$summary" \
         --argjson tags "$tags" \
         --arg complexity "$complexity" \
         --arg date "$date" \
@@ -116,6 +134,7 @@ for md_file in "$NOTES_DIR"/*.md; do
             filename: $filename,
             path: $path,
             title: $title,
+            summary: $summary,
             tags: $tags,
             complexity: $complexity,
             date: $date,

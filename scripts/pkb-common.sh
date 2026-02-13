@@ -64,6 +64,25 @@ show_spinner() {
 
 # --- Helper: Call Gemini with fallback and spinner ---
 # --- Helper: Call Gemini with robust retry and fallback ---
+# --- Helper: Call Ollama ---
+# Strips <think> tags from output
+call_ollama() {
+    local PROMPT_TEXT="$1"
+    local MODEL="deepseek-r1:7b"
+    
+    # Check if ollama is running
+    if ! pgrep -x "ollama" > /dev/null && ! pgrep -f "ollama serve" > /dev/null; then
+        return 1
+    fi
+
+    # Use external python script to strip <think> tags reliably
+    printf "%s" "$PROMPT_TEXT" | ollama run "$MODEL" 2>/dev/null | \
+        python3 "$PKB_SCRIPTS_DIR/pkb_llm_filter.py"
+    return $?
+}
+
+# --- Helper: Call LLM with robust retry and fallback ---
+# This function follows the priority: gemini -> gemini-1.5-flash -> ollama
 call_gemini() {
     export NODE_NO_WARNINGS=1
     local PROMPT_TEXT="$1"
@@ -73,16 +92,30 @@ call_gemini() {
     local ERR_FILE=$(mktemp)
     local OUT_FILE=$(mktemp)
     
-    local MODELS=("default" "gemini-1.5-flash")
-    local MAX_RETRIES=3
+    # Priority: default gemini-cli model -> flash -> ollama
+    local MODELS=("default" "gemini-1.5-flash" "ollama")
+    local MAX_RETRIES=2
     
     for MODEL in "${MODELS[@]}"; do
+        if [ "$MODEL" == "ollama" ]; then
+            printf "\r\033[K   🦙 Trying local model (Ollama: deepseek-r1:7b)...\n" >&2
+            local RESULT=$(call_ollama "$FULL_PROMPT")
+            if [ $? -eq 0 ] && [ -n "$RESULT" ]; then
+                echo "$RESULT"
+                rm -f "$ERR_FILE" "$OUT_FILE"
+                return 0
+            else
+                printf "\r\033[K   ❌ Ollama failed or not running.\n" >&2
+                continue
+            fi
+        fi
+
         local CMD="gemini"
         if [ "$MODEL" != "default" ]; then
             CMD="gemini -m $MODEL"
         fi
         
-        local RETRY_DELAY=10
+        local RETRY_DELAY=5
         local ATTEMPT=1
         
         while [ $ATTEMPT -le $MAX_RETRIES ]; do
@@ -116,11 +149,11 @@ call_gemini() {
                 if [ $ATTEMPT -lt $MAX_RETRIES ]; then
                     printf "\r\033[K   ⚠️  Rate limit hit ($MODEL). Retrying in ${RETRY_DELAY}s (Attempt $ATTEMPT/$MAX_RETRIES)...\n" >&2
                     sleep $RETRY_DELAY
-                    RETRY_DELAY=$((RETRY_DELAY * 2)) # Exponential backoff
+                    RETRY_DELAY=$((RETRY_DELAY * 2)) 
                     ATTEMPT=$((ATTEMPT + 1))
                 else
                     printf "\r\033[K   ❌ Rate limit persists for $MODEL.\n" >&2
-                    break # Break retry loop to try next model
+                    break 
                 fi
             else
                 # Non-retriable error
@@ -130,20 +163,49 @@ call_gemini() {
             fi
         done
         
-        # If we are here, we failed retries for this model. Try fallback if available.
+        # Fallback messages
         if [ "$MODEL" == "default" ]; then
              printf "\r\033[K   🔄 Switching to fallback model: gemini-1.5-flash...\n" >&2
+        elif [ "$MODEL" == "gemini-1.5-flash" ]; then
+             printf "\r\033[K   🔄 Switching to local model: Ollama...\n" >&2
         fi
     done
     
     # All models failed
-    echo "❌ All attempts failed. Final error:" >&2
+    echo "❌ All attempts failed. Check your API quota or Ollama status." >&2
     cat "$ERR_FILE" >&2
     rm -f "$ERR_FILE" "$OUT_FILE"
     return 1
 }
 
+# --- Helper: Call Lightweight LLM ---
+# Preferred for metadata, titles, and non-creation tasks to save tokens.
+call_llm_light() {
+    local PROMPT="$1"
+    # Try Ollama directly first
+    local RESULT=$(call_ollama "$PROMPT")
+    if [ $? -eq 0 ] && [ -n "$RESULT" ]; then
+        echo "$RESULT"
+        return 0
+    fi
+    # Fallback to flash if Ollama fails
+    gemini -m gemini-1.5-flash "$PROMPT" 2>/dev/null
+}
+
 # --- Data Helpers ---
+
+get_project_context() {
+    local CONTEXT=""
+    # Use topic_index.json if available to provide high-level context
+    if [ -f "$PROJ_ROOT/topic_index.json" ] && command -v jq &> /dev/null; then
+        CONTEXT=$(jq -r '.files | map("- \(.title) (\(.filename)): \(.tags | join(", "))") | join("\n")' "$PROJ_ROOT/topic_index.json" | head -n 50)
+        echo "CURRENT_KNOWLEDGE_BASE_STRUCTURE:"
+        echo "$CONTEXT"
+    else
+        echo "EXISTING_TOPICS:"
+        get_existing_notes_list
+    fi
+}
 
 get_existing_notes_list() {
     find "$NOTES_DIR" -maxdepth 1 -name "*.md" -exec basename {} \; | sed 's/\.md$//' | tr '\n' ',' | sed 's/,$//'

@@ -41,6 +41,11 @@ This project transforms a folder of Markdown notes into a living, rigorous, and 
 - **Smart Splitting** (`pkb-rebuild`): Uses `pkb_split_planner.py` to detect large files (>15 topics) and intelligently extracts sections into new notes.
 - **CLI Query Tool** (`pkb-query`): Filter notes by complexity, tags, or search for topics directly from the terminal.
 
+### 8. **Hybrid Backend & Context Optimizer**
+- **LLM Orchestration**: Automatically failover between **Gemini Pro**, **Gemini Flash**, and local **Ollama (DeepSeek)** models to bypass API rate limits.
+- **Token Economy**: Uses a lightweight local-first approach (`call_llm_light`) for non-creation tasks (metadata, titles, redundancy checks) to preserve Pro tokens.
+- **Context-Aware metadata**: Injects structured summaries of the entire KB into the AI's prompt via `get_project_context`, reducing the need for expensive file scanning.
+
 ---
 
 ## 🛠️ Usage Guide

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-13T08:43:39Z",
+  "generated_at": "2026-02-13T11:36:04Z",
   "total_files": 9,
   "total_topics": 142,
   "files": [
@@ -7,6 +7,7 @@
       "filename": "classical-mechanics.md",
       "path": "notes/classical-mechanics.md",
       "title": "Classical Mechanics",
+      "summary": "**Classical Mechanics** is the branch of physics describing the motion of macroscopic objects, from projectiles to parts of machinery, and astronomical objects, such as spacecraft, planets, stars, and galaxies. It is based on the foundational principles laid out by Isaac Newton and later reformulated in more abstract and powerful frameworks by Lagrange and Hamilton. At its core, it assumes a deterministic universe where the state of a system at any future time is fully determined by its current state and the forces acting upon it. While accurate for macroscopic scales and speeds much lower than the speed of light, it is superseded by **Quantum Mechanics** at atomic scales and **General Relativity** at high speeds or strong gravitational fields.",
       "tags": [
         "physics",
         "mechanics",
@@ -175,6 +176,7 @@
       "filename": "electromagnetic-waves.md",
       "path": "notes/electromagnetic-waves.md",
       "title": "Electromagnetic Waves",
+      "summary": "Electromagnetic (EM) waves are synchronized oscillations of electric and magnetic fields that propagate at the speed of light through a vacuum. They are a direct consequence of [[maxwell's-equations]], which predict that a time-varying electric field generates a magnetic field and vice versa. These waves carry energy, momentum, and angular momentum away from their source particle and can have no mass. The study of EM waves forms the basis of optics, telecommunications, and radiative transfer.",
       "tags": [
         "physics",
         "electromagnetism",
@@ -291,6 +293,7 @@
       "filename": "eulerlagrange-equations-for-constrained-systems.md",
       "path": "notes/eulerlagrange-equations-for-constrained-systems.md",
       "title": "Euler-Lagrange Equations for Constrained Systems",
+      "summary": "This note extends the framework of Lagrangian mechanics to systems subject to constraints. While [[eulerlagrange-equations-for-unconstrained-systems]] provide a powerful method for generalized coordinates that are independent, many physical systems involve constraints that relate coordinates to one another (e.g., a pendulum bob fixed to a rod, a particle moving on a surface). We introduce the method of **Lagrange Multipliers** to incorporate these constraints into the variational principle, allowing us to solve for both the motion of the system and the forces of constraint.",
       "tags": [
         "physics",
         "classical-mechanics",
@@ -369,6 +372,7 @@
       "filename": "eulerlagrange-equations-for-unconstrained-systems.md",
       "path": "notes/eulerlagrange-equations-for-unconstrained-systems.md",
       "title": "Euler-Lagrange Equations for Unconstrained Systems",
+      "summary": "The **Euler-Lagrange equations** form the core of **Lagrangian Mechanics**, offering a powerful alternative to [[Newtonian Mechanics]]. For unconstrained systems—systems where the motion is not restricted by geometric constraints (like a bead on a wire)—these equations are derived directly from [[Hamilton's Principle]] (the Principle of Least Action). They provide a systematic method to derive equations of motion using **generalized coordinates**, often simplifying problems involving complex symmetries or non-Cartesian coordinate systems.",
       "tags": [
         "physics",
         "mechanics",
@@ -472,6 +476,7 @@
       "filename": "four-vectors.md",
       "path": "notes/four-vectors.md",
       "title": "Four-Vectors",
+      "summary": "A **Four-Vector** is a vector in a four-dimensional vector space (Minkowski space) that transforms under a Lorentz transformation. It unifies temporal and spatial components into a single geometric object, essential for the formulation of **Special Relativity**. The invariance of the scalar product of four-vectors ensures that physical laws remain consistent across all inertial frames of reference.",
       "tags": [
         "physics",
         "relativity",
@@ -576,6 +581,7 @@
       "filename": "gauss-law.md",
       "path": "notes/gauss-law.md",
       "title": "Gauss's Law",
+      "summary": "**Gauss's Law** relates the distribution of electric charge to the resulting electric field. It is one of the four [[Maxwell's Equations]] and provides a powerful method for calculating electric fields in systems with high symmetry. Fundamental to electrostatics, it bridges the concept of electric flux through a closed surface to the enclosed charge, mathematically expressed via the [[Divergence Theorem]].  # Electric Flux",
       "tags": [
         "physics",
         "electromagnetism",
@@ -700,6 +706,7 @@
       "filename": "hamiltonian-mechanics.md",
       "path": "notes/hamiltonian-mechanics.md",
       "title": "Hamiltonian Mechanics",
+      "summary": "Hamiltonian mechanics is a reformulation of [[classical mechanics]] that evolved from [[Lagrangian mechanics]]. While Lagrangian mechanics focuses on generalized coordinates $q_i$ and velocities $\\dot{q}_i$ in configuration space, Hamiltonian mechanics uses generalized coordinates $q_i$ and generalized momenta $p_i$ to describe the system in **phase space**.",
       "tags": [
         "physics",
         "classical-mechanics",
@@ -798,6 +805,7 @@
       "filename": "maxwell's-equations.md",
       "path": "notes/maxwell's-equations.md",
       "title": "Maxwell's Equations",
+      "summary": "Maxwell's equations represent a set of four partial differential equations that form the foundation of classical electromagnetism, classical optics, and electric circuits. They describe how electric and magnetic fields are generated by charges, currents, and by changes of each other. The equations provide a mathematical framework for the unification of electricity and magnetism into a single force: electromagnetism.",
       "tags": [
         "physics",
         "electromagnetism",
@@ -914,6 +922,7 @@
       "filename": "physical-constants.md",
       "path": "notes/physical-constants.md",
       "title": "Physical Constants",
+      "summary": "Physical constants are scalar quantities believed to be universal in nature and unchanging over time. They act as the fundamental parameters of the mathematical frameworks describing physical reality, from **Classical Mechanics** to **Quantum Field Theory**. These constants define the scales of length, mass, time, and energy in the universe.  This note categorizes fundamental constants, provides their 2019 SI redefinition values, and explores their role in theoretical frameworks like [[Maxwell's Equations]] and [[Hamiltonian Mechanics]].",
       "tags": [
         "physics",
         "metrology",

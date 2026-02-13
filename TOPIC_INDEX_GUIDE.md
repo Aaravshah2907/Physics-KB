@@ -21,6 +21,7 @@ The Physics Knowledge Base includes an automated topic indexing system that trac
       "filename": "classical-mechanics.md",
       "path": "notes/classical-mechanics.md",
       "title": "Classical Mechanics",
+      "summary": "This note explores the core principles of Classical Mechanics, delving into its mathematical foundations and physical consequences.",
       "tags": ["physics", "mechanics"],
       "complexity": "advanced",
       "date": "2026-02-12",
@@ -40,10 +41,10 @@ The Physics Knowledge Base includes an automated topic indexing system that trac
 ```
 
 **Use Cases**:
-- Build custom search tools
-- Generate visualizations (knowledge graphs, tree maps)
-- Analyze topic distribution and coverage
-- Export to other formats
+- **AI Context Injections**: Provide LLMs with a high-level summary of existing knowledge to prevent redundancy.
+- **Semantic Bridging**: Identify conceptual links between notes using summarized data.
+- **Fast Search**: Browse high-level summaries without opening full markdown files.
+- **Dashboarding**: Power visualizations and health metrics.
 
 ### 2. `TOPIC_INDEX.md`
 **Format**: Markdown  
@@ -86,9 +87,9 @@ You can add index generation to your existing scripts:
 - Tracks nesting depth
 
 ### Metadata Extraction
-- YAML frontmatter parsing
-- Tags, complexity, dates
-- Topic counts per file
+- **YAML frontmatter parsing**: Tags, complexity, and dates.
+- **Content Summarization**: Intelligent extraction of the introduction or "Summary" section for contextual parity.
+- **Topic Counts**: Tracks total granularity per note.
 
 ### Statistics
 - Total files and topics

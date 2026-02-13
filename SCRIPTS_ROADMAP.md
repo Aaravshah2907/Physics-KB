@@ -21,6 +21,12 @@ This document summarizes the completed features and tracks the implementation of
 - **Semantic Bridge**: `pkb-bridge` for discovering hidden connections between conceptually related notes.
 - **Contextual TODO**: `pkb-todo` tracks source-context for missing topics.
 
+### 🧠 Hybrid LLM Backend
+- **Multi-Model Orchestration**: Priority-based fallback: `Gemini Pro` → `Gemini 1.5 Flash` → `Ollama (DeepSeek-r1:7b)`.
+- **Local-First Metadata**: `call_llm_light` routes non-creative tasks (titles, checks) to local Ollama by default to save tokens.
+- **Context Optimizer**: Uses structured JSON index data to provide the AI with a "Project Consciousness" without scanning the entire note library.
+- **Think-Tag Filtration**: Dedicated Python logic (`pkb_llm_filter.py`) to prune reasoning-model thought blocks from final notes.
+
 ### 🔎 Search & Indexing (Shell Optimized)
 - **Topic Index**: `pkb-index` generates comprehensive hierarchical index (JSON & Markdown). Python logic externalized to `pkb_hierarchy.py`.
 - **Query Tool**: `pkb-query` provides CLI access to index stats, tags, and complexity filters.

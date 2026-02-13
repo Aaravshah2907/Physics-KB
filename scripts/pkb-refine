@@ -51,7 +51,7 @@ echo "🔧 Refining $(basename "$TARGET_FILE")..."
 draw_task_progress 1 3 "Gathering context"
 SYSTEM_PROMPT=$(cat "$GEMINI_CONF")
 CURRENT_CONTENT=$(cat "$TARGET_FILE")
-EXISTING_NOTES=$(get_existing_notes_list)
+KNOWLEDGE_CONTEXT=$(get_project_context)
 AVAILABLE_IMAGES=$(get_available_images)
 echo ""
 
@@ -61,7 +61,7 @@ REFINE_PROMPT="SYSTEM INSTRUCTIONS:
 $SYSTEM_PROMPT
 
 CONTEXT:
-Other existing topics: [$EXISTING_NOTES]
+$KNOWLEDGE_CONTEXT
 Available images in assets: [$AVAILABLE_IMAGES]
 If highly relevant, you may reference available images using ![[image_name.png]].
 
