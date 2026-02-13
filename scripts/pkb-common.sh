@@ -137,7 +137,8 @@ call_gemini() {
     done
     
     # All models failed
-    echo "❌ All attempts failed." >&2
+    echo "❌ All attempts failed. Final error:" >&2
+    cat "$ERR_FILE" >&2
     rm -f "$ERR_FILE" "$OUT_FILE"
     return 1
 }

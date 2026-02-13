@@ -57,6 +57,7 @@ This project transforms a folder of Markdown notes into a living, rigorous, and 
 | **Connect** | `pkb-bridge` | Finds and builds missing semantic links. |
 | **Fix** | `pkb-refresh` | Prunes empty notes and syncs backlinks. |
 | **Audit** | `pkb-audit` | Checks for broken syntax/links. |
+| **Media** | `pkb-shot` | Captures screenshot & copies Obsidian link. |
 | **Stats** | `pkb-stats` | View library health and metrics. |
 | **Help** | `pkb-help` | Show usage examples for all tools. |
 
