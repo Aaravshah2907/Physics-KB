@@ -1,8 +1,8 @@
 # Physics Knowledge Base - Topic Index
 
-**Generated:** 2026-02-13 17:17:37
-**Total Files:** 9
-**Total Topics:** 142
+**Generated:** 2026-02-13 22:40:13
+**Total Files:** 10
+**Total Topics:** 143
 
 ---
 
@@ -16,7 +16,8 @@
 6. [Gauss's Law](#gauss-law) (17 topics)
 7. [Hamiltonian Mechanics](#hamiltonian-mechanics) (13 topics)
 8. [Maxwell's Equations](#maxwell's-equations) (16 topics)
-9. [Physical Constants](#physical-constants) (18 topics)
+9. [Trajectory of a Particle in a Uniform Gravitational Field](#particle-trajectory-gravity) (1 topics)
+10. [Physical Constants](#physical-constants) (18 topics)
 
 ---
 
@@ -256,6 +257,21 @@
 
 ---
 
+## Trajectory of a Particle in a Uniform Gravitational Field
+
+**File:** `notes/particle-trajectory-gravity.md`  
+**Complexity:** advanced  
+**Date:** 2026-02-13  
+**Topics:** 1  
+**Max Depth:** 1  
+**Tags:** `physics`  
+
+### Topic Hierarchy
+
+- **Trajectory of a Particle in a Uniform Gravitational Field** (L1, line 8)
+
+---
+
 ## Physical Constants
 
 **File:** `notes/physical-constants.md`  
@@ -292,13 +308,13 @@
 
 ### Topics by Complexity
 
-- **Advanced:** 6 files
+- **Advanced:** 7 files
 - **Basic:** 1 files
 - **Intermediate:** 2 files
 
 ### Topics by Tag
 
-- **physics:** 9 files
+- **physics:** 10 files
 - **electromagnetism:** 3 files
 - **theoretical-physics:** 2 files
 - **mechanics:** 2 files

@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-02-13T11:47:36Z",
-  "total_files": 9,
-  "total_topics": 142,
+  "generated_at": "2026-02-13T17:10:11Z",
+  "total_files": 10,
+  "total_topics": 143,
   "files": [
     {
       "filename": "classical-mechanics.md",
@@ -915,6 +915,27 @@
               "children": []
             }
           ]
+        }
+      ]
+    },
+    {
+      "filename": "particle-trajectory-gravity.md",
+      "path": "notes/particle-trajectory-gravity.md",
+      "title": "Trajectory of a Particle in a Uniform Gravitational Field",
+      "summary": "This note explores the core principles of Trajectory of a Particle in a Uniform Gravitational Field, delving into its mathematical foundations and physical consequences.",
+      "tags": [
+        "physics"
+      ],
+      "complexity": "advanced",
+      "date": "2026-02-13",
+      "topic_count": 1,
+      "max_depth": 1,
+      "hierarchy": [
+        {
+          "title": "Trajectory of a Particle in a Uniform Gravitational Field",
+          "level": 1,
+          "line": 8,
+          "children": []
         }
       ]
     },
