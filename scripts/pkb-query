@@ -66,15 +66,7 @@ case "$CMD" in
             exit 1
         fi
         echo "🔍 Topics containing '$ARG':"
-        jq -r --arg query "$ARG" '
-        def flatten_topics(path; file):
-            if .children and (.children | length) > 0 then
-                (.children[] | flatten_topics(path + " > " + .title; file)),
-                {file: file, path: (path + " > " + .title), line: .line, title: .title}
-            else
-                {file: file, path: (path + " > " + .title), line: .line, title: .title}
-            end;
-        
+        jq -r --arg query "$ARG" "$JQ_FLATTEN_FILTER"'
         .files[] | 
         .hierarchy[] as $topic |
         flatten_topics(.title; .path) |

@@ -2,8 +2,7 @@
 # pkb-index: Generate comprehensive topic index from all markdown notes
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJ_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-NOTES_DIR="$PROJ_ROOT/notes"
+source "$SCRIPT_DIR/pkb-common.sh"
 INDEX_JSON="$PROJ_ROOT/topic_index.json"
 INDEX_MD="$PROJ_ROOT/TOPIC_INDEX.md"
 INDEX_GRAPH_MD="$PROJ_ROOT/KNOWLEDGE_GRAPH.md"
@@ -19,17 +18,6 @@ echo "Physics Knowledge Base - Topic Index Generator"
 echo "=================================================="
 echo "Scanning: $NOTES_DIR"
 echo ""
-
-# Function to extract YAML metadata
-extract_yaml_field() {
-    local file="$1"
-    local field="$2"
-    
-    awk '/^---$/{if(++c==2)exit;next}c==1' "$file" | \
-    grep "^${field}:" | \
-    sed "s/^${field}:[[:space:]]*//" | \
-    sed 's/^["'\'']//' | sed 's/["'\'']$//'
-}
 
 # Function to extract tags as JSON array
 extract_tags() {
@@ -62,21 +50,6 @@ extract_headings_raw() {
         
         echo "$level|$line_num|$title"
     done
-}
-
-# Function to extract summary (first paragraph after title or Summary section)
-extract_summary() {
-    local file="$1"
-    # Try to find 'Summary: ...' or content after '# Summary'
-    local summary=$(grep -m 1 "^Summary: " "$file" | sed 's/^Summary: //')
-    if [ -z "$summary" ]; then
-        summary=$(sed -n '/^# Summary/,/^##/p' "$file" | grep -vE "^(# Summary|##)" | head -n 3 | tr '\n' ' ' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
-    fi
-    # If still empty, just take the first few lines of content after YAML
-    if [ -z "$summary" ]; then
-        summary=$(awk '/^---$/{if(++c==2)p=1;next} p && !/^#/ && NF {print; exit}' "$file" | head -n 1)
-    fi
-    echo "$summary" | sed 's/"/\\"/g' | sed "s/'/\\'/g"
 }
 
 # Initialize JSON

@@ -124,13 +124,8 @@ fi
 TITLE=$(echo "$OUTLINE" | grep "^# " | head -1 | sed 's/# //')
 [ -z "$TITLE" ] && TITLE="$TOPIC"
 
-cat <<EOF > "$OUTPUT_FILE"
----
-title: "$TITLE"
-tags: [physics]
-date: $(date +%Y-%m-%d)
-complexity: advanced
----
+generate_yaml_header "$TITLE" > "$OUTPUT_FILE"
+cat <<EOF >> "$OUTPUT_FILE"
 
 # $TITLE
 

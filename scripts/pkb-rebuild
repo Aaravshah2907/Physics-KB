@@ -10,25 +10,13 @@ if [ ! -d "$NOTES_DIR" ] || [ -z "$(ls -A "$NOTES_DIR")" ]; then
 fi
 
 FILE_ARG="$1"
+TARGET_FILE_NAME=$(resolve_target_file "$FILE_ARG" "📂 Select a note to rebuild:")
 
-# If no file provided, use fzf to select one (filenames only)
-if [ -z "$FILE_ARG" ]; then
-    echo "📂 Select a note to rebuild..."
-    SELECTED_NAME=$(find "$NOTES_DIR" -maxdepth 1 -name "*.md" -exec basename {} \; | fzf --height 40% --layout=reverse --border --preview "grep -E '^#+' $NOTES_DIR/{} | bat --color=always --style=plain --language markdown")
-    
-    if [ -z "$SELECTED_NAME" ]; then
-        echo "No file selected."
-        exit 0
-    fi
-    TARGET_FILE="$NOTES_DIR/$SELECTED_NAME"
-else
-    if [[ "$FILE_ARG" == *.md ]]; then
-        TARGET_FILE="$NOTES_DIR/$FILE_ARG"
-    else
-        CLEAN_NAME=$(sanitize_filename "$FILE_ARG")
-        TARGET_FILE="$NOTES_DIR/$CLEAN_NAME.md"
-    fi
+if [ -z "$TARGET_FILE_NAME" ]; then
+    exit 0
 fi
+
+TARGET_FILE="$NOTES_DIR/$TARGET_FILE_NAME"
 
 if [ ! -f "$TARGET_FILE" ]; then
     echo "❌ Error: File not found at $TARGET_FILE"

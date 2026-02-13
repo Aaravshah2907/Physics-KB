@@ -36,8 +36,8 @@ view_topic() {
     local line="$2"
     local title="$3"
     
-    echo -e "\n\033[1;34m📖 Viewing: $title\033[0m"
-    echo -e "\033[0;36m   File: $file (line $line)\033[0m\n"
+    echo -e "\n${BLUE}📖 Viewing: $title${RESET}"
+    echo -e "${CYAN}   File: $file (line $line)${RESET}\n"
     
     # Use bat with line highlighting
     bat --color=always \
@@ -49,19 +49,11 @@ view_topic() {
 
 # Browse Mode (No Query) - Show all topics hierarchically
 if [ -z "$QUERY" ]; then
-    echo -e "\033[1;36m📚 Browse Physics KB Topics\033[0m"
+    echo -e "${CYAN}📚 Browse Physics KB Topics${RESET}"
     echo ""
     
     # Build searchable list: "File > Topic Path (line X)"
-    TOPICS=$(jq -r '
-    def flatten_topics(path; file):
-        if .children and (.children | length) > 0 then
-            (.children[] | flatten_topics(path + " > " + .title; file)),
-            {file: file, path: (path + " > " + .title), line: .line, title: .title}
-        else
-            {file: file, path: (path + " > " + .title), line: .line, title: .title}
-        end;
-    
+    TOPICS=$(jq -r "$JQ_FLATTEN_FILTER"'
     .files[] | 
     .hierarchy[] as $topic |
     flatten_topics(.title; .path) |
@@ -88,19 +80,11 @@ if [ -z "$QUERY" ]; then
 fi
 
 # Search Mode - Find topics matching query
-echo -e "\033[1;36m🔍 Searching for: '$QUERY'\033[0m"
+echo -e "${CYAN}🔍 Searching for: '$QUERY'${RESET}"
 echo ""
 
 # Search in topic titles and file content
-MATCHING_TOPICS=$(jq -r --arg query "$QUERY" '
-def flatten_topics(path; file):
-    if .children and (.children | length) > 0 then
-        (.children[] | flatten_topics(path + " > " + .title; file)),
-        {file: file, path: (path + " > " + .title), line: .line, title: .title}
-    else
-        {file: file, path: (path + " > " + .title), line: .line, title: .title}
-    end;
-
+MATCHING_TOPICS=$(jq -r --arg query "$QUERY" "$JQ_FLATTEN_FILTER"'
 .files[] | 
 .hierarchy[] as $topic |
 flatten_topics(.title; .path) |
@@ -143,7 +127,7 @@ if [ -z "$MATCHING_TOPICS" ]; then
         view_topic "$FILE" "$LINE" "$CONTENT"
     fi
 else
-    echo -e "\033[1;32m✓ Found matching topics\033[0m"
+    echo -e "${GREEN}✓ Found matching topics${RESET}"
     echo ""
     
     # Use fzf for selection

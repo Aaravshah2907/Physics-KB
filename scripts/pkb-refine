@@ -33,12 +33,9 @@ if [ -z "$FILE_ARG" ] || [ -z "$INSTRUCTION" ]; then
 fi
 
 # Resolve file path
-if [[ "$FILE_ARG" == *.md ]]; then
-    TARGET_FILE="$NOTES_DIR/$FILE_ARG"
-else
-    CLEAN_NAME=$(sanitize_filename "$FILE_ARG")
-    TARGET_FILE="$NOTES_DIR/$CLEAN_NAME.md"
-fi
+TARGET_FILE_NAME=$(resolve_target_file "$FILE_ARG" "🔧 Select a note to refine:")
+[ -z "$TARGET_FILE_NAME" ] && exit 0
+TARGET_FILE="$NOTES_DIR/$TARGET_FILE_NAME"
 
 if [ ! -f "$TARGET_FILE" ]; then
     echo "❌ Error: File not found at $TARGET_FILE"

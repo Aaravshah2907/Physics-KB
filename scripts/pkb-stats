@@ -4,15 +4,15 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/pkb-common.sh"
 
-echo -e "\033[1;36m📊 PHYSICS-KB DASHBOARD\033[0m"
-echo -e "\033[1;36m━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "${CYAN}📊 PHYSICS-KB DASHBOARD${RESET}"
+echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━${RESET}"
 
 # 1. General Metrics
 TOTAL_NOTES=$(find "$NOTES_DIR" -maxdepth 1 -name "*.md" | wc -l | tr -d ' ')
 TOTAL_IMAGES=$(find "$ASSETS_IMG_DIR" -type f | wc -l | tr -d ' ' 2>/dev/null || echo 0)
 PENDING_TOPICS=$(wc -l < "$TODO_FILE" | tr -d ' ' 2>/dev/null || echo 0)
 
-echo -e "\033[1m📁 Library Size:\033[0m"
+echo -e "${BOLD}📁 Library Size:${RESET}"
 printf "   %-20s %d\n" "Total Notes:" "$TOTAL_NOTES"
 printf "   %-20s %d\n" "Local Images:" "$TOTAL_IMAGES"
 printf "   %-20s %d\n" "Pending Topics:" "$PENDING_TOPICS"
@@ -21,14 +21,14 @@ echo ""
 # 2. Complexity Distribution
 COMPLEXITIES=$(grep "^complexity:" "$NOTES_DIR"/*.md 2>/dev/null | cut -d':' -f3 | tr -d ' ' | tr '[:upper:]' '[:lower:]' | sort | uniq -c)
 
-echo -e "\033[1m🚀 Complexity Distribution:\033[0m"
+echo -e "${BOLD}🚀 Complexity Distribution:${RESET}"
 while read -r LINE; do
     COUNT=$(echo "$LINE" | awk '{print $1}')
     LEVEL=$(echo "$LINE" | awk '{print $2}')
     PERCENT=$(( 100 * COUNT / TOTAL_NOTES ))
     printf "   %-15s %3d (%d%%) [" "$LEVEL" "$COUNT" "$PERCENT"
     BAR_LEN=$(( PERCENT / 5 ))
-    printf "\033[32m%${BAR_LEN}s\033[0m" | tr ' ' '━'
+    printf "${GREEN}%${BAR_LEN}s${RESET}" | tr ' ' '━'
     REMAIN=$(( 20 - BAR_LEN ))
     printf "%${REMAIN}s" | tr ' ' ' '
     echo "]"
@@ -36,7 +36,7 @@ done <<< "$COMPLEXITIES"
 echo ""
 
 # 3. Knowledge Health & Decay
-echo -e "\033[1m📉 Knowledge Health:\033[0m"
+echo -e "${BOLD}📉 Knowledge Health:${RESET}"
 
 # Stale Notes (Modified > 90 days ago)
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -44,7 +44,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 else
     STALE_COUNT=$(find "$NOTES_DIR" -name "*.md" -mtime +90 | wc -l)
 fi
-printf "   %-25s \033[33m%d\033[0m\n" "Stale Notes (>3 months):" "$STALE_COUNT"
+printf "   %-25s ${YELLOW}%d${RESET}\n" "Stale Notes (>3 months):" "$STALE_COUNT"
 
 # Orphaned Notes (Zero inbound links)
 ALL_BASENAMES=$(find "$NOTES_DIR" -maxdepth 1 -name "*.md" -exec basename {} .md \;)
@@ -56,11 +56,11 @@ for BASE in $ALL_BASENAMES; do
         ORPHAN_COUNT=$((ORPHAN_COUNT + 1))
     fi
 done
-printf "   %-25s \033[31m%d\033[0m\n" "Orphaned Notes:" "$ORPHAN_COUNT"
+printf "   %-25s ${RED}%d${RESET}\n" "Orphaned Notes:" "$ORPHAN_COUNT"
 echo ""
 
 # 4. Top Backlinked "Power Nodes"
-echo -e "\033[1m🔗 Top Power Nodes (Most Backlinked):\033[0m"
+echo -e "${BOLD}🔗 Top Power Nodes (Most Backlinked):${RESET}"
 BACKLINK_COUNTS=$(grep -rEoh "\[\[[^]]+\]\]" "$NOTES_DIR" | sed -E 's/\[\[([^]|#]+).*\]\]/\1/' | sort | uniq -c | sort -rn | head -5)
 
 while read -r LINE; do
@@ -70,4 +70,4 @@ while read -r LINE; do
 done <<< "$BACKLINK_COUNTS"
 echo ""
 
-echo -e "\033[1;32m✨ Knowledge Base analysis complete!\033[0m"
+echo -e "${GREEN}✨ Knowledge Base analysis complete!${RESET}"

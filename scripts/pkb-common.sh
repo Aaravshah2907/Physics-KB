@@ -103,6 +103,16 @@ draw_task_progress() {
     printf "] Step %d/%d" "$current" "$total" >&2
 }
 
+# --- UI Constants ---
+export BOLD='\033[1m'
+export RESET='\033[0m'
+export BLUE='\033[1;34m'
+export CYAN='\033[1;36m'
+export GREEN='\033[1;32m'
+export YELLOW='\033[1;33m'
+export RED='\033[1;31m'
+export PURPLE='\033[1;35m'
+
 # Spinner for long running tasks
 show_spinner() {
     local pid=$1
@@ -249,6 +259,54 @@ call_llm_light() {
 
 # --- Data Helpers ---
 
+# JQ Filter for flattening the project hierarchy
+export JQ_FLATTEN_FILTER='def flatten_topics(path; file): if .children and (.children | length) > 0 then (.children[] | flatten_topics(path + " > " + .title; file)), {file: file, path: (path + " > " + .title), line: .line, title: .title} else {file: file, path: (path + " > " + .title), line: .line, title: .title} end;'
+
+extract_note_title() {
+    local file="$1"
+    local title=$(extract_yaml_field "$file" "title")
+    if [ -z "$title" ]; then
+        # Try to find H1
+        title=$(grep -m 1 "^# " "$file" | sed 's/^# //')
+    fi
+    echo "${title:-$(basename "$file" .md)}"
+}
+
+generate_yaml_header() {
+    local title="$1"
+    local tags="${2:-[physics]}"
+    local complexity="${3:-advanced}"
+    cat <<EOF
+---
+title: "$title"
+tags: $tags
+date: $(date +%Y-%m-%d)
+complexity: $complexity
+---
+EOF
+}
+
+extract_yaml_field() {
+    local file="$1"
+    local field="$2"
+    awk '/^---$/{if(++c==2)exit;next}c==1' "$file" | \
+    grep "^${field}:" | \
+    sed "s/^${field}:[[:space:]]*//" | \
+    sed 's/^["'\'']//' | sed 's/["'\'']$//'
+}
+
+extract_summary() {
+    local file="$1"
+    local summary=$(grep -m 1 "^Summary: " "$file" | sed 's/^Summary: //')
+    if [ -z "$summary" ]; then
+        summary=$(sed -n '/^# Summary/,/^##/p' "$file" | grep -vE "^(# Summary|##)" | head -n 3 | tr '\n' ' ' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+    fi
+    if [ -z "$summary" ]; then
+        summary=$(awk '/^---$/{if(++c==2)p=1;next} p && !/^#/ && NF {print; exit}' "$file" | head -n 1)
+    fi
+    echo "$summary" | sed 's/"/\\"/g' | sed "s/'/\\'/g"
+}
+
 get_project_context() {
     local CONTEXT=""
     # Use topic_index.json if available to provide high-level context
@@ -303,6 +361,33 @@ sync_backlinks() {
 }
 
 # --- File & Content Systems ---
+
+ensure_notes_dir() {
+    if [ ! -d "$NOTES_DIR" ]; then
+        mkdir -p "$NOTES_DIR"
+    fi
+}
+
+# Helper to select a file using fzf or resolve from argument
+resolve_target_file() {
+    local arg="$1"
+    local prompt="${2:-Select a note:}"
+    
+    if [ -z "$arg" ]; then
+        if command -v fzf &> /dev/null; then
+            find "$NOTES_DIR" -maxdepth 1 -name "*.md" -exec basename {} \; | fzf --height 40% --layout=reverse --border --prompt="$prompt " --preview "grep -E '^#+' $NOTES_DIR/{} | bat --color=always --style=plain --language markdown"
+        else
+            echo "❌ Error: fzf not found. Please provide a filename." >&2
+            return 1
+        fi
+    else
+        if [[ "$arg" == *.md ]]; then
+            echo "$arg"
+        else
+            sanitize_filename "$arg" | sed 's/$/.md/'
+        fi
+    fi
+}
 
 sanitize_filename() {
     local input="$1"

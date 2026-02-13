@@ -9,8 +9,8 @@ if [ ! -d "$SIMULATIONS_DIR" ]; then
     exit 1
 fi
 
-echo -e "\033[1;35m🧪 Physics KB - Simulation Lab\033[0m"
-echo -e "\033[1;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "${PURPLE}🧪 Physics KB - Simulation Lab${RESET}"
+echo -e "${PURPLE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}"
 
 # Ensure dependencies for running simulations exist
 check_deps() {
@@ -45,7 +45,7 @@ if [ -n "$SELECTED" ]; then
     FILE_PATH="$SIMULATIONS_DIR/$SELECTED"
     EXT="${SELECTED##*.}"
     
-    echo -e "\n🔥 Running: \033[1;32m$SELECTED\033[0m..."
+    echo -e "\n🔥 Running: ${GREEN}$SELECTED${RESET}..."
     
     case $EXT in
         py)
