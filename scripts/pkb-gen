@@ -7,6 +7,7 @@ source "$SCRIPT_DIR/pkb-common.sh"
 # Parse optional flags
 WITH_CODE=false
 SKIP_CHECK=false
+TAGS="[physics]"
 TOPIC=""
 
 while [[ $# -gt 0 ]]; do
@@ -19,6 +20,10 @@ while [[ $# -gt 0 ]]; do
             SKIP_CHECK=true
             shift
             ;;
+        --tags)
+            TAGS="$2"
+            shift 2
+            ;;
         *)
             TOPIC="$1"
             shift
@@ -27,9 +32,10 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [ -z "$TOPIC" ]; then
-    echo "Usage: pkb-gen <Topic Name> [--with-code] [--skip-check]"
+    echo "Usage: pkb-gen <Topic Name> [--with-code] [--skip-check] [--tags \"[tag1, tag2]\"]"
     echo "  --with-code: Generate simulation code for dynamic systems"
     echo "  --skip-check: Skip redundancy/similarity analysis"
+    echo "  --tags: Custom tags (default: [physics])"
     exit 1
 fi
 
@@ -39,14 +45,17 @@ if [ "$SKIP_CHECK" = false ]; then
     EXISTING_FILES=$(find "$NOTES_DIR" -name "*.md" -maxdepth 1 -exec basename {} \;)
 
     if [ -n "$EXISTING_FILES" ]; then
-        CHECK_PROMPT="Given these existing physics notes:
+        CHECK_PROMPT=$(cat <<EOF
+Given these existing physics notes:
 $(get_project_context)
 
 Evaluate the redundancy of the new topic '$TOPIC'.
 If it is highly related to an existing note (similarity score 1-100), output: FILENAME|SCORE.
 If it deserves its own note, output: NONE|0.
 Example: 'maxwells-equations.md|95'
-Use a high threshold for score. No extra text."
+Use a high threshold for score. No extra text.
+EOF
+)
 
         MATCH_RAW=$(call_llm_light "$CHECK_PROMPT" | grep -iv "NONE" | grep -oE "[a-z0-9'-]+\.md\|[0-9]+")
         
@@ -94,13 +103,16 @@ fi
 
 # Phase 1: The Blueprint
 OUTLINE_TASK=$(cat "$PROMPTS_DIR/gen_outline.txt" | sed "s/\${TOPIC}/$TOPIC/g")
-OUTLINE_PROMPT="SYSTEM INSTRUCTIONS:
+OUTLINE_PROMPT=$(cat <<EOF
+SYSTEM INSTRUCTIONS:
 $SYSTEM_PROMPT
 CONTEXT:
 $KNOWLEDGE_CONTEXT
 $TOPIC_CONTEXT
 
-$OUTLINE_TASK"
+$OUTLINE_TASK
+EOF
+)
 
 OUTLINE=$(call_gemini "$OUTLINE_PROMPT")
 
@@ -113,7 +125,7 @@ fi
 TITLE=$(echo "$OUTLINE" | grep "^# " | head -1 | sed 's/# //')
 [ -z "$TITLE" ] && TITLE="$TOPIC"
 
-generate_yaml_header "$TITLE" > "$OUTPUT_FILE"
+generate_yaml_header "$TITLE" "$TAGS" > "$OUTPUT_FILE"
 cat <<EOF >> "$OUTPUT_FILE"
 
 # $TITLE
@@ -142,7 +154,8 @@ for SECTION_TITLE in $SECTIONS; do
         sed "s/\${SECTION_TITLE}/$SECTION_TITLE/g" | \
         sed "s/\${CODE_INSTRUCTION}/$CODE_INST/g")
     
-    SECTION_PROMPT="SYSTEM INSTRUCTIONS:
+    SECTION_PROMPT=$(cat <<EOF
+SYSTEM INSTRUCTIONS:
 $SYSTEM_PROMPT
 CONTEXT:
 Topic: $TITLE
@@ -150,7 +163,9 @@ Current Section: '$SECTION_TITLE'
 Full Outline:
 $OUTLINE
 
-$SECTION_TASK"
+$SECTION_TASK
+EOF
+)
     
     SECTION_CONTENT=$(call_gemini "$SECTION_PROMPT")
     echo "" >> "$OUTPUT_FILE"
@@ -164,7 +179,6 @@ if [ -s "$OUTPUT_FILE" ]; then
     draw_task_progress 4 5 "Indexing & polishing"
     
     # Use pkb-refine to smooth transitions (light pass)
-    # create a temporary instruction to smooth connections between sections
     "$PKB_SCRIPTS_DIR/pkb-refine" "$OUTPUT_FILE" "Ensure smooth transitions between the separately generated sections. Remove any redundant intro/outro text from the sub-sections."
     
     draw_task_progress 5 5 "Assets & Links"

@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "notes/eulerlagrange-equations-for-constrained-systems.md",
+                "file": "notes/virtual-work.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "eulerlagrange-equations-for-constrained-systems"
+              "title": "virtual-work"
             }
           }
         ]
@@ -185,6 +185,9 @@
   },
   "active": "b03f54b9dca1754f",
   "lastOpenFiles": [
+    "notes/trajectory-under-gravity.md",
+    "notes/virtual-work.md",
+    "notes/eulerlagrange-equations-for-constrained-systems.md",
     "scripts/pkb-export",
     "scripts/pkb-link-fixer",
     "scripts/pkb-verify",
@@ -196,16 +199,13 @@
     "exports",
     "prompts",
     "notes/eulerlagrange-equations-for-unconstrained-systems.md",
-    "notes/eulerlagrange-equations-for-constrained-systems.md",
     "notes/maxwell's-equations.md",
     "notes/gauss-law.md",
     "notes/four-vectors.md",
     "notes/electromagnetic-waves.md",
     "notes/classical-mechanics.md",
     "notes/physical-constants.md",
-    "notes/trajectory-under-gravity.md",
     "README.md",
-    "simulations",
     "notes/hamiltonian-mechanics.md",
     "SCRIPTS_ROADMAP.md",
     "GEMINI.md",

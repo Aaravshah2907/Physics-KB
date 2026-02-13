@@ -116,3 +116,6 @@ The interaction of charged particles with fields connects classical mechanics wi
 
 ### Related Notes
 - [[Trajectory of a Particle Under Gravity]]
+
+### Related Notes
+- [[Projectile Motion under Gravity]]

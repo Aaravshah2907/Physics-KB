@@ -1,8 +1,8 @@
 # Physics Knowledge Base - Topic Index
 
-**Generated:** 2026-02-13 22:45:07
-**Total Files:** 11
-**Total Topics:** 158
+**Generated:** 2026-02-13 22:47:31
+**Total Files:** 12
+**Total Topics:** 169
 
 ---
 
@@ -17,8 +17,9 @@
 7. [Hamiltonian Mechanics](#hamiltonian-mechanics) (13 topics)
 8. [Maxwell's Equations](#maxwell's-equations) (16 topics)
 9. [Physical Constants](#physical-constants) (18 topics)
-10. [Projectile Motion under Gravity](#projectile-motion) (1 topics)
+10. [Projectile Motion under Gravity](#projectile-motion) (11 topics)
 11. [Trajectory of a Particle Under Gravity](#trajectory-under-gravity) (13 topics)
+12. [Virtual Work](#virtual-work) (1 topics)
 
 ---
 
@@ -297,13 +298,23 @@
 **File:** `notes/projectile-motion.md`  
 **Complexity:** advanced  
 **Date:** 2026-02-13  
-**Topics:** 1  
-**Max Depth:** 1  
+**Topics:** 11  
+**Max Depth:** 4  
 **Tags:** `physics`  
 
 ### Topic Hierarchy
 
 - **Projectile Motion under Gravity** (L1, line 8)
+  - **Summary** (L2, line 13)
+    - **The Idealized Model** (L3, line 17)
+    - **Real-World Dynamics and Drag** (L3, line 31)
+  - **Fundamental Principles and Assumptions** (L2, line 42)
+    - **The Ideal Projectile Model** (L3, line 46)
+    - **Independence of Horizontal and Vertical Motions** (L3, line 55)
+      - **Vector Decomposition** (L4, line 64)
+      - **Simulation: Independence of Motion** (L4, line 84)
+    - **Inertial Reference Frames** (L3, line 138)
+    - **References** (L3, line 145)
 
 ---
 
@@ -334,17 +345,32 @@
 
 ---
 
+## Virtual Work
+
+**File:** `notes/virtual-work.md`  
+**Complexity:** advanced  
+**Date:** 2026-02-13  
+**Topics:** 1  
+**Max Depth:** 1  
+**Tags:** `physics`  
+
+### Topic Hierarchy
+
+- **Virtual Work** (L1, line 8)
+
+---
+
 ## Statistics
 
 ### Topics by Complexity
 
-- **Advanced:** 8 files
+- **Advanced:** 9 files
 - **Basic:** 1 files
 - **Intermediate:** 2 files
 
 ### Topics by Tag
 
-- **physics:** 11 files
+- **physics:** 12 files
 - **electromagnetism:** 3 files
 - **classical-mechanics:** 3 files
 - **theoretical-physics:** 2 files

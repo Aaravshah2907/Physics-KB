@@ -117,6 +117,10 @@ COMMANDS:
   deepest            Show files with deepest hierarchies
   help               Show this help message
 
+STANDARD TAGS:
+  physics, mechanics, electromagnetism, math, Relativity, 
+  theoretical-physics, analytical-mechanics, kinematics.
+
 EXAMPLES:
   pkb-query stats
   pkb-query tag electromagnetism

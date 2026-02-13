@@ -472,9 +472,9 @@ extract_simulations() {
             print_line=0 # Stop printing to markdown
             
             # Print replacement link to markdown immediately
-            print "\n> [!code] **Simulation Code**" 
-            print "> The source code for this simulation is available in: `simulations/" fname "`"
-            print "> ```" lang
+            print "\n> [!theory] **Interactive Simulation**" 
+            print "> A computational model for this system has been generated: `simulations/" fname "`"
+            print "> To run this simulation, use the `pkb-lab` tool or execute it directly with the appropriate interpreter."
             next
         }
         
@@ -483,7 +483,6 @@ extract_simulations() {
                  # End of simulation block
                  in_block=0
                  print_line=1
-                 print "```" # Close the markdown code block
                  print "      💾 Saved simulation: " current_file > "/dev/stderr"
                  next
              }
@@ -493,7 +492,7 @@ extract_simulations() {
             if (in_block) {
                 # content of the simulation function
                 print $0 >> current_file
-                print $0 # Also print to markdown to keep the code visible
+                # DO NOT print to markdown (Requirement: DO NOT PUT THE CODE IN NOTES FILE)
             } else {
                 print $0
             }

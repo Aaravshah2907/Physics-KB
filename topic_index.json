@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-02-13T17:15:06Z",
-  "total_files": 11,
-  "total_topics": 158,
+  "generated_at": "2026-02-13T17:17:30Z",
+  "total_files": 12,
+  "total_topics": 169,
   "files": [
     {
       "filename": "classical-mechanics.md",
@@ -1071,14 +1071,78 @@
       ],
       "complexity": "advanced",
       "date": "2026-02-13",
-      "topic_count": 1,
-      "max_depth": 1,
+      "topic_count": 11,
+      "max_depth": 4,
       "hierarchy": [
         {
           "title": "Projectile Motion under Gravity",
           "level": 1,
           "line": 8,
-          "children": []
+          "children": [
+            {
+              "title": "Summary",
+              "level": 2,
+              "line": 13,
+              "children": [
+                {
+                  "title": "The Idealized Model",
+                  "level": 3,
+                  "line": 17,
+                  "children": []
+                },
+                {
+                  "title": "Real-World Dynamics and Drag",
+                  "level": 3,
+                  "line": 31,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "Fundamental Principles and Assumptions",
+              "level": 2,
+              "line": 42,
+              "children": [
+                {
+                  "title": "The Ideal Projectile Model",
+                  "level": 3,
+                  "line": 46,
+                  "children": []
+                },
+                {
+                  "title": "Independence of Horizontal and Vertical Motions",
+                  "level": 3,
+                  "line": 55,
+                  "children": [
+                    {
+                      "title": "Vector Decomposition",
+                      "level": 4,
+                      "line": 64,
+                      "children": []
+                    },
+                    {
+                      "title": "Simulation: Independence of Motion",
+                      "level": 4,
+                      "line": 84,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "title": "Inertial Reference Frames",
+                  "level": 3,
+                  "line": 138,
+                  "children": []
+                },
+                {
+                  "title": "References",
+                  "level": 3,
+                  "line": 145,
+                  "children": []
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -1180,6 +1244,27 @@
               "children": []
             }
           ]
+        }
+      ]
+    },
+    {
+      "filename": "virtual-work.md",
+      "path": "notes/virtual-work.md",
+      "title": "Virtual Work",
+      "summary": "This note explores the core principles of Virtual Work, delving into its mathematical foundations and physical consequences.",
+      "tags": [
+        "physics"
+      ],
+      "complexity": "advanced",
+      "date": "2026-02-13",
+      "topic_count": 1,
+      "max_depth": 1,
+      "hierarchy": [
+        {
+          "title": "Virtual Work",
+          "level": 1,
+          "line": 8,
+          "children": []
         }
       ]
     }
