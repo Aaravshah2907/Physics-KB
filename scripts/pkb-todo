@@ -30,9 +30,12 @@ while read -r TOPIC; do
     NORM_TOPIC=$(sanitize_filename "$TOPIC" | tr -d '-')
     
     if ! echo "$EXISTING_NORM" | grep -qx "$NORM_TOPIC"; then
-        # Find the first file that contains this link to use as context
-        SOURCE=$(grep -lF "[[$TOPIC]]" "$NOTES_DIR"/*.md | head -1 | xargs basename 2>/dev/null | sed 's/\.md//')
-        MISSING_WITH_CONTEXT+="$TOPIC|$SOURCE"$'\n'
+        # Find all files linking to this topic
+        MATCHES=$(grep -lF "[[$TOPIC]]" "$NOTES_DIR"/*.md)
+        COUNT=$(echo "$MATCHES" | wc -l | tr -d ' ')
+        SOURCE=$(echo "$MATCHES" | head -1 | xargs basename 2>/dev/null | sed 's/\.md//')
+        
+        MISSING_WITH_CONTEXT+="$TOPIC|$SOURCE|$COUNT"$'\n'
     fi
 done <<< "$RAW_LINKS"
 
@@ -56,11 +59,44 @@ if [ ! -s "$TODO_FILE" ]; then
 fi
 
 if command -v fzf &> /dev/null; then
-    SELECTED=$(fzf --height 50% --layout=reverse --border --prompt="Select a topic to generate: " --header="Missing Topics (Quotes/References excluded, press ESC to cancel)" < "$TODO_FILE")
+    # Show Topic and Link Count in FZF
+    SELECTED_LINE=$(awk -F'|' '{printf "%-40s (%s links) -> Source: %s\n", $1, $3, $2}' "$TODO_FILE" | \
+        fzf --height 50% --layout=reverse --border \
+            --prompt="Select a topic to handle: " \
+            --header="Missing Topics (Select to Generate or Refine)" \
+            --preview "echo {}" --preview-window=down:1)
     
-    if [ -n "$SELECTED" ]; then
-        echo "🚀 Triggering generation for: $SELECTED"
-        "$PKB_SCRIPTS_DIR/pkb-gen" "$SELECTED"
+    if [ -n "$SELECTED_LINE" ]; then
+        # Extract topic: everything before the first " ("
+        TOPIC=$(echo "$SELECTED_LINE" | sed 's/ ([0-9]* links).*//' | sed 's/[[:space:]]*$//')
+        
+        # We need to look up the source file and count correctly from the file based on topic
+        # Because we formatted the output, extraction is tricky. Let's direct grep the TODO_FILE.
+        
+        # Use awk for exact field matching to avoid partial matches
+        DATA=$(awk -F'|' -v t="$TOPIC" '$1 == t {print $0; exit}' "$TODO_FILE")
+        SOURCE=$(echo "$DATA" | cut -d'|' -f2)
+        COUNT=$(echo "$DATA" | cut -d'|' -f3)
+
+        
+        if [ "$COUNT" -eq 1 ]; then
+            echo ""
+            echo "💡 Topic '$TOPIC' is only linked from '$SOURCE'."
+            echo "Do you want to:"
+            echo "  [G]enerate a new standalone note (Default)"
+            echo "  [R]efine '$SOURCE' to include this topic"
+            read -p "Select [G/r]: " -n 1 -r CHOICE
+            echo ""
+            
+            if [[ "$CHOICE" =~ ^[Rr]$ ]]; then
+                "$PKB_SCRIPTS_DIR/pkb-refine" "$SOURCE" "Add a section explaining '$TOPIC' in detail."
+                exit 0
+            fi
+        fi
+        
+        # Default / Multiple Links -> Generate New
+        echo "🚀 Triggering generation for: $TOPIC"
+        "$PKB_SCRIPTS_DIR/pkb-gen" "$TOPIC" --skip-check
     fi
 else
     echo "fzf not found. Install it for interactive selection."

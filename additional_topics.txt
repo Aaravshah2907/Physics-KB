@@ -1,7 +1,7 @@
-Divergence Theorem|gauss-law
-Lagrangian mechanics|hamiltonian-mechanics
-Newtonian Mechanics|eulerlagrange-equations-for-unconstrained-systems
-quantum mechanics|hamiltonian-mechanics
-quantum-mechanics|hamiltonian-mechanics
-statistical mechanics|hamiltonian-mechanics
-Virtual Work|eulerlagrange-equations-for-constrained-systems
+Divergence Theorem|gauss-law|1
+Lagrangian mechanics|hamiltonian-mechanics|1
+Newtonian Mechanics|eulerlagrange-equations-for-unconstrained-systems|1
+quantum mechanics|hamiltonian-mechanics|1
+quantum-mechanics|hamiltonian-mechanics|1
+statistical mechanics|hamiltonian-mechanics|1
+Virtual Work|eulerlagrange-equations-for-constrained-systems|1

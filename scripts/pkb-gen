@@ -6,12 +6,17 @@ source "$SCRIPT_DIR/pkb-common.sh"
 
 # Parse optional flags
 WITH_CODE=false
+SKIP_CHECK=false
 TOPIC=""
 
 while [[ $# -gt 0 ]]; do
     case $1 in
         --with-code)
             WITH_CODE=true
+            shift
+            ;;
+        --skip-check)
+            SKIP_CHECK=true
             shift
             ;;
         *)
@@ -22,17 +27,19 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [ -z "$TOPIC" ]; then
-    echo "Usage: pkb-gen <Topic Name> [--with-code]"
+    echo "Usage: pkb-gen <Topic Name> [--with-code] [--skip-check]"
     echo "  --with-code: Generate simulation code for dynamic systems"
+    echo "  --skip-check: Skip redundancy/similarity analysis"
     exit 1
 fi
 
-# Step 1: Redundancy Check
-draw_task_progress 1 4 "Redundancy check"
-EXISTING_FILES=$(find "$NOTES_DIR" -name "*.md" -maxdepth 1 -exec basename {} \;)
+# Step 1: Redundancy Check (Optional)
+if [ "$SKIP_CHECK" = false ]; then
+    draw_task_progress 1 4 "Redundancy check"
+    EXISTING_FILES=$(find "$NOTES_DIR" -name "*.md" -maxdepth 1 -exec basename {} \;)
 
-if [ -n "$EXISTING_FILES" ]; then
-    CHECK_PROMPT="Given these existing physics notes:
+    if [ -n "$EXISTING_FILES" ]; then
+        CHECK_PROMPT="Given these existing physics notes:
 [$EXISTING_FILES]
 
 Evaluate the redundancy of the new topic '$TOPIC'.
@@ -41,21 +48,25 @@ If it deserves its own note, output: NONE|0.
 Example: 'maxwells-equations.md|95'
 Use a high threshold for score. No extra text."
 
-    MATCH_RAW=$(call_gemini "$CHECK_PROMPT" | grep -iv "NONE" | grep -oE "[a-z0-9'-]+\.md\|[0-9]+")
-    
-    if [ -n "$MATCH_RAW" ]; then
-        MATCH_FILE=$(echo "$MATCH_RAW" | cut -d'|' -f1)
-        MATCH_SCORE=$(echo "$MATCH_RAW" | cut -d'|' -f2)
+        MATCH_RAW=$(call_gemini "$CHECK_PROMPT" | grep -iv "NONE" | grep -oE "[a-z0-9'-]+\.md\|[0-9]+")
         
-        if [ "$MATCH_SCORE" -ge 80 ]; then
-            printf "\r\033[K   💡 High similarity ($MATCH_SCORE%%). Re-routing to refine $MATCH_FILE...\n" >&2
-            cleanup_todo "$TOPIC"
-            "$PKB_SCRIPTS_DIR/pkb-refine" "$MATCH_FILE" "Incorporate a deep-dive section on '$TOPIC'."
-            exit $?
-        else
-            printf "\r\033[K   🔎 Low similarity ($MATCH_SCORE%%). Proceeding with new note.\n" >&2
+        if [ -n "$MATCH_RAW" ]; then
+            MATCH_FILE=$(echo "$MATCH_RAW" | cut -d'|' -f1)
+            MATCH_SCORE=$(echo "$MATCH_RAW" | cut -d'|' -f2)
+            
+            if [ "$MATCH_SCORE" -ge 80 ]; then
+                printf "\r\033[K   💡 High similarity ($MATCH_SCORE%%). Re-routing to refine $MATCH_FILE...\n" >&2
+                cleanup_todo "$TOPIC"
+                "$PKB_SCRIPTS_DIR/pkb-refine" "$MATCH_FILE" "Incorporate a deep-dive section on '$TOPIC'."
+                exit $?
+            else
+                printf "\r\033[K   🔎 Low similarity ($MATCH_SCORE%%). Proceeding with new note.\n" >&2
+            fi
         fi
     fi
+else
+    draw_task_progress 1 4 "Skipping check"
+    echo -e "\r\033[K   ⏩ Context provided. Redundancy check skipped." >&2
 fi
 
 # Step 2: Architecture

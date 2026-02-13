@@ -63,34 +63,83 @@ show_spinner() {
 }
 
 # --- Helper: Call Gemini with fallback and spinner ---
+# --- Helper: Call Gemini with robust retry and fallback ---
 call_gemini() {
     export NODE_NO_WARNINGS=1
+    local PROMPT_TEXT="$1"
     local FULL_PROMPT
-    FULL_PROMPT=$(printf "You are helpful assistant. If a requested image is not in the provided local context, you may use your search tools to find high-quality, direct image URLs ONLY from Wikipedia (upload.wikimedia.org). Ensure the URLs are direct links to the image files (png, svg, jpg).\n\n%s" "$1")
+    FULL_PROMPT=$(printf "You are helpful assistant. If a requested image is not in the provided local context, you may use your search tools to find high-quality, direct image URLs ONLY from Wikipedia (upload.wikimedia.org). Ensure the URLs are direct links to the image files (png, svg, jpg).\n\n%s" "$PROMPT_TEXT")
     
-    local ERR_OUT=$(mktemp)
+    local ERR_FILE=$(mktemp)
     local OUT_FILE=$(mktemp)
     
-    gemini "$FULL_PROMPT" > "$OUT_FILE" 2> "$ERR_OUT" &
-    local GEM_PID=$!
-    show_spinner "$GEM_PID"
-    wait "$GEM_PID"
-    local STATUS=$?
+    local MODELS=("default" "gemini-1.5-flash")
+    local MAX_RETRIES=3
     
-    if [ $STATUS -ne 0 ] && (grep -qi "429" "$ERR_OUT" || grep -qi "Too Many Requests" "$ERR_OUT"); then
-        printf "\r\033[K   ⚠️  Rate limit (429). Falling back to Flash..." >&2
-        gemini -m "gemini-1.5-flash" "$FULL_PROMPT" > "$OUT_FILE" 2>/dev/null &
-        local FALL_PID=$!
-        show_spinner "$FALL_PID"
-        wait "$FALL_PID"
-        STATUS=$?
-    elif [ $STATUS -ne 0 ]; then
-        cat "$ERR_OUT" >&2
-    fi
+    for MODEL in "${MODELS[@]}"; do
+        local CMD="gemini"
+        if [ "$MODEL" != "default" ]; then
+            CMD="gemini -m $MODEL"
+        fi
+        
+        local RETRY_DELAY=10
+        local ATTEMPT=1
+        
+        while [ $ATTEMPT -le $MAX_RETRIES ]; do
+            # Execute command with prompt
+            $CMD "$FULL_PROMPT" > "$OUT_FILE" 2> "$ERR_FILE" &
+            local PID=$!
+            
+            # Show spinner while waiting
+            local spinstr='|/-\'
+            while kill -0 $PID 2>/dev/null; do
+                local temp=${spinstr#?}
+                printf " \033[1;33m[%c]\033[0m " "$spinstr" >&2
+                local spinstr=$temp${spinstr%"$temp"}
+                sleep 0.1
+                printf "\b\b\b\b\b" >&2
+            done
+            printf "     \b\b\b\b\b" >&2
+            
+            wait $PID
+            local STATUS=$?
+            
+            # Check success
+            if [ $STATUS -eq 0 ]; then
+                cat "$OUT_FILE"
+                rm -f "$ERR_FILE" "$OUT_FILE"
+                return 0
+            fi
+            
+            # Check for Rate Limit to decide on retry
+            if grep -qiE "429|Too Many Requests|Quota exceeded" "$ERR_FILE"; then
+                if [ $ATTEMPT -lt $MAX_RETRIES ]; then
+                    printf "\r\033[K   ⚠️  Rate limit hit ($MODEL). Retrying in ${RETRY_DELAY}s (Attempt $ATTEMPT/$MAX_RETRIES)...\n" >&2
+                    sleep $RETRY_DELAY
+                    RETRY_DELAY=$((RETRY_DELAY * 2)) # Exponential backoff
+                    ATTEMPT=$((ATTEMPT + 1))
+                else
+                    printf "\r\033[K   ❌ Rate limit persists for $MODEL.\n" >&2
+                    break # Break retry loop to try next model
+                fi
+            else
+                # Non-retriable error
+                cat "$ERR_FILE" >&2
+                rm -f "$ERR_FILE" "$OUT_FILE"
+                return $STATUS
+            fi
+        done
+        
+        # If we are here, we failed retries for this model. Try fallback if available.
+        if [ "$MODEL" == "default" ]; then
+             printf "\r\033[K   🔄 Switching to fallback model: gemini-1.5-flash...\n" >&2
+        fi
+    done
     
-    cat "$OUT_FILE"
-    rm -f "$ERR_OUT" "$OUT_FILE"
-    return $STATUS
+    # All models failed
+    echo "❌ All attempts failed." >&2
+    rm -f "$ERR_FILE" "$OUT_FILE"
+    return 1
 }
 
 # --- Data Helpers ---
