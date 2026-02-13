@@ -1,0 +1,8 @@
+TASK:
+Identify 5-10 HIGH-VALUE semantic connections that are currently MISSING in the 'ExistingLinks' of the source notes.
+Focus on relationships where one concept provides the 'physical origin', 'mathematical foundation', or a 'direct consequence' of another.
+
+Output ONLY in this format, one per line:
+SOURCE_FILE|TARGET_FILE|REASON
+Example: 'quantum-tunneling.md|alpha-decay.md|Tunneling is the physical mechanism behind alpha particle emission.'
+No extra markers or conversational text.

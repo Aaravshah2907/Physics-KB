@@ -43,6 +43,12 @@ This document summarizes the completed features and tracks the implementation of
 - **Quality Audit**: `pkb-audit` for LaTeX syntax, dead image links, and orphaned assets.
 - **Topic Index**: `pkb-index` generates comprehensive hierarchical index of all topics across the KB in JSON and Markdown formats with statistics.
 
+### 🛡️ Scientific Rigor & Infrastructure
+- **Prompt Versioning (`/prompts`)**: All AI instructions are externalized for version control and precise tuning.
+- **Technical Audit**: `pkb-verify` uses local LLMs to perform dimensional analysis and check for physical contradictions.
+- **Deep-Link Injection**: `pkb-link-fixer` provides automatic "Obsidian-style" backlink discovery across the entire library.
+- **Export Engine**: `pkb-export` converts note collections into publication-ready LaTeX or PDF via Pandoc.
+
 ## 🎯 System Architecture Highlights
 
 ### Token Efficiency
@@ -74,11 +80,8 @@ This document summarizes the completed features and tracks the implementation of
 
 ### Potential Additions
 - [ ] **Intelligence-Aware Refinement**: Update `pkb-refine` to cross-reference simulation code with note text for technical consistency.
-- [ ] **LaTeX Export**: Generate publication-ready PDFs from note collections
-- [ ] **Concept Maps**: Auto-generate visual knowledge graphs using Mermaid or GraphViz (Basic version complete)
 - [ ] **Spaced Repetition**: Integration with Anki for active recall
 - [ ] **Citation Network**: Visualize paper citation relationships
-
 - [ ] **Multi-Language**: Support for notes in multiple languages
 
 ---

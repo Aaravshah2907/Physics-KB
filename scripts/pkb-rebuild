@@ -76,6 +76,10 @@ fi
 HEADING_COUNT=$(grep -c "^##" "$TARGET_FILE")
 
 draw_task_progress 2 4 "AI Optimization"
+REBUILD_TASK=$(cat "$PROMPTS_DIR/rebuild.txt" | \
+    sed "s/\${HEADING_LIMIT}/${PKB_HEADING_LIMIT:-20}/g" | \
+    sed "s/\${HEADING_COUNT}/$HEADING_COUNT/g")
+
 REBUILD_PROMPT="SYSTEM INSTRUCTIONS:
 $SYSTEM_PROMPT
 
@@ -84,20 +88,7 @@ Other existing topics: [$EXISTING_NOTES]
 Available images in assets: [$AVAILABLE_IMAGES]
 Current file: $(basename "$TARGET_FILE") (Heading count: $HEADING_COUNT)
 
-TASK:
-1. Restructure the current content into a more logical order using a 'Logical Development Score' (1-100).
-   - High Score (100-80): Summaries, fundamental definitions, and core physical intuition.
-   - Mid Score (79-40): Mathematical formalism, derivations, and primary consequences.
-   - Low Score (39-1): Specialized applications, edge cases, and historical context.
-   Order the note strictly descending by this score (Fundamentals first).
-2. Fill gaps where necessary.
-3. CRITICAL: HARD LIMIT of 20 subheadings. If there are more than 20 subheadings (current: $HEADING_COUNT), you MUST SPLIT the content into two or more 'atomic' files.
-   - Even if the sub-topics are closely related, extract any major sub-concept, detailed derivation, or significant application into its own file to maintain focus.
-   - Choose split points that have the potential to grow into substantial research-grade notes themselves.
-4. If relevant local images are missing from the context, use your tools to find a high-quality historical or conceptual diagram link from Wikipedia.
-5. Use your tools to include/verify a 'References' section with real, clickable DOI/arXiv links.
-6. If splitting, use the delimiter '---NEXT_FILE:filename.md---' before each new file's content (including YAML).
-7. Output ONLY the raw markdown content (or multiple blocks with the delimiter).
+$REBUILD_TASK
 
 Output ONLY the raw markdown content. No extra markers outside the splitter."
 

@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "notes/physical-constants.md",
+                "file": "notes/eulerlagrange-equations-for-constrained-systems.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "physical-constants"
+              "title": "eulerlagrange-equations-for-constrained-systems"
             }
           }
         ]
@@ -185,32 +185,33 @@
   },
   "active": "b03f54b9dca1754f",
   "lastOpenFiles": [
+    "scripts/pkb-export",
+    "scripts/pkb-link-fixer",
+    "scripts/pkb-verify",
+    "prompts/verify.txt",
+    "prompts/bridge.txt",
+    "prompts/rebuild.txt",
+    "prompts/gen_section.txt",
+    "prompts/gen_outline.txt",
+    "exports",
+    "prompts",
+    "notes/eulerlagrange-equations-for-unconstrained-systems.md",
+    "notes/eulerlagrange-equations-for-constrained-systems.md",
     "notes/maxwell's-equations.md",
     "notes/gauss-law.md",
+    "notes/four-vectors.md",
+    "notes/electromagnetic-waves.md",
+    "notes/classical-mechanics.md",
+    "notes/physical-constants.md",
     "notes/trajectory-under-gravity.md",
     "README.md",
     "simulations",
-    "scripts/pkb-bridge",
-    "notes/physical-constants.md",
-    "notes/classical-mechanics.md",
     "notes/hamiltonian-mechanics.md",
-    "scripts/pkb-audit",
-    "scripts/pkb-stats",
     "SCRIPTS_ROADMAP.md",
-    "notes/electromagnetic-waves.md",
-    "notes/four-vectors.md",
-    "scripts/pkb-common.sh",
-    "scripts/pkb-rebuild",
     "GEMINI.md",
-    "notes/eulerlagrange-equations-for-constrained-systems.md",
-    "notes/eulerlagrange-equations-for-unconstrained-systems.md",
     "notes/fourvectors.md",
-    "scripts/pkb-batch",
-    "scripts/pkb-refresh",
     "notes/Poynting Vector.md",
     "notes/Scalar Potential.md",
-    "additional_topics.txt",
-    "scripts/pkb-todo",
     "Special Relativity.md"
   ]
 }

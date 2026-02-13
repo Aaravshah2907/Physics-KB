@@ -14,7 +14,7 @@ if [ -f "$CONFIG_FILE" ]; then
 else
     # Defaults if config missing
     export PKB_PRIMARY_MODEL="default"
-    export PKB_FLASH_MODEL="gemini-1.5-flash"
+    export PKB_FLASH_MODEL="gemini-1.5-flash-latest"
     export PKB_LOCAL_MODEL="deepseek-r1:7b"
 fi
 
@@ -23,6 +23,8 @@ GEMINI_CONF="$PROJ_ROOT/GEMINI.md"
 TODO_FILE="$PROJ_ROOT/additional_topics.txt"
 ASSETS_IMG_DIR="$PROJ_ROOT/assets/images"
 SIMULATIONS_DIR="$PROJ_ROOT/simulations"
+PROMPTS_DIR="$PROJ_ROOT/prompts"
+EXPORTS_DIR="$PROJ_ROOT/exports"
 
 # --- Health Check ---
 check_system_health() {
@@ -54,10 +56,14 @@ check_system_health() {
     fi
     
     # Check Dependencies
-    for cmd in jq bat fzf python3; do
+    for cmd in jq bat fzf python3 pandoc; do
         if ! command -v $cmd &> /dev/null; then
-            echo -e "  ❌ Dependency: $cmd missing"
-            ERRORS=$((ERRORS + 1))
+            if [ "$cmd" == "pandoc" ]; then
+                echo -e "  ⚠️  Dependency: pandoc missing (Exporters disabled)"
+            else
+                echo -e "  ❌ Dependency: $cmd missing"
+                ERRORS=$((ERRORS + 1))
+            fi
         fi
     done
     
@@ -180,13 +186,14 @@ call_gemini() {
         if [ "$MODEL_NAME" != "default" ]; then
             CMD="gemini -m $MODEL_NAME"
         fi
+        CMD="$CMD -p"
         
         local RETRY_DELAY=5
         local ATTEMPT=1
         
         while [ $ATTEMPT -le $MAX_RETRIES ]; do
             # Execute command with prompt
-            $CMD "$FULL_PROMPT" > "$OUT_FILE" 2> "$ERR_FILE" &
+            $CMD "$FULL_PROMPT" > "$OUT_FILE" 2> "$ERR_FILE" </dev/null &
             local PID=$!
             
             # Show spinner while waiting
@@ -213,19 +220,18 @@ call_gemini() {
             # Check for Rate Limit to decide on retry
             if grep -qiE "429|Too Many Requests|Quota exceeded" "$ERR_FILE"; then
                 if [ $ATTEMPT -lt $MAX_RETRIES ]; then
-                    printf "\r\033[K   ⚠️  Rate limit hit ($MODEL). Retrying in ${RETRY_DELAY}s (Attempt $ATTEMPT/$MAX_RETRIES)...\n" >&2
+                    printf "\r\033[K   ⚠️  Rate limit hit ($MODEL_NAME). Retrying in ${RETRY_DELAY}s (Attempt $ATTEMPT/$MAX_RETRIES)...\n" >&2
                     sleep $RETRY_DELAY
                     RETRY_DELAY=$((RETRY_DELAY * 2)) 
                     ATTEMPT=$((ATTEMPT + 1))
                 else
-                    printf "\r\033[K   ❌ Rate limit persists for $MODEL.\n" >&2
+                    printf "\r\033[K   ❌ Rate limit persists for $MODEL_NAME.\n" >&2
                     break 
                 fi
             else
-                # Non-retriable error
+                # Non-retriable error for this specific model
                 cat "$ERR_FILE" >&2
-                rm -f "$ERR_FILE" "$OUT_FILE"
-                return $STATUS
+                break # Exit the retry loop for this model and try the next one
             fi
         done
         
@@ -254,7 +260,7 @@ call_llm_light() {
         return 0
     fi
     # Fallback to flash if Ollama fails
-    gemini -m "$PKB_FLASH_MODEL" "$PROMPT" 2>/dev/null
+    gemini -m "$PKB_FLASH_MODEL" -p "$PROMPT" -o text </dev/null 2>/dev/null
 }
 
 # --- Data Helpers ---

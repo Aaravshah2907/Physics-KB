@@ -1,0 +1,13 @@
+TASK:
+Analyze the provided physics note for mathematical rigor and physical consistency.
+1. Check for dimensional consistency in all formulas.
+2. Verify that mathematical derivations logically follow from step to step.
+3. Identify any physical "hallucinations" or common misconceptions that may have been introduced.
+4. Check for LaTeX syntax errors.
+
+OUTPUT FORMAT:
+- If no errors are found, output ONLY: "✅ VERIFIED: No technical inconsistencies found."
+- If errors are found, list them as:
+  - [TYPE: Mathematical/Physical/Syntax]
+  - [LOCATION: Heading Name]
+  - [DESCRIPTION: Why it is wrong and what is the correct version]

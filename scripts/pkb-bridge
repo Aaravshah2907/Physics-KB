@@ -24,18 +24,12 @@ NOTE_DATA=$(jq -r '.files[] | "\(.filename)|\(.title)|\(.summary)|LINKS:[]"' "$I
 # 2. Batch Analysis via Gemini
 draw_task_progress 2 3 "Finding hidden connections"
 
+BRIDGE_TASK=$(cat "$PROMPTS_DIR/bridge.txt")
 BRIDGE_PROMPT="Given the following list of physics notes (Format: Filename|Title|Summary|ExistingLinks):
 
 $NOTE_DATA
 
-TASK:
-Identify 5-10 HIGH-VALUE semantic connections that are currently MISSING in the 'ExistingLinks' of the source notes.
-Focus on relationships where one concept provides the 'physical origin', 'mathematical foundation', or a 'direct consequence' of another.
-
-Output ONLY in this format, one per line:
-SOURCE_FILE|TARGET_FILE|REASON
-Example: 'quantum-tunneling.md|alpha-decay.md|Tunneling is the physical mechanism behind alpha particle emission.'
-No extra markers or conversational text."
+$BRIDGE_TASK"
 
 TEMP_DIR=$(mktemp -d)
 echo "" # For spinner

@@ -1,0 +1,74 @@
+#!/bin/bash
+# pkb-link-fixer: Automatically wraps existing titles in [[brackets]] across the entire library.
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/pkb-common.sh"
+
+INDEX_JSON="$PROJ_ROOT/topic_index.json"
+if [ ! -f "$INDEX_JSON" ]; then
+    echo "⚠️  Index not found. Generating..."
+    "$PKB_SCRIPTS_DIR/pkb-index" >/dev/null 2>&1
+fi
+
+echo -e "${PURPLE}🔗 AUTOMATIC DEEP-LINK INJECTION${RESET}"
+echo -e "${PURPLE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}"
+
+# Get all valid titles from the index (sorted by length descending to match longest first)
+# This prevents "Quantum Mechanics" from being partially matched as "[[Quantum]] Mechanics"
+TITLES=$(jq -r '.files[] | .title' "$INDEX_JSON" | awk '{ print length, $0 }' | sort -rn | cut -d" " -f2-)
+
+TOTAL_FILES=$(find "$NOTES_DIR" -name "*.md" | wc -l | tr -d ' ')
+current=0
+
+for md_file in "$NOTES_DIR"/*.md; do
+    [ ! -f "$md_file" ] && continue
+    current=$((current + 1))
+    filename=$(basename "$md_file")
+    draw_master_progress "$current" "$TOTAL_FILES" "$filename"
+    
+    TEMP_FILE=$(mktemp)
+    cp "$md_file" "$TEMP_FILE"
+    
+    while read -r TITLE; do
+        [ -z "$TITLE" ] && continue
+        [ ${#TITLE} -lt 4 ] && continue # Skip very short titles like "The"
+        
+        # Don't link to the file itself
+        CURRENT_TITLE=$(extract_note_title "$md_file")
+        [ "$TITLE" == "$CURRENT_TITLE" ] && continue
+        
+        # We need to be careful: 
+        # 1. Don't replace inside existing [[brackets]]
+        # 2. Don't replace inside YAML frontmatter
+        # 3. Don't replace inside Markdown links [label](url)
+        # 4. don't replace inside URLS
+        
+        # For simplicity in this shell script, we'll use a python one-liner for safe replacement
+        # It uses a regex that looks for the title not surrounded by [[ or ]] or inside []()
+        # This is a basic version.
+        
+        python3 -c "
+import sys, re
+content = open('$TEMP_FILE').read()
+title = \"$TITLE\"
+# Regex: match title if not preceded by [[ and not followed by ]] and not inside [ ]
+# Also ensure word boundaries
+# Simplified for shell injection safety
+pattern = r'(?<!\[\[)\b' + re.escape(title) + r'\b(?!\]\])'
+new_content = re.sub(pattern, '[[' + title + ']]', content)
+print(new_content, end='')
+" > "$TEMP_FILE.new" && mv "$TEMP_FILE.new" "$TEMP_FILE"
+        
+    done <<< "$TITLES"
+    
+    diff "$md_file" "$TEMP_FILE" > /dev/null
+    if [ $? -ne 0 ]; then
+        mv "$TEMP_FILE" "$md_file"
+        echo -e "\r\033[K   🔗 Injected links into: $filename"
+    else
+        rm "$TEMP_FILE"
+    fi
+done
+
+echo -e "\n${GREEN}✅ Link injection complete.${RESET}"
+git_snapshot "Automatic link injection"

@@ -34,19 +34,22 @@ echo -e "${BOLD}📝 Content Creation${RESET}"
 print_tool "pkb-gen" "Generates new notes from a topic/title." "pkb-gen \"Concept Name\""
 print_tool "pkb-rebuild" "Restructures & smart-splits existing notes." "pkb-rebuild [filename]"
 print_tool "pkb-refine" "Polishes specific sections of a note." "pkb-refine [filename]"
+print_tool "pkb-verify" "Technical audit for physical contradictions." "pkb-verify [filename]"
 print_tool "pkb-batch" "Batch generation from a list of topics." "pkb-batch topics.txt"
 
 echo -e "${BOLD}🛠️ Maintenance & Quality${RESET}"
 print_tool "pkb-audit" "Checks for broken links, syntax errors, etc." "pkb-audit"
 print_tool "pkb-stats" "Shows KB health, complexity & growth stats." "pkb-stats"
 print_tool "pkb-refresh" "Updates backlinks, images & formatting." "pkb-refresh [filename]"
+print_tool "pkb-link-fixer" "Injects missing [[links]] across the KB." "pkb-link-fixer"
 print_tool "pkb-todo" "Finds & aggregates 'TODO' items in notes." "pkb-todo"
 
 echo -e "${BOLD}🧪 Interactive Simulations${RESET}"
 print_tool "pkb-lab" "Browse and run simulations interactively." "pkb-lab"
 
-echo -e "${BOLD}🌐 Connections & Media${RESET}"
+echo -e "${BOLD}🌐 Connections, Media & Export${RESET}"
 print_tool "pkb-bridge" "Finds hidden semantic connections between notes." "pkb-bridge"
+print_tool "pkb-export" "Converts notes to LaTeX/PDF using Pandoc." "pkb-export"
 print_tool "pkb-shot" "Captures screenshot to /assets/images & copies link." "pkb-shot"
 
 

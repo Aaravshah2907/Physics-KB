@@ -1,0 +1,38 @@
+#!/bin/bash
+# pkb-verify: Performs a technical audit of a physics note using a local LLM to check for contradictions.
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/pkb-common.sh"
+
+FILE_ARG="$1"
+TARGET_FILE_NAME=$(resolve_target_file "$FILE_ARG" "🔍 Select a note to verify:")
+[ -z "$TARGET_FILE_NAME" ] && exit 0
+TARGET_FILE="$NOTES_DIR/$TARGET_FILE_NAME"
+
+echo -e "${CYAN}🧐 Technical Audit: $(basename "$TARGET_FILE")${RESET}"
+echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}"
+
+# Use local model for verification to save tokens and leverage reasoning
+MODEL="${PKB_LOCAL_MODEL:-deepseek-r1:7b}"
+
+draw_task_progress 1 2 "Reading content"
+CONTENT=$(cat "$TARGET_FILE")
+VERIFY_TASK=$(cat "$PROMPTS_DIR/verify.txt")
+
+VERIFY_PROMPT="CONTENT:
+$CONTENT
+
+$VERIFY_TASK"
+
+draw_task_progress 2 2 "Analyzing with $MODEL"
+echo "" # For spinner
+RESULT=$(call_ollama "$VERIFY_PROMPT")
+
+if [ $? -eq 0 ] && [ -n "$RESULT" ]; then
+    echo -e "$RESULT"
+else
+    echo -e "${RED}❌ Verification failed or Ollama not running.${RESET}"
+    exit 1
+fi
+
+echo -e "\n${GREEN}✨ Audit complete.${RESET}"

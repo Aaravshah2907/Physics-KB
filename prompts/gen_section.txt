@@ -1,0 +1,8 @@
+TASK:
+Write the complete content for the section '## ${SECTION_TITLE}'.
+1. Include detailed mathematical derivations, physical intuition, and diagrams where relevant.
+2. Use LaTeX for all math.
+3. Use the search tools to inject real DOI/arXiv references if discussing key papers.
+4. If local images are missing, find Wikipedia diagram links.
+5. Output ONLY the content for this section (start with '## ${SECTION_TITLE}'). Do not repeat the main title.
+${CODE_INSTRUCTION}

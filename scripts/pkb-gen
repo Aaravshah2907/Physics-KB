@@ -93,25 +93,14 @@ if [ -f "$TODO_FILE" ]; then
 fi
 
 # Phase 1: The Blueprint
+OUTLINE_TASK=$(cat "$PROMPTS_DIR/gen_outline.txt" | sed "s/\${TOPIC}/$TOPIC/g")
 OUTLINE_PROMPT="SYSTEM INSTRUCTIONS:
 $SYSTEM_PROMPT
 CONTEXT:
 $KNOWLEDGE_CONTEXT
 $TOPIC_CONTEXT
 
-TASK:
-Create a detailed, research-grade OUTLINE for the topic '$TOPIC'.
-1. Use the 'Logical Development Score' (100-1) strategy.
-2. Return ONLY a list of headings (H1, H2, H3), starting with the main Title as H1.
-3. Do not include any content, just the structure.
-4. Ensure the structure covers: Fundamentals, Mathematical Formalism, Intuition, Key Derivations, Applications, and History.
-
-Output Format:
-# Title
-## Section 1
-## Section 2
-...
-"
+$OUTLINE_TASK"
 
 OUTLINE=$(call_gemini "$OUTLINE_PROMPT")
 
@@ -144,6 +133,15 @@ for SECTION_TITLE in $SECTIONS; do
     CURRENT_SEC=$((CURRENT_SEC + 1))
     draw_task_progress $CURRENT_SEC $TOTAL_SECTIONS "Section $CURRENT_SEC/$TOTAL_SECTIONS: ${SECTION_TITLE:0:40}"
     
+    CODE_INST=""
+    if [ "$WITH_CODE" = true ]; then
+        CODE_INST="4. If a dynamic system is involved, include a Python simulation block using the format: ---SIMULATION:python:filename.py---"
+    fi
+
+    SECTION_TASK=$(cat "$PROMPTS_DIR/gen_section.txt" | \
+        sed "s/\${SECTION_TITLE}/$SECTION_TITLE/g" | \
+        sed "s/\${CODE_INSTRUCTION}/$CODE_INST/g")
+    
     SECTION_PROMPT="SYSTEM INSTRUCTIONS:
 $SYSTEM_PROMPT
 CONTEXT:
@@ -152,26 +150,7 @@ Current Section: '$SECTION_TITLE'
 Full Outline:
 $OUTLINE
 
-TASK:
-Write the complete content for the section '## $SECTION_TITLE'.
-1. Include detailed mathematical derivations, physical intuition, and diagrams where relevant.
-2. Use LaTeX for all math.
-3. Use the search tools to inject real DOI/arXiv references if discussing key papers."
-
-    if [ "$WITH_CODE" = true ]; then
-        SECTION_PROMPT+="
-4. If a dynamic system is involved, include a Python simulation block using the format:
-   ---SIMULATION:python:filename.py---
-   ```python
-   # code here
-   ```
-5. If local images are missing, find Wikipedia diagram links.
-6. Output ONLY the content for this section (start with '## $SECTION_TITLE'). Do not repeat the main title."
-    else
-        SECTION_PROMPT+="
-4. If local images are missing, find Wikipedia diagram links.
-5. Output ONLY the content for this section (start with '## $SECTION_TITLE'). Do not repeat the main title."
-    fi
+$SECTION_TASK"
     
     SECTION_CONTENT=$(call_gemini "$SECTION_PROMPT")
     echo "" >> "$OUTPUT_FILE"

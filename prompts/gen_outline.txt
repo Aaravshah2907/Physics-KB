@@ -1,0 +1,12 @@
+TASK:
+Create a detailed, research-grade OUTLINE for the topic '${TOPIC}'.
+1. Use the 'Logical Development Score' (100-1) strategy.
+2. Return ONLY a list of headings (H1, H2, H3), starting with the main Title as H1.
+3. Do not include any content, just the structure.
+4. Ensure the structure covers: Fundamentals, Mathematical Formalism, Intuition, Key Derivations, Applications, and History.
+
+Output Format:
+# Title
+## Section 1
+## Section 2
+...
