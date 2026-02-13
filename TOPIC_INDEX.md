@@ -1,8 +1,8 @@
 # Physics Knowledge Base - Topic Index
 
-**Generated:** 2026-02-13 22:40:13
-**Total Files:** 10
-**Total Topics:** 143
+**Generated:** 2026-02-13 22:40:33
+**Total Files:** 11
+**Total Topics:** 144
 
 ---
 
@@ -18,6 +18,7 @@
 8. [Maxwell's Equations](#maxwell's-equations) (16 topics)
 9. [Trajectory of a Particle in a Uniform Gravitational Field](#particle-trajectory-gravity) (1 topics)
 10. [Physical Constants](#physical-constants) (18 topics)
+11. [Trajectory of a Particle Under Gravity](#trajectory-under-gravity) (1 topics)
 
 ---
 
@@ -304,17 +305,32 @@
 
 ---
 
+## Trajectory of a Particle Under Gravity
+
+**File:** `notes/trajectory-under-gravity.md`  
+**Complexity:** advanced  
+**Date:** 2026-02-13  
+**Topics:** 1  
+**Max Depth:** 1  
+**Tags:** `physics`  
+
+### Topic Hierarchy
+
+- **Trajectory of a Particle Under Gravity** (L1, line 8)
+
+---
+
 ## Statistics
 
 ### Topics by Complexity
 
-- **Advanced:** 7 files
+- **Advanced:** 8 files
 - **Basic:** 1 files
 - **Intermediate:** 2 files
 
 ### Topics by Tag
 
-- **physics:** 10 files
+- **physics:** 11 files
 - **electromagnetism:** 3 files
 - **theoretical-physics:** 2 files
 - **mechanics:** 2 files
