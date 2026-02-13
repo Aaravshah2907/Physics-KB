@@ -1,6 +1,6 @@
 # Physics Knowledge Base - Topic Index
 
-**Generated:** 2026-02-13 22:40:33
+**Generated:** 2026-02-13 22:41:48
 **Total Files:** 11
 **Total Topics:** 144
 
@@ -17,8 +17,8 @@
 7. [Hamiltonian Mechanics](#hamiltonian-mechanics) (13 topics)
 8. [Maxwell's Equations](#maxwell's-equations) (16 topics)
 9. [Trajectory of a Particle in a Uniform Gravitational Field](#particle-trajectory-gravity) (1 topics)
-10. [Physical Constants](#physical-constants) (18 topics)
-11. [Trajectory of a Particle Under Gravity](#trajectory-under-gravity) (1 topics)
+10. [Trajectory of a Particle Under Gravity](#particle-trajectory) (1 topics)
+11. [Physical Constants](#physical-constants) (18 topics)
 
 ---
 
@@ -273,6 +273,21 @@
 
 ---
 
+## Trajectory of a Particle Under Gravity
+
+**File:** `notes/particle-trajectory.md`  
+**Complexity:** advanced  
+**Date:** 2026-02-13  
+**Topics:** 1  
+**Max Depth:** 1  
+**Tags:** `physics`  
+
+### Topic Hierarchy
+
+- **Trajectory of a Particle Under Gravity** (L1, line 8)
+
+---
+
 ## Physical Constants
 
 **File:** `notes/physical-constants.md`  
@@ -302,21 +317,6 @@
 - **The 2019 SI Redefinition** (L1, line 84)
 - **Natural Units (Planck Units)** (L1, line 100)
 - **Further Reading** (L1, line 105)
-
----
-
-## Trajectory of a Particle Under Gravity
-
-**File:** `notes/trajectory-under-gravity.md`  
-**Complexity:** advanced  
-**Date:** 2026-02-13  
-**Topics:** 1  
-**Max Depth:** 1  
-**Tags:** `physics`  
-
-### Topic Hierarchy
-
-- **Trajectory of a Particle Under Gravity** (L1, line 8)
 
 ---
 

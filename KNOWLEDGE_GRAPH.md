@@ -11,8 +11,8 @@ graph TD
   hamiltonian_mechanics([Hamiltonian Mechanics])
   maxwell_s_equations([Maxwell's Equations])
   particle_trajectory_gravity([Trajectory of a Particle in a Uniform Gravitational Field])
+  particle_trajectory([Trajectory of a Particle Under Gravity])
   physical_constants([Physical Constants])
-  trajectory_under_gravity([Trajectory of a Particle Under Gravity])
   classical_mechanics --> hamiltonian_mechanics
   eulerlagrange_equations_for_constrained_systems --> hamiltonian_mechanics
   gauss_law --> maxwell_s_equations

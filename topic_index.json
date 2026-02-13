@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-13T17:10:31Z",
+  "generated_at": "2026-02-13T17:11:47Z",
   "total_files": 11,
   "total_topics": 144,
   "files": [
@@ -940,6 +940,27 @@
       ]
     },
     {
+      "filename": "particle-trajectory.md",
+      "path": "notes/particle-trajectory.md",
+      "title": "Trajectory of a Particle Under Gravity",
+      "summary": "This note explores the core principles of Trajectory of a Particle Under Gravity, delving into its mathematical foundations and physical consequences.",
+      "tags": [
+        "physics"
+      ],
+      "complexity": "advanced",
+      "date": "2026-02-13",
+      "topic_count": 1,
+      "max_depth": 1,
+      "hierarchy": [
+        {
+          "title": "Trajectory of a Particle Under Gravity",
+          "level": 1,
+          "line": 8,
+          "children": []
+        }
+      ]
+    },
+    {
       "filename": "physical-constants.md",
       "path": "notes/physical-constants.md",
       "title": "Physical Constants",
@@ -1065,27 +1086,6 @@
           "title": "Further Reading",
           "level": 1,
           "line": 105,
-          "children": []
-        }
-      ]
-    },
-    {
-      "filename": "trajectory-under-gravity.md",
-      "path": "notes/trajectory-under-gravity.md",
-      "title": "Trajectory of a Particle Under Gravity",
-      "summary": "This note explores the core principles of Trajectory of a Particle Under Gravity, delving into its mathematical foundations and physical consequences.",
-      "tags": [
-        "physics"
-      ],
-      "complexity": "advanced",
-      "date": "2026-02-13",
-      "topic_count": 1,
-      "max_depth": 1,
-      "hierarchy": [
-        {
-          "title": "Trajectory of a Particle Under Gravity",
-          "level": 1,
-          "line": 8,
           "children": []
         }
       ]
