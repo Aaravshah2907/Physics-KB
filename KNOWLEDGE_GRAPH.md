@@ -14,7 +14,7 @@ graph TD
   maxwell_s_equations([Maxwell's Equations])
   physical_constants([Physical Constants])
   projectile_motion([Projectile Motion under Gravity])
-  thinking_okay_so_i_need_to_come__i_m_thinking_about_how_to__wait_should_i_add_more_descriptors__i_don_t_think_i_need_done_thinking__filename([Reynolds Number])
+  reynold_s_number([Reynolds Number])
   trajectory_under_gravity([Trajectory of a Particle Under Gravity])
   virtual_work([Virtual Work])
   classical_mechanics --> hamiltonian_mechanics
@@ -27,11 +27,13 @@ graph TD
   eulerlagrange_equations_for_constrained_systems --> hamiltonian_mechanics
   eulerlagrange_equations_for_constrained_systems --> virtual_work
   eulerlagrange_equations_for_unconstrained_systems --> classical_mechanics
+  eulerlagrange_equations_for_unconstrained_systems --> generalized_coordinates
   eulerlagrange_equations_for_unconstrained_systems --> lagrangian_mechanics
   eulerlagrange_equations_for_unconstrained_systems --> trajectory_under_gravity
   four_vectors --> classical_mechanics
   gauss_law --> maxwell_s_equations
   gauss_law --> physical_constants
+  generalized_coordinates --> lagrangian_mechanics
   hamiltonian_mechanics --> lagrangian_mechanics
   hamiltonian_mechanics --> physical_constants
   lagrangian_mechanics --> classical_mechanics
@@ -48,17 +50,7 @@ graph TD
   physical_constants --> hamiltonian_mechanics
   physical_constants --> maxwell_s_equations
   projectile_motion --> classical_mechanics
-  projectile_motion --> thinking
-okay_so_i_need_to_come
-
-i_m_thinking_about_how_to
-
-wait_should_i_add_more_descriptors
-
-i_don_t_think_i_need
-done_thinking
-
-filename
+  projectile_motion --> reynold_s_number
   trajectory_under_gravity --> classical_mechanics
   trajectory_under_gravity --> eulerlagrange_equations_for_unconstrained_systems
   virtual_work --> generalized_coordinates
