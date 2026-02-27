@@ -64,6 +64,9 @@ def main():
             for section in valid_sections:
                 title_slug = section["title"].lower()
                 title_slug = re.sub(r'[^\w\s-]', '', title_slug).strip().replace(' ', '-')
+                # Limit to 6 words
+                parts = title_slug.split('-')
+                title_slug = '-'.join(parts[:6])
                 filename = f"{title_slug}.md"
                 
                 plan.append({

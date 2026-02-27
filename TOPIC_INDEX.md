@@ -1,8 +1,8 @@
 # Physics Knowledge Base - Topic Index
 
-**Generated:** 2026-02-27 13:43:41
+**Generated:** 2026-02-27 13:43:46
 **Total Files:** 14
-**Total Topics:** 270
+**Total Topics:** 266
 
 ---
 
@@ -15,8 +15,8 @@
 5. [Four-Vectors](#four-vectors) (14 topics)
 6. [Gauss's Law](#gauss-law) (17 topics)
 7. [Generalized Coordinates](#generalized-coordinates) (1 topics)
-8. [Hamiltonian Mechanics](#hamiltonian-mechanics) (13 topics)
-9. [Lagrangian Mechanics](#lagrangian-mechanics) (54 topics)
+8. [Hamiltonian Mechanics](#hamiltonian-mechanics) (8 topics)
+9. [Lagrangian Mechanics](#lagrangian-mechanics) (55 topics)
 10. [Maxwell's Equations](#maxwell's-equations) (16 topics)
 11. [Physical Constants](#physical-constants) (18 topics)
 12. [Projectile Motion under Gravity](#projectile-motion) (26 topics)
@@ -226,26 +226,21 @@
 
 **File:** `notes/hamiltonian-mechanics.md`  
 **Complexity:** advanced  
-**Date:** 2026-02-12  
-**Topics:** 13  
-**Max Depth:** 3  
+**Date:** 2026-02-27  
+**Topics:** 8  
+**Max Depth:** 2  
 **Tags:** `physics`, `classical-mechanics`, `hamiltonian`, `theoretical-physics`  
 
 ### Topic Hierarchy
 
 - **Hamiltonian Mechanics** (L1, line 8)
   - **Summary** (L2, line 10)
-  - **Derivation from Lagrangian Mechanics** (L2, line 15)
-  - **Hamilton's Canonical Equations** (L2, line 37)
-  - **Properties of the Hamiltonian** (L2, line 77)
-    - **Conservation of Energy** (L3, line 79)
-    - **Phase Space and Liouville's Theorem** (L3, line 82)
-  - **Poisson Brackets** (L2, line 93)
-  - **Applications and Extensions** (L2, line 109)
-  - **Further Reading** (L2, line 119)
-    - **Related Notes** (L3, line 127)
-    - **Related Notes** (L3, line 130)
-    - **Related Notes** (L3, line 133)
+  - **Configuration Space vs. Phase Space (LDS: 95)** (L2, line 13)
+  - **Derivation via Legendre Transformation (LDS: 85)** (L2, line 29)
+  - **Poisson Brackets and Algebraic Structure (LDS: 75)** (L2, line 50)
+  - **Conservation Laws and Liouville's Theorem (LDS: 60)** (L2, line 65)
+  - **Applications and Extensions (LDS: 30)** (L2, line 73)
+  - **References** (L2, line 102)
 
 ---
 
@@ -254,7 +249,7 @@
 **File:** `notes/lagrangian-mechanics.md`  
 **Complexity:** advanced  
 **Date:** 2026-02-13  
-**Topics:** 54  
+**Topics:** 55  
 **Max Depth:** 4  
 **Tags:** `physics`  
 
@@ -314,6 +309,7 @@
 - **Parameters** (L1, line 580)
 - **Initial conditions (Elliptical Orbit)** (L1, line 585)
 - **r0 = 1.0, v0 = 0.8 (v_circ = sqrt(GM/r) = 1.0)** (L1, line 586)
+  - **Related Notes** (L3, line 603)
 
 ---
 

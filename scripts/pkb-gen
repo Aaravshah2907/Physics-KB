@@ -80,7 +80,7 @@ fi
 
 # Step 2: Architecture
 draw_task_progress 2 4 "Defining architecture"
-SUGGESTED_NAME=$(call_llm_light "Suggest a short lowercase-kebab-case filename for '$TOPIC'. Return ONLY the filename.md.")
+SUGGESTED_NAME=$(call_llm_light "Suggest a short lowercase-kebab-case filename (maximum 6 words) for '$TOPIC'. Return ONLY the filename.md.")
 FILE_NAME=$(sanitize_filename "$SUGGESTED_NAME")
 [ -z "$FILE_NAME" ] && FILE_NAME=$(sanitize_filename "$TOPIC")
 OUTPUT_FILE="$NOTES_DIR/$FILE_NAME.md"

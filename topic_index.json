@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-02-27T08:13:39Z",
+  "generated_at": "2026-02-27T08:13:44Z",
   "total_files": 14,
-  "total_topics": 270,
+  "total_topics": 266,
   "files": [
     {
       "filename": "classical-mechanics.md",
@@ -746,7 +746,7 @@
       "filename": "hamiltonian-mechanics.md",
       "path": "notes/hamiltonian-mechanics.md",
       "title": "Hamiltonian Mechanics",
-      "summary": "Hamiltonian mechanics is a reformulation of [[classical mechanics]] that evolved from [[Lagrangian mechanics]]. While Lagrangian mechanics focuses on generalized coordinates $q_i$ and velocities $\\dot{q}_i$ in configuration space, Hamiltonian mechanics uses generalized coordinates $q_i$ and generalized momenta $p_i$ to describe the system in **phase space**.",
+      "summary": "Hamiltonian mechanics is a high-level reformulation of [[classical mechanics]] that provides a powerful framework for understanding the deep geometric structures of dynamical systems. By transitioning from the second-order differential equations of [[Lagrangian Mechanics]] to a system of first-order equations, it simplifies the description of motion and serves as the formal foundation for both [[statistical mechanics]] and [[quantum mechanics]].",
       "tags": [
         "physics",
         "classical-mechanics",
@@ -754,9 +754,9 @@
         "theoretical-physics"
       ],
       "complexity": "advanced",
-      "date": "2026-02-12",
-      "topic_count": 13,
-      "max_depth": 3,
+      "date": "2026-02-27",
+      "topic_count": 8,
+      "max_depth": 2,
       "hierarchy": [
         {
           "title": "Hamiltonian Mechanics",
@@ -770,72 +770,40 @@
               "children": []
             },
             {
-              "title": "Derivation from Lagrangian Mechanics",
+              "title": "Configuration Space vs. Phase Space (LDS: 95)",
               "level": 2,
-              "line": 15,
+              "line": 13,
               "children": []
             },
             {
-              "title": "Hamilton's Canonical Equations",
+              "title": "Derivation via Legendre Transformation (LDS: 85)",
               "level": 2,
-              "line": 37,
+              "line": 29,
               "children": []
             },
             {
-              "title": "Properties of the Hamiltonian",
+              "title": "Poisson Brackets and Algebraic Structure (LDS: 75)",
               "level": 2,
-              "line": 77,
-              "children": [
-                {
-                  "title": "Conservation of Energy",
-                  "level": 3,
-                  "line": 79,
-                  "children": []
-                },
-                {
-                  "title": "Phase Space and Liouville's Theorem",
-                  "level": 3,
-                  "line": 82,
-                  "children": []
-                }
-              ]
-            },
-            {
-              "title": "Poisson Brackets",
-              "level": 2,
-              "line": 93,
+              "line": 50,
               "children": []
             },
             {
-              "title": "Applications and Extensions",
+              "title": "Conservation Laws and Liouville's Theorem (LDS: 60)",
               "level": 2,
-              "line": 109,
+              "line": 65,
               "children": []
             },
             {
-              "title": "Further Reading",
+              "title": "Applications and Extensions (LDS: 30)",
               "level": 2,
-              "line": 119,
-              "children": [
-                {
-                  "title": "Related Notes",
-                  "level": 3,
-                  "line": 127,
-                  "children": []
-                },
-                {
-                  "title": "Related Notes",
-                  "level": 3,
-                  "line": 130,
-                  "children": []
-                },
-                {
-                  "title": "Related Notes",
-                  "level": 3,
-                  "line": 133,
-                  "children": []
-                }
-              ]
+              "line": 73,
+              "children": []
+            },
+            {
+              "title": "References",
+              "level": 2,
+              "line": 102,
+              "children": []
             }
           ]
         }
@@ -851,7 +819,7 @@
       ],
       "complexity": "advanced",
       "date": "2026-02-13",
-      "topic_count": 54,
+      "topic_count": 55,
       "max_depth": 4,
       "hierarchy": [
         {
@@ -1190,7 +1158,14 @@
           "title": "r0 = 1.0, v0 = 0.8 (v_circ = sqrt(GM/r) = 1.0)",
           "level": 1,
           "line": 586,
-          "children": []
+          "children": [
+            {
+              "title": "Related Notes",
+              "level": 3,
+              "line": 603,
+              "children": []
+            }
+          ]
         }
       ]
     },

@@ -396,7 +396,7 @@ resolve_target_file() {
 
 sanitize_filename() {
     local input="$1"
-    echo "$input" | tr '[:upper:]' '[:lower:]' | sed 's/\.md$//' | sed 's/[^a-z0-9 ]/ /g' | tr '_ ' '-' | tr -s '-' | sed 's/^-//;s/-$//'
+    echo "$input" | tr '[:upper:]' '[:lower:]' | sed 's/\.md$//' | sed 's/[^a-z0-9 ]/ /g' | tr '_ ' '-' | tr -s '-' | sed 's/^-//;s/-$//' | cut -d'-' -f1-6
 }
 
 # --- Media Systems ---

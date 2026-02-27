@@ -31,14 +31,13 @@ graph TD
   four_vectors --> classical_mechanics
   gauss_law --> maxwell_s_equations
   gauss_law --> physical_constants
-  hamiltonian_mechanics --> classical_mechanics
-  hamiltonian_mechanics --> eulerlagrange_equations_for_constrained_systems
   hamiltonian_mechanics --> lagrangian_mechanics
   hamiltonian_mechanics --> physical_constants
   lagrangian_mechanics --> classical_mechanics
   lagrangian_mechanics --> eulerlagrange_equations_for_constrained_systems
   lagrangian_mechanics --> eulerlagrange_equations_for_unconstrained_systems
   lagrangian_mechanics --> generalized_coordinates
+  lagrangian_mechanics --> hamiltonian_mechanics
   lagrangian_mechanics --> trajectory_under_gravity
   lagrangian_mechanics --> virtual_work
   maxwell_s_equations --> gauss_law
