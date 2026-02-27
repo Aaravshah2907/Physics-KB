@@ -1,0 +1,409 @@
+Unknown argument: output
+Usage: gemini
+[options]
+[command]
+
+Gemini CLI -
+Defaults to
+interactive mode.
+Use -p/--prompt
+for
+non-interactive
+(headless) mode.
+
+Commands:
+  gemini     Launc
+  [query..]  h Gem
+             ini
+             CLI
+         [default]
+  gemini     Manag
+  mcp        e MCP
+             serve
+             rs
+  gemini ex  Manag
+  tensions   e Gem
+  <command>  ini
+             CLI e
+             xtens
+             ions.
+         [aliases:
+        extension]
+  gemini     Manag
+  skills     e
+  <command>  agent
+             skill
+             s.
+  [aliases: skill]
+  gemini     Manag
+  hooks      e Gem
+  <command>  ini
+             CLI h
+             ooks.
+   [aliases: hook]
+
+Positionals:
+  query  Initial
+         prompt.
+         Runs in
+         interacti
+         ve mode
+         by
+         default;
+         use -p/--
+         prompt
+         for
+         non-inter
+         active.
+
+Options:
+  -d,        Run
+  --debug    in
+             debug
+             mode
+             (open
+             debug
+             conso
+             le
+             with
+             F12)
+         [boolean]
+  [default: false]
+  -m,        Model
+  --model [string]
+  -p,        Run
+  --prompt   in
+             non-i
+             ntera
+             ctive
+             (head
+             less)
+             mode
+             with
+             the
+             given
+             promp
+             t.
+             Appen
+             ded
+             to
+             input
+             on
+             stdin
+             (if
+             any).
+          [string]
+  -i, --pro  Execu
+  mpt-inter  te
+  active     the
+             provi
+             ded p
+             rompt
+             and
+             conti
+             nue
+             in in
+             terac
+             tive
+             mode
+          [string]
+  -s,        Run
+  --sandbox  in
+             sandb
+             ox?
+         [boolean]
+  -y,        Autom
+  --yolo     atica
+             lly a
+             ccept
+             all
+             actio
+             ns
+             (aka
+             YOLO
+             mode,
+             see
+             https
+             ://ww
+             w.you
+             tube.
+             com/w
+             atch?
+             v=xvF
+             Zjo5P
+             gG0
+             for
+             more
+             detai
+             ls)?
+         [boolean]
+  [default: false]
+      --app  Set
+      roval  the
+      -mode  appro
+             val
+             mode:
+             defau
+             lt (p
+             rompt
+             for
+             appro
+             val),
+             auto_
+             edit
+             (auto
+             -appr
+             ove
+             edit
+             tools
+             ),
+             yolo
+             (auto
+             -appr
+             ove
+             all
+             tools
+             ),
+             plan
+             (read
+             -only
+             mode)
+          [string]
+         [choices:
+        "default",
+      "auto_edit",
+   "yolo", "plan"]
+      --pol  Addit
+      icy    ional
+             polic
+             y
+             files
+             or di
+             recto
+             ries
+             to
+             load
+             (comm
+             a-sep
+             arate
+             d or
+             multi
+             ple
+             --pol
+             icy)
+           [array]
+      --exp  Start
+      erime  s the
+      ntal-  agent
+      acp    in
+             ACP
+             mode
+         [boolean]
+      --all  Allow
+      owed-  ed
+      mcp-s  MCP s
+      erver  erver
+      -name  names
+      s    [array]
+      --all  [DEPR
+      owed-  ECATE
+      tools  D:
+             Use P
+             olicy
+             Engin
+             e ins
+             tead
+             See h
+             ttps:
+             //gem
+             inicl
+             i.com
+             /docs
+             /core
+             /poli
+             cy-en
+             gine]
+             Tools
+             that
+             are
+             allow
+             ed to
+             run
+             witho
+             ut co
+             nfirm
+             ation
+           [array]
+  -e, --ext  A
+  ensions    list
+             of
+             exten
+             sions
+             to
+             use.
+             If
+             not
+             provi
+             ded,
+             all
+             exten
+             sions
+             are
+             used.
+           [array]
+  -l,        List
+  --list-ex  all
+  tensions   avail
+             able
+             exten
+             sions
+             and
+             exit.
+         [boolean]
+  -r,        Resum
+  --resume   e a
+             previ
+             ous
+             sessi
+             on.
+             Use
+             "late
+             st"
+             for
+             most
+             recen
+             t or
+             index
+             numbe
+             r
+             (e.g.
+             --res
+             ume
+             5)
+          [string]
+      --lis  List
+      t-ses  avail
+      sions  able
+             sessi
+             ons
+             for
+             the
+             curre
+             nt pr
+             oject
+             and
+             exit.
+         [boolean]
+      --del  Delet
+      ete-s  e a
+      essio  sessi
+      n      on by
+             index
+             numbe
+             r
+             (use
+             --lis
+             t-ses
+             sions
+             to
+             see
+             avail
+             able
+             sessi
+             ons).
+          [string]
+      --inc  Addit
+      lude-  ional
+      direc  direc
+      torie  torie
+      s      s to
+             inclu
+             de in
+             the
+             works
+             pace
+             (comm
+             a-sep
+             arate
+             d or
+             multi
+             ple
+             --inc
+             lude-
+             direc
+             torie
+             s)
+           [array]
+      --scr  Enabl
+      een-r  e scr
+      eader  een r
+             eader
+             mode
+             for
+             acces
+             sibil
+             ity.
+         [boolean]
+  -o,        The f
+  --output-  ormat
+  format     of
+             the
+             CLI
+             outpu
+             t.
+          [string]
+         [choices:
+   "text", "json",
+    "stream-json"]
+      --raw  Disab
+      -outp  le sa
+      ut     nitiz
+             ation
+             of
+             model
+             outpu
+             t
+             (e.g.
+             allow
+             ANSI
+             escap
+             e seq
+             uence
+             s).
+             WARNI
+             NG:
+             This
+             can
+             be a
+             secur
+             ity
+             risk
+             if
+             the
+             model
+             outpu
+             t is
+             untru
+             sted.
+         [boolean]
+      --acc  Suppr
+      ept-r  ess
+      aw-ou  the
+      tput-  secur
+      risk   ity
+             warni
+             ng
+             when
+             using
+             --raw
+             -outp
+             ut.
+         [boolean]
+  -v,        Show
+  --version  versi
+             on nu
+             mber
+         [boolean]
+  -h,        Show
+  --help     help
+         [boolean]

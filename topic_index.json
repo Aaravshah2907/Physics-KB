@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-02-27T07:48:04Z",
-  "total_files": 13,
-  "total_topics": 269,
+  "generated_at": "2026-02-27T08:13:39Z",
+  "total_files": 14,
+  "total_topics": 270,
   "files": [
     {
       "filename": "classical-mechanics.md",
@@ -384,7 +384,7 @@
       "filename": "eulerlagrange-equations-for-unconstrained-systems.md",
       "path": "notes/eulerlagrange-equations-for-unconstrained-systems.md",
       "title": "Euler-Lagrange Equations for Unconstrained Systems",
-      "summary": "The **Euler-Lagrange equations** form the core of **Lagrangian Mechanics**, offering a powerful alternative to [[Newtonian Mechanics]]. For unconstrained systems—systems where the motion is not restricted by geometric constraints (like a bead on a wire)—these equations are derived directly from [[Hamilton's Principle]] (the Principle of Least Action). They provide a systematic method to derive equations of motion using **generalized coordinates**, often simplifying problems involving complex symmetries or non-Cartesian coordinate systems.",
+      "summary": "The **Euler-Lagrange equations** form the core of **[[Lagrangian Mechanics]]**, offering a powerful alternative to [[Newtonian Mechanics]]. For unconstrained systems—systems where the motion is not restricted by geometric constraints (like a bead on a wire)—these equations are derived directly from [[Hamilton's Principle]] (the Principle of Least Action). They provide a systematic method to derive equations of motion using **generalized coordinates**, often simplifying problems involving complex symmetries or non-Cartesian coordinate systems.",
       "tags": [
         "physics",
         "mechanics",
@@ -718,6 +718,27 @@
               "children": []
             }
           ]
+        }
+      ]
+    },
+    {
+      "filename": "generalized-coordinates.md",
+      "path": "notes/generalized-coordinates.md",
+      "title": "Generalized Coordinates",
+      "summary": "This note explores the core principles of Generalized Coordinates, delving into its mathematical foundations and physical consequences.",
+      "tags": [
+        "physics"
+      ],
+      "complexity": "advanced",
+      "date": "2026-02-27",
+      "topic_count": 1,
+      "max_depth": 1,
+      "hierarchy": [
+        {
+          "title": "Generalized Coordinates",
+          "level": 1,
+          "line": 8,
+          "children": []
         }
       ]
     },

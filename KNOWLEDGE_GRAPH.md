@@ -8,6 +8,7 @@ graph TD
   eulerlagrange_equations_for_unconstrained_systems([Euler-Lagrange Equations for Unconstrained Systems])
   four_vectors([Four-Vectors])
   gauss_law([Gauss's Law])
+  generalized_coordinates([Generalized Coordinates])
   hamiltonian_mechanics([Hamiltonian Mechanics])
   lagrangian_mechanics([Lagrangian Mechanics])
   maxwell_s_equations([Maxwell's Equations])
@@ -16,6 +17,7 @@ graph TD
   trajectory_under_gravity([Trajectory of a Particle Under Gravity])
   virtual_work([Virtual Work])
   classical_mechanics --> hamiltonian_mechanics
+  classical_mechanics --> lagrangian_mechanics
   classical_mechanics --> projectile_motion
   classical_mechanics --> trajectory_under_gravity
   electromagnetic_waves --> gauss_law
@@ -24,6 +26,7 @@ graph TD
   eulerlagrange_equations_for_constrained_systems --> hamiltonian_mechanics
   eulerlagrange_equations_for_constrained_systems --> virtual_work
   eulerlagrange_equations_for_unconstrained_systems --> classical_mechanics
+  eulerlagrange_equations_for_unconstrained_systems --> lagrangian_mechanics
   eulerlagrange_equations_for_unconstrained_systems --> trajectory_under_gravity
   four_vectors --> classical_mechanics
   gauss_law --> maxwell_s_equations
@@ -35,6 +38,7 @@ graph TD
   lagrangian_mechanics --> classical_mechanics
   lagrangian_mechanics --> eulerlagrange_equations_for_constrained_systems
   lagrangian_mechanics --> eulerlagrange_equations_for_unconstrained_systems
+  lagrangian_mechanics --> generalized_coordinates
   lagrangian_mechanics --> trajectory_under_gravity
   lagrangian_mechanics --> virtual_work
   maxwell_s_equations --> gauss_law
@@ -46,5 +50,6 @@ graph TD
   projectile_motion --> classical_mechanics
   trajectory_under_gravity --> classical_mechanics
   trajectory_under_gravity --> eulerlagrange_equations_for_unconstrained_systems
+  virtual_work --> generalized_coordinates
   virtual_work --> lagrangian_mechanics
 ```

@@ -1,8 +1,8 @@
 # Physics Knowledge Base - Topic Index
 
-**Generated:** 2026-02-27 13:18:07
-**Total Files:** 13
-**Total Topics:** 269
+**Generated:** 2026-02-27 13:43:41
+**Total Files:** 14
+**Total Topics:** 270
 
 ---
 
@@ -14,13 +14,14 @@
 4. [Euler-Lagrange Equations for Unconstrained Systems](#eulerlagrange-equations-for-unconstrained-systems) (15 topics)
 5. [Four-Vectors](#four-vectors) (14 topics)
 6. [Gauss's Law](#gauss-law) (17 topics)
-7. [Hamiltonian Mechanics](#hamiltonian-mechanics) (13 topics)
-8. [Lagrangian Mechanics](#lagrangian-mechanics) (54 topics)
-9. [Maxwell's Equations](#maxwell's-equations) (16 topics)
-10. [Physical Constants](#physical-constants) (18 topics)
-11. [Projectile Motion under Gravity](#projectile-motion) (26 topics)
-12. [Trajectory of a Particle Under Gravity](#trajectory-under-gravity) (13 topics)
-13. [Virtual Work](#virtual-work) (31 topics)
+7. [Generalized Coordinates](#generalized-coordinates) (1 topics)
+8. [Hamiltonian Mechanics](#hamiltonian-mechanics) (13 topics)
+9. [Lagrangian Mechanics](#lagrangian-mechanics) (54 topics)
+10. [Maxwell's Equations](#maxwell's-equations) (16 topics)
+11. [Physical Constants](#physical-constants) (18 topics)
+12. [Projectile Motion under Gravity](#projectile-motion) (26 topics)
+13. [Trajectory of a Particle Under Gravity](#trajectory-under-gravity) (13 topics)
+14. [Virtual Work](#virtual-work) (31 topics)
 
 ---
 
@@ -203,6 +204,21 @@
 - **Relation to Other Laws** (L1, line 104)
 - **References** (L1, line 109)
   - **Related Notes** (L3, line 114)
+
+---
+
+## Generalized Coordinates
+
+**File:** `notes/generalized-coordinates.md`  
+**Complexity:** advanced  
+**Date:** 2026-02-27  
+**Topics:** 1  
+**Max Depth:** 1  
+**Tags:** `physics`  
+
+### Topic Hierarchy
+
+- **Generalized Coordinates** (L1, line 8)
 
 ---
 
@@ -479,13 +495,13 @@
 
 ### Topics by Complexity
 
-- **Advanced:** 10 files
+- **Advanced:** 11 files
 - **Basic:** 1 files
 - **Intermediate:** 2 files
 
 ### Topics by Tag
 
-- **physics:** 13 files
+- **physics:** 14 files
 - **mechanics:** 3 files
 - **electromagnetism:** 3 files
 - **classical-mechanics:** 3 files
