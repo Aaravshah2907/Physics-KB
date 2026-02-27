@@ -141,7 +141,7 @@ $$\sum_{i=1}^N \mathbf{F}_i^{(a)} \cdot \delta \mathbf{r}_i + \sum_{i=1}^N \math
 Assuming **ideal constraints**, the second term vanishes ($\sum \mathbf{f}_i \cdot \delta \mathbf{r}_i = 0$), leading to the fundamental equation of virtual work:
 $$\delta W = \sum_{i=1}^N \mathbf{F}_i^{(a)} \cdot \delta \mathbf{r}_i = 0$$
 
-### Generalized Coordinates and Degrees of Freedom (Logical Development Score: 85)
+### [[Generalized Coordinates]] and Degrees of Freedom (Logical Development Score: 85)
 To eliminate the dependencies between Cartesian coordinates $\mathbf{r}_i$ imposed by constraints, we introduce a set of $n$ independent **generalized coordinates** $q_1, q_2, \dots, q_n$. The position vectors are expressed as:
 $$\mathbf{r}_i = \mathbf{r}_i(q_1, q_2, \dots, q_n, t)$$
 The virtual displacement $\delta \mathbf{r}_i$ is then the variation in $\mathbf{r}_i$ due to variations in $q_j$ at a fixed time $t$:

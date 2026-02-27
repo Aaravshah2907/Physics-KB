@@ -11,7 +11,7 @@ complexity: advanced
 
 The **Euler-Lagrange equations** form the core of **[[Lagrangian Mechanics]]**, offering a powerful alternative to [[Newtonian Mechanics]]. For unconstrained systems—systems where the motion is not restricted by geometric constraints (like a bead on a wire)—these equations are derived directly from [[Hamilton's Principle]] (the Principle of Least Action). They provide a systematic method to derive equations of motion using **generalized coordinates**, often simplifying problems involving complex symmetries or non-Cartesian coordinate systems.
 
-## Generalized Coordinates
+## [[Generalized Coordinates]]
 
 In Newtonian mechanics, we typically use Cartesian vector coordinates $\mathbf{r}_i$. However, in Lagrangian mechanics, we describe the configuration of a system with $N$ degrees of freedom using a set of independent **generalized coordinates**:
 

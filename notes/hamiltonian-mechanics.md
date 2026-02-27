@@ -100,7 +100,7 @@ plt.legend()
 plt.show()
 
 ## References
-- [Classical Mechanics (3rd Edition)](https://www.pearson.com/en-us/subject-catalog/p/classical-mechanics/P200000007133) - Goldstein, H., Poole, C., & Safko, J. (2001).
+- [[[Classical Mechanics]] (3rd Edition)](https://www.pearson.com/en-us/subject-catalog/p/classical-mechanics/P200000007133) - Goldstein, H., Poole, C., & Safko, J. (2001).
 - [Mechanics: Volume 1 (Course of Theoretical Physics)](https://doi.org/10.1016/C2009-0-24401-4) - Landau, L. D., & Lifshitz, E. M. (1976).
 - [A Short History of Hamiltonian Mechanics](https://arxiv.org/abs/physics/0411195) - Sardanashvily, G. (2004).
 - [[Noether's Theorem]] - Relating symmetries to conserved quantities.

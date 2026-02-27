@@ -121,7 +121,7 @@ where $\rho$ is fluid density, $v$ is speed, $L$ is a characteristic length, and
 
 ```mermaid
 graph LR
-    A[Reynolds Number Re] --> B{Re << 1}
+    A[[[Reynolds Number]] Re] --> B{Re << 1}
     A --> C{Re >> 1000}
     B --> D[Linear Drag - Stokes' Law]
     C --> E[Quadratic Drag - Newton's Law]
