@@ -12,7 +12,7 @@ Hamiltonian mechanics is a reformulation of [[classical mechanics]] that evolved
 
 The central quantity is the **Hamiltonian** $H$, which usually represents the total energy of the system. This formalism is particularly powerful for analyzing the geometric structure of dynamical systems, studying stability, and bridging the gap to [[quantum mechanics]] and [[statistical mechanics]].
 
-## Derivation from Lagrangian Mechanics
+## Derivation from [[Lagrangian Mechanics]]
 
 We begin with the Lagrangian $L(q, \dot{q}, t)$, where the equations of motion are given by the [[eulerlagrange-equations-for-unconstrained-systems]]:
 

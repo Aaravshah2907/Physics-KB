@@ -1,8 +1,8 @@
 # Physics Knowledge Base - Topic Index
 
-**Generated:** 2026-02-13 23:15:29
-**Total Files:** 12
-**Total Topics:** 192
+**Generated:** 2026-02-27 13:18:07
+**Total Files:** 13
+**Total Topics:** 269
 
 ---
 
@@ -15,11 +15,12 @@
 5. [Four-Vectors](#four-vectors) (14 topics)
 6. [Gauss's Law](#gauss-law) (17 topics)
 7. [Hamiltonian Mechanics](#hamiltonian-mechanics) (13 topics)
-8. [Maxwell's Equations](#maxwell's-equations) (16 topics)
-9. [Physical Constants](#physical-constants) (18 topics)
-10. [Projectile Motion under Gravity](#projectile-motion) (26 topics)
-11. [Trajectory of a Particle Under Gravity](#trajectory-under-gravity) (13 topics)
-12. [Virtual Work](#virtual-work) (8 topics)
+8. [Lagrangian Mechanics](#lagrangian-mechanics) (54 topics)
+9. [Maxwell's Equations](#maxwell's-equations) (16 topics)
+10. [Physical Constants](#physical-constants) (18 topics)
+11. [Projectile Motion under Gravity](#projectile-motion) (26 topics)
+12. [Trajectory of a Particle Under Gravity](#trajectory-under-gravity) (13 topics)
+13. [Virtual Work](#virtual-work) (31 topics)
 
 ---
 
@@ -232,6 +233,74 @@
 
 ---
 
+## Lagrangian Mechanics
+
+**File:** `notes/lagrangian-mechanics.md`  
+**Complexity:** advanced  
+**Date:** 2026-02-13  
+**Topics:** 54  
+**Max Depth:** 4  
+**Tags:** `physics`  
+
+### Topic Hierarchy
+
+- **Lagrangian Mechanics** (L1, line 8)
+  - **Summary and Physical Intuition** (L2, line 13)
+    - **Hamilton's Principle of Stationary Action** (L3, line 17)
+    - **Limitations of Newtonian Mechanics and the Vectorial Approach** (L3, line 30)
+    - **Configuration Space and Generalized Coordinates** (L3, line 39)
+    - **Physical Interpretation of the Lagrangian $L = T - V$** (L3, line 47)
+    - **References** (L3, line 56)
+  - **Mathematical Formalism and Variational Calculus** (L2, line 62)
+    - **The Calculus of Variations and Hamilton's Principle** (L3, line 66)
+    - **Functional Derivatives and the Action Integral** (L3, line 82)
+    - **Derivation of the Euler-Lagrange Equations for Unconstrained Systems|Euler-Lagrange Equations** (L3, line 94)
+    - **Coordinate Covariance and Transformation Invariance** (L3, line 114)
+- **Define a simple system: Free particle (V=0, T=0.5  m  v^2)** (L1, line 135)
+- **Boundary conditions: q(0)=0, q(1)=1. The true path is q(t) = t.** (L1, line 139)
+- **Define paths: q(t) = t + alpha  sin(pi  t)** (L1, line 143)
+- **alpha = 0 is the physical path (minimum action)** (L1, line 144)
+- **Plot paths** (L1, line 152)
+- **Highlight true path** (L1, line 163)
+- **Plot Action vs Alpha** (L1, line 170)
+  - **References** (L3, line 185)
+  - **Symmetries and Conservation Laws** (L2, line 191)
+    - **Noether's Theorem: Symmetries and Invariants** (L3, line 195)
+      - **Mathematical Derivation** (L4, line 199)
+    - **Conjugate Momenta and Cyclic Coordinates** (L3, line 220)
+    - **Spatial Translation Invariance and Momentum Conservation** (L3, line 228)
+    - **Time Invariance and the Jacobi Integral** (L3, line 239)
+    - **References** (L3, line 317)
+  - **Advanced Formalisms and Constraints** (L2, line 331)
+    - **Holonomic vs. Non-Holonomic Constraints** (L3, line 335)
+      - **1. Holonomic Constraints** (L4, line 339)
+      - **2. Non-Holonomic Constraints** (L4, line 345)
+    - **The Method of Euler-Lagrange Equations for Constrained Systems|Lagrange Multipliers** (L3, line 363)
+    - **Virtual Work and D'Alembert's Principle** (L3, line 375)
+    - **Generalized Forces and Constraints** (L3, line 385)
+- **Parameters** (L1, line 407)
+- **Initial conditions (starting from horizontal)** (L1, line 431)
+- **Plotting** (L1, line 440)
+  - **References** (L3, line 459)
+  - **Specialized Applications** (L2, line 465)
+    - **Central Force Motion and Trajectory of a Particle Under Gravity|Keplerian Orbits** (L3, line 471)
+      - **1. The Lagrangian and Conservation Laws** (L4, line 475)
+      - **2. The Effective Potential** (L4, line 486)
+    - **Small Oscillations and Normal Mode Analysis** (L3, line 496)
+      - **1. Quadratic Expansion** (L4, line 500)
+      - **2. The Secular Equation** (L4, line 508)
+    - **Rigid Body Dynamics and Euler Angles** (L3, line 515)
+      - **1. Euler Angles (Z-X-Z Convention)** (L4, line 521)
+    - **The Lagrangian of a Particle in an Electromagnetic Field** (L3, line 538)
+      - **1. The Generalized Potential** (L4, line 542)
+      - **2. Derivation of the Lorentz Force** (L4, line 548)
+    - **References** (L3, line 557)
+- **Parameters** (L1, line 580)
+- **Initial conditions (Elliptical Orbit)** (L1, line 585)
+- **r0 = 1.0, v0 = 0.8 (v_circ = sqrt(GM/r) = 1.0)** (L1, line 586)
+
+---
+
 ## Maxwell's Equations
 
 **File:** `notes/maxwell's-equations.md`  
@@ -366,7 +435,7 @@
 **File:** `notes/virtual-work.md`  
 **Complexity:** advanced  
 **Date:** 2026-02-13  
-**Topics:** 8  
+**Topics:** 31  
 **Max Depth:** 4  
 **Tags:** `physics`  
 
@@ -380,6 +449,29 @@
     - **Physical Intuition: The Vanishing Work of Constraints** (L3, line 44)
     - **Classification of Constraints: Ideal vs. Non-Ideal** (L3, line 50)
       - **References** (L4, line 124)
+  - **Mathematical Formalism** (L2, line 132)
+    - **Vector Formulation of Equilibrium (Logical Development Score: 95)** (L3, line 136)
+    - **Generalized Coordinates and Degrees of Freedom (Logical Development Score: 85)** (L3, line 144)
+    - **Generalized Forces (Logical Development Score: 80)** (L3, line 152)
+    - **The Stationarity of Potential Energy (Logical Development Score: 75)** (L3, line 161)
+    - **Physical Intuition: Energy Landscapes** (L3, line 180)
+      - **References** (L4, line 229)
+  - **Key Derivations** (L2, line 239)
+    - **Derivation from Newtonian Mechanics (Logical Development Score: 95)** (L3, line 243)
+    - **D'Alembert's Principle: Extension to Dynamics (Logical Development Score: 88)** (L3, line 254)
+    - **Derivation of Euler-Lagrange Equations (Logical Development Score: 70)** (L3, line 272)
+    - **Connection to the Principle of Least Action (Logical Development Score: 50)** (L3, line 285)
+      - **References** (L4, line 290)
+  - **Applications** (L2, line 296)
+    - **Analysis of Simple Machines and Linkages** (L3, line 300)
+    - **Static Stability and Bifurcation Theory** (L3, line 314)
+    - **Dynamics of Constrained Rigid Bodies** (L3, line 322)
+    - **Principle of Virtual Work in Continuum Mechanics** (L3, line 327)
+      - **References** (L4, line 382)
+  - **Historical Context** (L2, line 390)
+    - **Johann Bernoulli and Virtual Velocities** (L3, line 394)
+    - **D'Alembert's Traité de Dynamique** (L3, line 403)
+    - **Lagrange and the Analytization of Mechanics** (L3, line 418)
 
 ---
 
@@ -387,13 +479,13 @@
 
 ### Topics by Complexity
 
-- **Advanced:** 9 files
+- **Advanced:** 10 files
 - **Basic:** 1 files
 - **Intermediate:** 2 files
 
 ### Topics by Tag
 
-- **physics:** 12 files
+- **physics:** 13 files
 - **mechanics:** 3 files
 - **electromagnetism:** 3 files
 - **classical-mechanics:** 3 files

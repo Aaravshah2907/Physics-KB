@@ -1,11 +1,9 @@
 Air Resistance|projectile-motion|1
 Divergence Theorem|gauss-law|1
-Generalized Coordinates|virtual-work|1
 ideal-projectile-motion-for-different-angles.svg|projectile-motion|2
 Kinematics|projectile-motion|1
-Lagrangian mechanics|hamiltonian-mechanics|1
 Lambert W function|projectile-motion|1
-Newtonian Mechanics|eulerlagrange-equations-for-unconstrained-systems|1
+Newtonian Mechanics|eulerlagrange-equations-for-unconstrained-systems|2
 projectile-motion-with-air-resistance.svg|projectile-motion|1
 quantum mechanics|hamiltonian-mechanics|1
 quantum-mechanics|hamiltonian-mechanics|1

@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-02-13T17:45:28Z",
-  "total_files": 12,
-  "total_topics": 192,
+  "generated_at": "2026-02-27T07:48:04Z",
+  "total_files": 13,
+  "total_topics": 269,
   "files": [
     {
       "filename": "classical-mechanics.md",
@@ -821,6 +821,359 @@
       ]
     },
     {
+      "filename": "lagrangian-mechanics.md",
+      "path": "notes/lagrangian-mechanics.md",
+      "title": "Lagrangian Mechanics",
+      "summary": "This note explores the core principles of Lagrangian Mechanics, delving into its mathematical foundations and physical consequences.",
+      "tags": [
+        "physics"
+      ],
+      "complexity": "advanced",
+      "date": "2026-02-13",
+      "topic_count": 54,
+      "max_depth": 4,
+      "hierarchy": [
+        {
+          "title": "Lagrangian Mechanics",
+          "level": 1,
+          "line": 8,
+          "children": [
+            {
+              "title": "Summary and Physical Intuition",
+              "level": 2,
+              "line": 13,
+              "children": [
+                {
+                  "title": "Hamilton's Principle of Stationary Action",
+                  "level": 3,
+                  "line": 17,
+                  "children": []
+                },
+                {
+                  "title": "Limitations of Newtonian Mechanics and the Vectorial Approach",
+                  "level": 3,
+                  "line": 30,
+                  "children": []
+                },
+                {
+                  "title": "Configuration Space and Generalized Coordinates",
+                  "level": 3,
+                  "line": 39,
+                  "children": []
+                },
+                {
+                  "title": "Physical Interpretation of the Lagrangian $L = T - V$",
+                  "level": 3,
+                  "line": 47,
+                  "children": []
+                },
+                {
+                  "title": "References",
+                  "level": 3,
+                  "line": 56,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "Mathematical Formalism and Variational Calculus",
+              "level": 2,
+              "line": 62,
+              "children": [
+                {
+                  "title": "The Calculus of Variations and Hamilton's Principle",
+                  "level": 3,
+                  "line": 66,
+                  "children": []
+                },
+                {
+                  "title": "Functional Derivatives and the Action Integral",
+                  "level": 3,
+                  "line": 82,
+                  "children": []
+                },
+                {
+                  "title": "Derivation of the Euler-Lagrange Equations for Unconstrained Systems|Euler-Lagrange Equations",
+                  "level": 3,
+                  "line": 94,
+                  "children": []
+                },
+                {
+                  "title": "Coordinate Covariance and Transformation Invariance",
+                  "level": 3,
+                  "line": 114,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Define a simple system: Free particle (V=0, T=0.5  m  v^2)",
+          "level": 1,
+          "line": 135,
+          "children": []
+        },
+        {
+          "title": "Boundary conditions: q(0)=0, q(1)=1. The true path is q(t) = t.",
+          "level": 1,
+          "line": 139,
+          "children": []
+        },
+        {
+          "title": "Define paths: q(t) = t + alpha  sin(pi  t)",
+          "level": 1,
+          "line": 143,
+          "children": []
+        },
+        {
+          "title": "alpha = 0 is the physical path (minimum action)",
+          "level": 1,
+          "line": 144,
+          "children": []
+        },
+        {
+          "title": "Plot paths",
+          "level": 1,
+          "line": 152,
+          "children": []
+        },
+        {
+          "title": "Highlight true path",
+          "level": 1,
+          "line": 163,
+          "children": []
+        },
+        {
+          "title": "Plot Action vs Alpha",
+          "level": 1,
+          "line": 170,
+          "children": [
+            {
+              "title": "References",
+              "level": 3,
+              "line": 185,
+              "children": []
+            },
+            {
+              "title": "Symmetries and Conservation Laws",
+              "level": 2,
+              "line": 191,
+              "children": [
+                {
+                  "title": "Noether's Theorem: Symmetries and Invariants",
+                  "level": 3,
+                  "line": 195,
+                  "children": [
+                    {
+                      "title": "Mathematical Derivation",
+                      "level": 4,
+                      "line": 199,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "title": "Conjugate Momenta and Cyclic Coordinates",
+                  "level": 3,
+                  "line": 220,
+                  "children": []
+                },
+                {
+                  "title": "Spatial Translation Invariance and Momentum Conservation",
+                  "level": 3,
+                  "line": 228,
+                  "children": []
+                },
+                {
+                  "title": "Time Invariance and the Jacobi Integral",
+                  "level": 3,
+                  "line": 239,
+                  "children": []
+                },
+                {
+                  "title": "References",
+                  "level": 3,
+                  "line": 317,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "Advanced Formalisms and Constraints",
+              "level": 2,
+              "line": 331,
+              "children": [
+                {
+                  "title": "Holonomic vs. Non-Holonomic Constraints",
+                  "level": 3,
+                  "line": 335,
+                  "children": [
+                    {
+                      "title": "1. Holonomic Constraints",
+                      "level": 4,
+                      "line": 339,
+                      "children": []
+                    },
+                    {
+                      "title": "2. Non-Holonomic Constraints",
+                      "level": 4,
+                      "line": 345,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "title": "The Method of Euler-Lagrange Equations for Constrained Systems|Lagrange Multipliers",
+                  "level": 3,
+                  "line": 363,
+                  "children": []
+                },
+                {
+                  "title": "Virtual Work and D'Alembert's Principle",
+                  "level": 3,
+                  "line": 375,
+                  "children": []
+                },
+                {
+                  "title": "Generalized Forces and Constraints",
+                  "level": 3,
+                  "line": 385,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Parameters",
+          "level": 1,
+          "line": 407,
+          "children": []
+        },
+        {
+          "title": "Initial conditions (starting from horizontal)",
+          "level": 1,
+          "line": 431,
+          "children": []
+        },
+        {
+          "title": "Plotting",
+          "level": 1,
+          "line": 440,
+          "children": [
+            {
+              "title": "References",
+              "level": 3,
+              "line": 459,
+              "children": []
+            },
+            {
+              "title": "Specialized Applications",
+              "level": 2,
+              "line": 465,
+              "children": [
+                {
+                  "title": "Central Force Motion and Trajectory of a Particle Under Gravity|Keplerian Orbits",
+                  "level": 3,
+                  "line": 471,
+                  "children": [
+                    {
+                      "title": "1. The Lagrangian and Conservation Laws",
+                      "level": 4,
+                      "line": 475,
+                      "children": []
+                    },
+                    {
+                      "title": "2. The Effective Potential",
+                      "level": 4,
+                      "line": 486,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "title": "Small Oscillations and Normal Mode Analysis",
+                  "level": 3,
+                  "line": 496,
+                  "children": [
+                    {
+                      "title": "1. Quadratic Expansion",
+                      "level": 4,
+                      "line": 500,
+                      "children": []
+                    },
+                    {
+                      "title": "2. The Secular Equation",
+                      "level": 4,
+                      "line": 508,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "title": "Rigid Body Dynamics and Euler Angles",
+                  "level": 3,
+                  "line": 515,
+                  "children": [
+                    {
+                      "title": "1. Euler Angles (Z-X-Z Convention)",
+                      "level": 4,
+                      "line": 521,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "title": "The Lagrangian of a Particle in an Electromagnetic Field",
+                  "level": 3,
+                  "line": 538,
+                  "children": [
+                    {
+                      "title": "1. The Generalized Potential",
+                      "level": 4,
+                      "line": 542,
+                      "children": []
+                    },
+                    {
+                      "title": "2. Derivation of the Lorentz Force",
+                      "level": 4,
+                      "line": 548,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "title": "References",
+                  "level": 3,
+                  "line": 557,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Parameters",
+          "level": 1,
+          "line": 580,
+          "children": []
+        },
+        {
+          "title": "Initial conditions (Elliptical Orbit)",
+          "level": 1,
+          "line": 585,
+          "children": []
+        },
+        {
+          "title": "r0 = 1.0, v0 = 0.8 (v_circ = sqrt(GM/r) = 1.0)",
+          "level": 1,
+          "line": 586,
+          "children": []
+        }
+      ]
+    },
+    {
       "filename": "maxwell's-equations.md",
       "path": "notes/maxwell's-equations.md",
       "title": "Maxwell's Equations",
@@ -941,7 +1294,7 @@
       "filename": "physical-constants.md",
       "path": "notes/physical-constants.md",
       "title": "Physical Constants",
-      "summary": "Physical constants are scalar quantities believed to be universal in nature and unchanging over time. They act as the fundamental parameters of the mathematical frameworks describing physical reality, from **Classical Mechanics** to **Quantum Field Theory**. These constants define the scales of length, mass, time, and energy in the universe.  This note categorizes fundamental constants, provides their 2019 SI redefinition values, and explores their role in theoretical frameworks like [[Maxwell's Equations]] and [[Hamiltonian Mechanics]].",
+      "summary": "Physical constants are scalar quantities believed to be universal in nature and unchanging over time. They act as the fundamental parameters of the mathematical frameworks describing physical reality, from **[[Classical Mechanics]]** to **Quantum Field Theory**. These constants define the scales of length, mass, time, and energy in the universe.  This note categorizes fundamental constants, provides their 2019 SI redefinition values, and explores their role in theoretical frameworks like [[Maxwell's Equations]] and [[Hamiltonian Mechanics]].",
       "tags": [
         "physics",
         "metrology",
@@ -1361,7 +1714,7 @@
       ],
       "complexity": "advanced",
       "date": "2026-02-13",
-      "topic_count": 8,
+      "topic_count": 31,
       "max_depth": 4,
       "hierarchy": [
         {
@@ -1410,6 +1763,151 @@
                       "children": []
                     }
                   ]
+                }
+              ]
+            },
+            {
+              "title": "Mathematical Formalism",
+              "level": 2,
+              "line": 132,
+              "children": [
+                {
+                  "title": "Vector Formulation of Equilibrium (Logical Development Score: 95)",
+                  "level": 3,
+                  "line": 136,
+                  "children": []
+                },
+                {
+                  "title": "Generalized Coordinates and Degrees of Freedom (Logical Development Score: 85)",
+                  "level": 3,
+                  "line": 144,
+                  "children": []
+                },
+                {
+                  "title": "Generalized Forces (Logical Development Score: 80)",
+                  "level": 3,
+                  "line": 152,
+                  "children": []
+                },
+                {
+                  "title": "The Stationarity of Potential Energy (Logical Development Score: 75)",
+                  "level": 3,
+                  "line": 161,
+                  "children": []
+                },
+                {
+                  "title": "Physical Intuition: Energy Landscapes",
+                  "level": 3,
+                  "line": 180,
+                  "children": [
+                    {
+                      "title": "References",
+                      "level": 4,
+                      "line": 229,
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "title": "Key Derivations",
+              "level": 2,
+              "line": 239,
+              "children": [
+                {
+                  "title": "Derivation from Newtonian Mechanics (Logical Development Score: 95)",
+                  "level": 3,
+                  "line": 243,
+                  "children": []
+                },
+                {
+                  "title": "D'Alembert's Principle: Extension to Dynamics (Logical Development Score: 88)",
+                  "level": 3,
+                  "line": 254,
+                  "children": []
+                },
+                {
+                  "title": "Derivation of Euler-Lagrange Equations (Logical Development Score: 70)",
+                  "level": 3,
+                  "line": 272,
+                  "children": []
+                },
+                {
+                  "title": "Connection to the Principle of Least Action (Logical Development Score: 50)",
+                  "level": 3,
+                  "line": 285,
+                  "children": [
+                    {
+                      "title": "References",
+                      "level": 4,
+                      "line": 290,
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "title": "Applications",
+              "level": 2,
+              "line": 296,
+              "children": [
+                {
+                  "title": "Analysis of Simple Machines and Linkages",
+                  "level": 3,
+                  "line": 300,
+                  "children": []
+                },
+                {
+                  "title": "Static Stability and Bifurcation Theory",
+                  "level": 3,
+                  "line": 314,
+                  "children": []
+                },
+                {
+                  "title": "Dynamics of Constrained Rigid Bodies",
+                  "level": 3,
+                  "line": 322,
+                  "children": []
+                },
+                {
+                  "title": "Principle of Virtual Work in Continuum Mechanics",
+                  "level": 3,
+                  "line": 327,
+                  "children": [
+                    {
+                      "title": "References",
+                      "level": 4,
+                      "line": 382,
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "title": "Historical Context",
+              "level": 2,
+              "line": 390,
+              "children": [
+                {
+                  "title": "Johann Bernoulli and Virtual Velocities",
+                  "level": 3,
+                  "line": 394,
+                  "children": []
+                },
+                {
+                  "title": "D'Alembert's Traité de Dynamique",
+                  "level": 3,
+                  "line": 403,
+                  "children": []
+                },
+                {
+                  "title": "Lagrange and the Analytization of Mechanics",
+                  "level": 3,
+                  "line": 418,
+                  "children": []
                 }
               ]
             }

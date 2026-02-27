@@ -30,7 +30,7 @@ In classical mechanics, space is Euclidean and time is absolute. The geometry of
 
 ## Lagrangian Formalism (Analytical Mechanics)
 
-While Newtonian mechanics relies on vector quantities (forces), **Lagrangian Mechanics** relies on scalar quantities (energy). This formulation is often more powerful for complex systems with constraints.
+While Newtonian mechanics relies on vector quantities (forces), **[[Lagrangian Mechanics]]** relies on scalar quantities (energy). This formulation is often more powerful for complex systems with constraints.
 
 ### The Principle of Least Action
 The dynamical path of a system between times $t_1$ and $t_2$ is a stationary point of the **action functional** $S$.

@@ -266,7 +266,7 @@ graph LR
     B --> C{Add Virtual Work}
     C --> D[Σ(F - ma)·δr = 0]
     D --> E[D'Alembert's Principle]
-    E --> F[Lagrangian Mechanics]
+    E --> F[[[Lagrangian Mechanics]]]
 ```
 
 ### Derivation of Euler-Lagrange Equations (Logical Development Score: 70)
@@ -384,4 +384,53 @@ if __name__ == "__main__":
 - [Principle of virtual action in continuum mechanics](https://arxiv.org/abs/2403.20076) - Henri Gouin (2024)
 - [Jacobian Matrix and Virtual Work in Robot Manipulators](https://doi.org/10.1109/TRA.1987.391496) - Various (1987)
 - *Energy and Variational Methods in Applied Mechanics* - J.N. Reddy (2017)
+
+
+I will search for historical references and diagrams related to Johann Bernoulli's work on virtual velocities, D'Alembert's principle, and Lagrange's *Mécanique Analytique* to provide accurate DOI/arXiv links and high-quality Wikipedia diagrams.
+## Historical Context
+
+The evolution of the principle of virtual work represents the transition from geometric to analytical mechanics, moving from specific machine problems to a universal variational foundation for all of physics.
+
+### Johann Bernoulli and Virtual Velocities
+While the roots of virtual work can be traced back to Aristotle's study of levers and Jordanus de Nemore’s *De ratione ponderis*, it was **Johann Bernoulli** who first gave the principle a formal, general statement in a famous letter to Pierre Varignon in 1717. Bernoulli introduced the concept of **virtual velocities** ($vitesse\; virtuelle$).
+
+Bernoulli proposed that for a system of bodies in equilibrium, the sum of the products of each force and its corresponding "virtual velocity" (the velocity the point of application would have if the system underwent an infinitesimal displacement) must vanish.
+
+$$ \sum_{i=1}^{n} \mathbf{F}_i \cdot \mathbf{v}_i = 0 $$
+
+Where $\mathbf{v}_i$ is the virtual velocity vector. This was a purely statical principle, yet it hinted at the energy conservation principles that would emerge a century later. Bernoulli's insight was that the "tendency to move" (the virtual velocity) was as physically significant as the motion itself. This letter was later published in Varignon's *Nouvelle Mécanique ou Statique* (1725).
+
+### D'Alembert's Traité de Dynamique
+In 1743, **Jean le Rond d'Alembert** published his *Traité de dynamique*, where he achieved the monumental feat of reducing the study of moving bodies (dynamics) to the study of bodies in equilibrium (statics). 
+
+**D'Alembert's Principle** posits that the "lost forces" (the difference between the impressed forces and the effective inertial forces) must be in equilibrium with the constraints. Mathematically, for each particle $i$:
+
+$$ \mathbf{F}_i - \dot{\mathbf{p}}_i = 0 $$
+
+By invoking Bernoulli's principle of virtual velocities (or displacements), d'Alembert showed that the total virtual work of these "lost forces" is zero for any displacement $\delta \mathbf{r}_i$ consistent with the constraints:
+
+$$ \sum_{i} (\mathbf{F}_i - m_i \mathbf{a}_i) \cdot \delta \mathbf{r}_i = 0 $$
+
+This formulation is arguably the most important step in the history of mechanics, as it provided a systematic way to eliminate unknown constraint forces from the equations of motion.
+
+- [D'Alembert's Principle: The Original Formulation and Application](https://doi.org/10.1111/j.1600-0498.1985.tb00801.x) - C. Fraser (1985)
+
+### Lagrange and the Analytization of Mechanics
+The culmination of this lineage arrived with **Joseph-Louis Lagrange** and his masterpiece, *Mécanique Analytique* (1788). Lagrange famously boasted in the preface that the book contained no diagrams, as he had reduced the entirety of mechanics to "algebraic operations."
+
+Lagrange adopted the Principle of Virtual Work as his primary axiom, using it to derive the fundamental equations of motion in terms of **generalized coordinates** $q_j$. By transforming d'Alembert's principle into these coordinates, he arrived at the elegant form:
+
+$$ \sum_{j} \left[ \frac{d}{dt} \left( \frac{\partial T}{\partial \dot{q}_j} \right) - \frac{\partial T}{\partial q_j} - Q_j \right] \delta q_j = 0 $$
+
+Since the virtual displacements $\delta q_j$ are independent and arbitrary, each term in the bracket must vanish, yielding the **Euler-Lagrange Equations**. This shifted the focus of physics from vector forces to scalar energy functions ($L = T - V$), paving the way for Hamilton’s principle and modern quantum field theory.
+
+- [Méchanique analitique (Original 1788 Edition)](https://doi.org/10.5479/sil.322586.39088000898585) - J. L. Lagrange (1788)
+
+```mermaid
+graph LR
+    A[Statics: Lever Rule] --> B[Bernoulli 1717: Virtual Velocities]
+    B --> C[D'Alembert 1743: Dynamics as Statics]
+    C --> D[Lagrange 1788: Analytical Mechanics]
+    D --> E[Hamilton 1834: Principle of Least Action]
+```
 
