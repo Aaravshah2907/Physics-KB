@@ -16,16 +16,14 @@ if [ ! -f "$INDEX_JSON" ]; then
     "$PKB_SCRIPTS_DIR/pkb-index" >/dev/null 2>&1
 fi
 
-NOTE_DATA=$(jq -r '.files[] | "\(.filename)|\(.title)|\(.summary)|LINKS:[]"' "$INDEX_JSON")
-# Note: LINKS:[] is a placeholder as full link extraction per file is better handled during generation or here if needed.
-# But for semantic bridging, title and summary are usually enough.
+NOTE_DATA=$(jq -r '.files[] | "\(.filename)|\(.title)|\(.summary)"' "$INDEX_JSON")
 
 
 # 2. Batch Analysis via Gemini
 draw_task_progress 2 3 "Finding hidden connections"
 
 BRIDGE_TASK=$(cat "$PROMPTS_DIR/bridge.txt")
-BRIDGE_PROMPT="Given the following list of physics notes (Format: Filename|Title|Summary|ExistingLinks):
+BRIDGE_PROMPT="Given the following list of physics notes (Format: Filename|Title|Summary):
 
 $NOTE_DATA
 
@@ -33,7 +31,7 @@ $BRIDGE_TASK"
 
 TEMP_DIR=$(mktemp -d)
 echo "" # For spinner
-call_llm_light "$BRIDGE_PROMPT" > "$TEMP_DIR/suggestions.txt"
+call_gemini "$BRIDGE_PROMPT" > "$TEMP_DIR/suggestions.txt"
 
 # 3. Interactive Application
 draw_task_progress 3 3 "Reviewing suggestions"

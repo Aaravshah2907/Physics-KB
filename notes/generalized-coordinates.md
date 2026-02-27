@@ -9,3 +9,6 @@ complexity: advanced
 
 Summary: This note explores the core principles of Generalized Coordinates, delving into its mathematical foundations and physical consequences.
 
+
+### Related Notes
+- [[Lagrangian Mechanics]]

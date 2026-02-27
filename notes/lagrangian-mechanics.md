@@ -12,7 +12,7 @@ Summary: This note explores the core principles of Lagrangian Mechanics, delving
 
 ## Summary and Physical Intuition
 
-Lagrangian mechanics represents a profound shift in the description of physical systems, moving from the **vectorial approach** of [[Newtonian Mechanics]] to a **variational approach** based on scalar quantities. While Newtonian mechanics focuses on the instantaneous causal relationship between forces and accelerations ($\mathbf{F} = m\mathbf{a}$), Lagrangian mechanics views the entire history of a system's motion as a single path that extremizes a fundamental quantity called the **Action**.
+Lagrangian mechanics offers a profound reformulation of the principles of [[Classical Mechanics]], moving from the **vectorial approach** of [[Newtonian Mechanics]] to a **variational approach** based on scalar quantities. While Newtonian mechanics focuses on the instantaneous causal relationship between forces and accelerations ($\mathbf{F} = m\mathbf{a}$), Lagrangian mechanics views the entire history of a system's motion as a single path that extremizes a fundamental quantity called the **Action**.
 
 ### Hamilton's Principle of Stationary Action
 
@@ -23,7 +23,7 @@ $$S = \int_{t_1}^{t_2} L(q, \dot{q}, t) \, dt$$
 where $L = T - V$, with $T$ being the kinetic energy and $V$ the potential energy. The condition for a stationary path is given by the vanishing of the first variation:
 $$\delta S = \delta \int_{t_1}^{t_2} L(q, \dot{q}, t) \, dt = 0$$
 
-![Hamilton's Principle in Configuration Space](https://upload.wikimedia.org/wikipedia/commons/4/4b/Least_action_principle.svg)
+![[least-action-principle.svg]]
 
 This principle suggests that nature "seeks out" the most efficient path. Unlike the local nature of Newton's laws, Hamilton's principle is **global** and **teleological** in appearance, though it is mathematically equivalent to the differential equations of motion.
 
@@ -38,15 +38,15 @@ In contrast, the Lagrangian is a **scalar function**, making it invariant under 
 
 ### Configuration Space and [[Generalized Coordinates]]
 
-Lagrangian mechanics simplifies systems by utilizing **Configuration Space**. For a system with $N$ particles and $k$ constraints, we define $n = 3N - k$ **[[Generalized Coordinates]]** $q_1, q_2, \dots, q_n$. 
+Lagrangian mechanics simplifies systems by utilizing **Configuration Space**. For a system with $N$ particles and $k$ constraints, we define $n = 3N - k$ **[[Generalized Coordinates]]** $q_1, q_2, \dots, q_n$.
 - These coordinates completely specify the state of the system without needing to satisfy constraint equations explicitly.
 - The path of the system is represented as a single point moving through an $n$-dimensional manifold known as the **Configuration Space**.
 
-![Variation of position in Lagrangian mechanics](https://upload.wikimedia.org/wikipedia/commons/1/15/Lagrange-mech.jpg)
+![[lagrange-mech.jpg]]
 
 ### Physical Interpretation of the Lagrangian $L = T - V$
 
-The choice of $L = T - V$ may initially seem counterintuitive compared to the total energy $E = T + V$. However, its physical significance can be understood through **D'Alembert's Principle** of [[Virtual Work]]. 
+The choice of $L = T - V$ may initially seem counterintuitive compared to the total energy $E = T + V$. However, its physical significance can be understood through **D'Alembert's Principle** of [[Virtual Work]].
 
 1.  **Balance of Dynamics**: The Lagrangian represents the difference between the "ordered" motion (Kinetic Energy) and the "stored" work (Potential Energy).
 2.  **Stationarity of Difference**: Hamilton's principle implies that over a given interval, the system evolves such that the *average difference* between kinetic and potential energy is minimized. If $T$ is much larger than $V$, the particle moves too fast; if $V$ is much larger than $T$, it moves too slow. The "true" path is a delicate balance between the two.
@@ -75,7 +75,7 @@ where $L = T - V$ is the [[Lagrangian]]. Hamilton's principle states:
 
 $$\delta S = \delta \int_{t_1}^{t_2} L(q, \dot{q}, t) \, dt = 0$$
 
-![Path Variation in Calculus of Variations](https://upload.wikimedia.org/wikipedia/commons/e/e0/Calculus_of_variations.svg)
+![[calculus-of-variations.svg]]
 
 This principle suggests that nature is "economical," choosing paths that optimize the time-integrated difference between kinetic and potential energy.
 
@@ -113,7 +113,7 @@ For a system with $N$ degrees of freedom, this represents a set of $N$ second-or
 
 ### Coordinate Covariance and Transformation Invariance
 
-A profound advantage of the Lagrangian formalism is its **coordinate covariance**. Newton's Second Law, $\mathbf{F} = m\mathbf{a}$, is tied to an inertial frame and requires careful handling of "fictitious forces" in non-inertial systems. 
+A profound advantage of the Lagrangian formalism is its **coordinate covariance**. Newton's Second Law, $\mathbf{F} = m\mathbf{a}$, is tied to an inertial frame and requires careful handling of "fictitious forces" in non-inertial systems.
 
 In contrast, the Lagrangian $L$ is a scalar quantity. If we perform a coordinate transformation $q_i = q_i(Q_1, \dots, Q_n, t)$, the form of the Euler-Lagrange equations remains invariant:
 
@@ -154,7 +154,7 @@ plt.subplot(1, 2, 1)
 for alpha in alphas:
     path = t_vals + alpha * np.sin(np.pi * t_vals)
     plt.plot(t_vals, path, color='gray', alpha=0.3)
-    
+
     # Calculate action for this alpha
     v_func = lambda t: 1 + alpha * np.pi * np.cos(np.pi * t)
     q_func = lambda t: t + alpha * np.sin(np.pi * t)
@@ -194,7 +194,7 @@ In [[Lagrangian Mechanics]], the deep connection between the physical symmetries
 
 ### [[Noether's Theorem]]: Symmetries and Invariants
 
-Noether's Theorem is perhaps the most profound result in theoretical physics, stating that every continuous symmetry of the [[Action integral|action]] corresponds to a conserved quantity (an invariant). 
+Noether's Theorem is perhaps the most profound result in theoretical physics, stating that every continuous symmetry of the [[Action integral|action]] corresponds to a conserved quantity (an invariant).
 
 #### Mathematical Derivation
 Consider a transformation of the [[Generalized Coordinates]] $q_i$ parameterized by a small constant $\epsilon$:
@@ -204,7 +204,7 @@ $$\frac{dL}{d\epsilon}\bigg|_{\epsilon=0} = \frac{dF(q, t)}{dt}$$
 Expanding the derivative using the chain rule:
 $$\sum_i \left( \frac{\partial L}{\partial q_i} \psi_i + \frac{\partial L}{\partial \dot{q}_i} \dot{\psi}_i \right) = \frac{dF}{dt}$$
 Substituting the [[Euler-Lagrange Equations for Unconstrained Systems|Euler-Lagrange equations]] $\frac{\partial L}{\partial q_i} = \frac{d}{dt} \frac{\partial L}{\partial \dot{q}_i}$:
-$$\sum_i \left( \psi_i \frac{d}{dt} \frac{\partial L}{\partial \dot{q}_i} + \frac{\partial L}{\partial \dot{q}_i} \frac{d\psi_i}{dt} \right) = \frac{d}{dt} \sum_i \left( \frac{\partial L}{\partial \dot{q}_i} \psi_i \right) = \frac{dF}{dt}$$
+$$\sum_i \left( \psi_i \frac{d}{dt} \frac{\partial L}{\partial \dot{q}_i} + \frac{\partial L}{\partial \dot{q}_i} \frac{d\psi_i}{dt} \right) = \frac{d}{dt} \left( \sum_i \left( \frac{\partial L}{\partial \dot{q}_i} \psi_i \right) \right) = \frac{dF}{dt}$$
 Thus, we identify the conserved quantity $J$:
 $$J = \sum_i \frac{\partial L}{\partial \dot{q}_i} \psi_i - F = \text{constant}$$
 
@@ -231,14 +231,14 @@ Consider a system of $N$ particles. If the Lagrangian is invariant under a unifo
 $$\mathbf{r}_i \to \mathbf{r}_i + \mathbf{\epsilon}$$
 The change in the Lagrangian is:
 $$\delta L = \sum_i \frac{\partial L}{\partial \mathbf{r}_i} \cdot \delta \mathbf{r}_i = \mathbf{\epsilon} \cdot \sum_i \frac{\partial L}{\partial \mathbf{r}_i} = 0$$
-Since $\frac{\partial L}{\partial \mathbf{r}_i} = \dot{\mathbf{p}}_i$, this implies $\sum_i \dot{\mathbf{p}}_i = \frac{d}{dt} \mathbf{P} = 0$, where $\mathbf{P}$ is the total linear momentum. 
+Since $\frac{\partial L}{\partial \mathbf{r}_i} = \dot{\mathbf{p}}_i$, this implies $\sum_i \dot{\mathbf{p}}_i = \frac{d}{dt} \mathbf{P} = 0$, where $\mathbf{P}$ is the total linear momentum.
 
 > [!INFO] Physical Intuition
 > Translation invariance implies that the "absolute position" in space does not affect the dynamics; only relative distances matter. This homogeneity of space is the root of linear momentum conservation.
 
 ### Time Invariance and the Jacobi Integral
 
-If the Lagrangian does not depend explicitly on time ($\partial L / \partial t = 0$), the system is invariant under time translation $t \to t + \delta t$. 
+If the Lagrangian does not depend explicitly on time ($\partial L / \partial t = 0$), the system is invariant under time translation $t \to t + \delta t$.
 The total time derivative of $L(q, \dot{q})$ is:
 $$\frac{dL}{dt} = \sum_i \frac{\partial L}{\partial q_i} \dot{q}_i + \sum_i \frac{\partial L}{\partial \dot{q}_i} \ddot{q}_i$$
 Using the Euler-Lagrange equations $\frac{\partial L}{\partial q_i} = \frac{d}{dt} \frac{\partial L}{\partial \dot{q}_i}$:
@@ -247,7 +247,7 @@ Rearranging gives the **Jacobi Integral** $h$:
 $$h = \sum_i \dot{q}_i \frac{\partial L}{\partial \dot{q}_i} - L = \text{constant}$$
 For systems where the kinetic energy $T$ is a homogeneous quadratic function of $\dot{q}$ and the potential $V$ is independent of $\dot{q}$, $h$ reduces to the total energy $E = T + V$.
 
-![Noether's Theorem Diagram](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Noether_theorem_conservation_laws.png/400px-Noether_theorem_conservation_laws.png)
+![[400px-noether-theorem-conservation-laws.png]]
 
 ---SIMULATION:python:angular_momentum_conservation.py---
 import numpy as np
@@ -264,49 +264,49 @@ def simulate_central_force(t_max=20, dt=0.01):
     # Initial conditions: circular-ish orbit
     pos = np.array([1.0, 0.0])
     vel = np.array([0.0, 0.8])
-    
+
     steps = int(t_max / dt)
     history_pos = np.zeros((steps, 2))
     history_L = np.zeros(steps)
-    
+
     for i in range(steps):
         history_pos[i] = pos
         # Angular momentum L_z = r x p = m (x*v_y - y*v_x)
         history_L[i] = pos[0]*vel[1] - pos[1]*vel[0]
-        
+
         # RK4 integration
         k1_v = get_accel(pos)
         k1_p = vel
-        
+
         k2_v = get_accel(pos + 0.5*dt*k1_p)
         k2_p = vel + 0.5*dt*k1_v
-        
+
         k3_v = get_accel(pos + 0.5*dt*k2_p)
         k3_p = vel + 0.5*dt*k2_v
-        
+
         k4_v = get_accel(pos + dt*k3_p)
         k4_p = vel + dt*k3_v
-        
+
         vel += (dt/6.0) * (k1_v + 2*k2_v + 2*k3_v + k4_v)
         pos += (dt/6.0) * (k1_p + 2*k2_p + 2*k3_p + k4_p)
 
     # Plotting
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
-    
+
     ax1.plot(history_pos[:, 0], history_pos[:, 1], 'b-')
     ax1.set_title("Particle Trajectory (Central Potential)")
     ax1.set_xlabel("x")
     ax1.set_ylabel("y")
     ax1.axis('equal')
     ax1.grid(True)
-    
+
     ax2.plot(np.linspace(0, t_max, steps), history_L, 'r-')
     ax2.set_ylim(0, 1.5)
     ax2.set_title("Angular Momentum $L_z$ vs Time")
     ax2.set_xlabel("Time")
     ax2.set_ylabel("$L_z$")
     ax2.grid(True)
-    
+
     plt.tight_layout()
     plt.savefig('angular_momentum_conservation.png')
     plt.show()
@@ -347,7 +347,7 @@ A constraint is **non-holonomic** if it cannot be expressed in the form $f(q, t)
 *   **Inequalities**: A particle in a sphere of radius $R$: $x^2 + y^2 + z^2 \leq R^2$.
 *   **Non-integrable Velocity Constraints**: A classic example is a vertical disk rolling without slipping on a horizontal plane. The constraints on the coordinates $(x, y, \phi, \theta)$ cannot be integrated to form a purely spatial relation.
 
-![Non-holonomic rolling ball](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Rollling_ball_nonholonomic.png/400px-Rollling_ball_nonholonomic.png)
+![[400px-rollling-ball-nonholonomic.png]]
 
 ```mermaid
 graph TD
@@ -411,21 +411,21 @@ m = 1.0
 
 def derivatives(t, state):
     x, y, vx, vy = state
-    
-    # Using the differentiated constraint 2x*vx + 2y*vy = 0 
+
+    # Using the differentiated constraint 2x*vx + 2y*vy = 0
     # and 2*vx^2 + 2x*ax + 2*vy^2 + 2y*ay = 0
     # Combined with E-L: m*ax = lambda * 2x, m*ay = m*g + lambda * 2y
-    # We solve for lambda: 
+    # We solve for lambda:
     # 2*vx^2 + 2*vy^2 + 2x*(2*lambda*x/m) + 2y*(g + 2*lambda*y/m) = 0
     # lambda * (4*x^2/m + 4*y^2/m) = -2*(vx^2 + vy^2 + y*g)
     # lambda = -m * (vx^2 + vy^2 + y*g) / (2 * (x^2 + y^2))
-    
+
     denom = 2 * (x**2 + y**2)
     lam = -m * (vx**2 + vy**2 + y*g) / denom
-    
+
     ax = (2 * lam * x) / m
     ay = g + (2 * lam * y) / m
-    
+
     return [vx, vy, ax, ay]
 
 # Initial conditions (starting from horizontal)
@@ -488,7 +488,7 @@ Substituting $\dot{\theta} = \frac{l}{mr^2}$ into the radial equation yields a o
 $$m\ddot{r} = \frac{l^2}{mr^3} - \frac{\partial V}{\partial r} = -\frac{\partial}{\partial r} \left( V(r) + \frac{l^2}{2mr^2} \right)$$
 The term $V_{\text{eff}}(r) = V(r) + \frac{l^2}{2mr^2}$ is the **effective potential**, where $\frac{l^2}{2mr^2}$ represents the "centrifugal barrier."
 
-![Effective Potential](https://upload.wikimedia.org/wikipedia/commons/e/e4/Effective_potential.png)
+![[effective-potential.png]]
 *Figure 1: The effective potential for a $1/r$ gravitational field. The shape of the orbit (circular, elliptical, parabolic, or hyperbolic) is determined by the total energy $E$ relative to $V_{\text{eff}}$.*
 
 ---
@@ -508,7 +508,7 @@ $$L = \frac{1}{2} \sum_{i,j} (T_{ij} \dot{\eta}_i \dot{\eta}_j - V_{ij} \eta_i \
 #### 2. The Secular Equation
 The equations of motion are $\sum_j (T_{ij} \ddot{\eta}_j + V_{ij} \eta_j) = 0$. Assuming harmonic solutions $\eta_j = a_j e^{i\omega t}$, we obtain the generalized eigenvalue problem:
 $$\det(\mathbf{V} - \omega^2 \mathbf{T}) = 0$$
-The roots $\omega_\alpha^2$ are the frequencies of the **normal modes**, and the corresponding eigenvectors define the **normal coordinates**, which decouple the system into independent simple harmonic oscillators.
+The roots $\omega_\alpha^2$ are the frequencies of the **normal modes**, and the corresponding eigenvectors define the **normal coordinates** which decouple the system into independent simple harmonic oscillators.
 
 ---
 
@@ -524,7 +524,7 @@ To express $L$ in terms of generalized coordinates, we use Euler angles $(\phi, 
 2.  **Nutation** ($\theta$): Rotation about the line of nodes.
 3.  **Spin** ($\psi$): Rotation about the body $z$-axis.
 
-![Euler Angles](https://upload.wikimedia.org/wikipedia/commons/a/aa/Eulerangles.svg)
+![[eulerangles.svg]]
 
 The angular velocity components in the body-fixed frame are:
 $$\omega_1 = \dot{\phi}\sin\theta\sin\psi + \dot{\theta}\cos\psi$$

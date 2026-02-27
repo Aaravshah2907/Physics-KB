@@ -12,9 +12,7 @@ TARGET_FILE="$NOTES_DIR/$TARGET_FILE_NAME"
 echo -e "${CYAN}🧐 Technical Audit: $(basename "$TARGET_FILE")${RESET}"
 echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}"
 
-# Use local model for verification to save tokens and leverage reasoning
-MODEL="${PKB_LOCAL_MODEL:-deepseek-r1:7b}"
-
+# Use primary model for verification for high accuracy
 draw_task_progress 1 2 "Reading content"
 CONTENT=$(cat "$TARGET_FILE")
 VERIFY_TASK=$(cat "$PROMPTS_DIR/verify.txt")
@@ -24,14 +22,14 @@ $CONTENT
 
 $VERIFY_TASK"
 
-draw_task_progress 2 2 "Analyzing with $MODEL"
+draw_task_progress 2 2 "Analyzing with $PKB_PRIMARY_MODEL"
 echo "" # For spinner
-RESULT=$(call_ollama "$VERIFY_PROMPT")
+RESULT=$(call_gemini "$VERIFY_PROMPT")
 
 if [ $? -eq 0 ] && [ -n "$RESULT" ]; then
     echo -e "$RESULT"
 else
-    echo -e "${RED}❌ Verification failed or Ollama not running.${RESET}"
+    echo -e "${RED}❌ Verification failed. Check your Gemini API quota.${RESET}"
     exit 1
 fi
 

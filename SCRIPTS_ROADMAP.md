@@ -22,10 +22,9 @@ This document summarizes the completed features and tracks the implementation of
 - **Contextual TODO**: `pkb-todo` tracks source-context for missing topics.
 
 ### 🧠 Hybrid LLM Backend
-- **Multi-Model Orchestration**: Priority-based fallback: `Gemini Pro` → `Gemini 1.5 Flash` → `Ollama (DeepSeek-r1:7b)`.
-- **Local-First Metadata**: `call_llm_light` routes non-creative tasks (titles, checks) to local Ollama by default to save tokens.
+- **Multi-Model Orchestration**: Priority-based fallback: `Gemini 2.5 Pro` → `Gemini 2.5 Flash`.
+- **Flash-First Metadata**: `call_llm_light` routes non-creative tasks (titles, checks) to Gemini Flash to conserve Pro quota.
 - **Context Optimizer**: Uses structured JSON index data to provide the AI with a "Project Consciousness" without scanning the entire note library.
-- **Think-Tag Filtration**: Dedicated Python logic (`pkb_llm_filter.py`) to prune reasoning-model thought blocks from final notes.
 
 ### 🔎 Search & Indexing (Shell Optimized)
 - **Topic Index**: `pkb-index` generates comprehensive hierarchical index (JSON & Markdown). Python logic externalized to `pkb_hierarchy.py`.
@@ -45,7 +44,7 @@ This document summarizes the completed features and tracks the implementation of
 
 ### 🛡️ Scientific Rigor & Infrastructure
 - **Prompt Versioning (`/prompts`)**: All AI instructions are externalized for version control and precise tuning.
-- **Technical Audit**: `pkb-verify` uses local LLMs to perform dimensional analysis and check for physical contradictions.
+- **Technical Audit**: `pkb-verify` uses Gemini to perform dimensional analysis and check for physical contradictions.
 - **Deep-Link Injection**: `pkb-link-fixer` provides automatic "Obsidian-style" backlink discovery across the entire library.
 - **Export Engine**: `pkb-export` converts note collections into publication-ready LaTeX or PDF via Pandoc.
 

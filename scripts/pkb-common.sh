@@ -13,9 +13,8 @@ if [ -f "$CONFIG_FILE" ]; then
     source "$CONFIG_FILE"
 else
     # Defaults if config missing
-    export PKB_PRIMARY_MODEL="default"
-    export PKB_FLASH_MODEL="gemini-1.5-flash-latest"
-    export PKB_LOCAL_MODEL="deepseek-r1:7b"
+    export PKB_PRIMARY_MODEL="gemini-2.5-pro"
+    export PKB_FLASH_MODEL="gemini-2.5-flash"
 fi
 
 NOTES_DIR="$PROJ_ROOT/notes"
@@ -39,13 +38,6 @@ check_system_health() {
         ERRORS=$((ERRORS + 1))
     else
         [ -z "$SILENT" ] && echo -e "  ✅ Gemini CLI: Ready"
-    fi
-    
-    # Check Ollama
-    if ! pgrep -x "ollama" > /dev/null && ! pgrep -f "ollama serve" > /dev/null; then
-        echo -e "  ⚠️  Ollama: Not running (Local fallback disabled)"
-    else
-        [ -z "$SILENT" ] && echo -e "  ✅ Ollama: Running ($PKB_LOCAL_MODEL)"
     fi
     
     # Check Index
@@ -134,26 +126,7 @@ show_spinner() {
     printf "     \b\b\b\b\b" >&2
 }
 
-# --- Helper: Call Gemini with fallback and spinner ---
 # --- Helper: Call Gemini with robust retry and fallback ---
-# --- Helper: Call Ollama ---
-# Strips <think> tags from output
-call_ollama() {
-    local PROMPT_TEXT="$1"
-    local MODEL="${PKB_LOCAL_MODEL:-deepseek-r1:7b}"
-    
-    # Check if ollama is running
-    if ! pgrep -x "ollama" > /dev/null && ! pgrep -f "ollama serve" > /dev/null; then
-        return 1
-    fi
-
-    # Use external python script to strip <think> tags reliably
-    printf "%s" "$PROMPT_TEXT" | ollama run "$MODEL" 2>/dev/null | \
-        python3 "$PKB_SCRIPTS_DIR/pkb_llm_filter.py"
-    return $?
-}
-
-# --- Helper: Call LLM with robust retry and fallback ---
 # This function follows the priority config settings
 call_gemini() {
     export NODE_NO_WARNINGS=1
@@ -165,23 +138,10 @@ call_gemini() {
     local OUT_FILE=$(mktemp)
     
     # Priority from config
-    local MODELS=("$PKB_PRIMARY_MODEL" "$PKB_FLASH_MODEL" "ollama")
+    local MODELS=("$PKB_PRIMARY_MODEL" "$PKB_FLASH_MODEL")
     local MAX_RETRIES=2
     
     for MODEL_NAME in "${MODELS[@]}"; do
-        if [ "$MODEL_NAME" == "ollama" ]; then
-            printf "\r\033[K   🦙 Trying local model (Ollama: $PKB_LOCAL_MODEL)...\n" >&2
-            local RESULT=$(call_ollama "$FULL_PROMPT")
-            if [ $? -eq 0 ] && [ -n "$RESULT" ]; then
-                echo "$RESULT"
-                rm -f "$ERR_FILE" "$OUT_FILE"
-                return 0
-            else
-                printf "\r\033[K   ❌ Ollama failed or not running.\n" >&2
-                continue
-            fi
-        fi
-
         local MODEL_ARGS=()
         if [ "$MODEL_NAME" != "default" ]; then
             MODEL_ARGS=(-m "$MODEL_NAME")
@@ -236,13 +196,11 @@ call_gemini() {
         
         if [ "$MODEL_NAME" == "$PKB_PRIMARY_MODEL" ]; then
              printf "\r\033[K   🔄 Switching to fallback model: $PKB_FLASH_MODEL...\n" >&2
-        elif [ "$MODEL_NAME" == "$PKB_FLASH_MODEL" ]; then
-             printf "\r\033[K   🔄 Switching to local model: Ollama...\n" >&2
         fi
     done
     
     # All models failed
-    echo "❌ All attempts failed. Check your API quota or Ollama status." >&2
+    echo "❌ All attempts failed. Check your API quota." >&2
     cat "$ERR_FILE" >&2
     rm -f "$ERR_FILE" "$OUT_FILE"
     return 1
@@ -252,13 +210,7 @@ call_gemini() {
 # Preferred for metadata, titles, and non-creation tasks to save tokens.
 call_llm_light() {
     local PROMPT="$1"
-    # Try Ollama directly first
-    local RESULT=$(call_ollama "$PROMPT")
-    if [ $? -eq 0 ] && [ -n "$RESULT" ]; then
-        echo "$RESULT"
-        return 0
-    fi
-    # Fallback to flash if Ollama fails
+    # Directly use Flash for lightweight tasks
     gemini -m "$PKB_FLASH_MODEL" -p "$PROMPT" -o text </dev/null 2>/dev/null
 }
 
