@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-02-27T08:13:44Z",
-  "total_files": 14,
-  "total_topics": 266,
+  "generated_at": "2026-02-27T08:51:24Z",
+  "total_files": 15,
+  "total_topics": 288,
   "files": [
     {
       "filename": "classical-mechanics.md",
@@ -1593,6 +1593,163 @@
               "title": "References",
               "level": 2,
               "line": 220,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "thinking\nokay-so-i-need-to-come\n\ni-m-thinking-about-how-to\n\nwait-should-i-add-more-descriptors\n\ni-don-t-think-i-need\ndone-thinking\n\nfilename.md",
+      "path": "notes/thinking\nokay-so-i-need-to-come\n\ni-m-thinking-about-how-to\n\nwait-should-i-add-more-descriptors\n\ni-don-t-think-i-need\ndone-thinking\n\nfilename.md",
+      "title": "Reynolds Number",
+      "summary": "**Summary**: The Reynolds Number ($Re$) is a fundamental dimensionless quantity in fluid dynamics that quantifies the ratio of inertial forces to viscous forces. Its magnitude predicts the nature of a flow, determining whether it will be smooth and predictable (laminar) or chaotic and irregular (turbulent). This principle of dynamic similarity is a cornerstone of physics and engineering, allowing for the scaled analysis of fluid systems from microscopic organisms to aircraft.",
+      "tags": [
+        "physics",
+        "fluid-dynamics",
+        "dimensionless-numbers",
+        "turbulence",
+        "classical-mechanics"
+      ],
+      "complexity": "advanced",
+      "date": "2026-02-27",
+      "topic_count": 22,
+      "max_depth": 3,
+      "hierarchy": [
+        {
+          "title": "Reynolds Number",
+          "level": 1,
+          "line": 7,
+          "children": [
+            {
+              "title": "Conceptual and Physical Significance",
+              "level": 2,
+              "line": 11,
+              "children": [
+                {
+                  "title": "Definition: The Ratio of Inertial to Viscous Forces",
+                  "level": 3,
+                  "line": 14,
+                  "children": []
+                },
+                {
+                  "title": "Physical Intuition: Laminar vs. Turbulent Flow",
+                  "level": 3,
+                  "line": 28,
+                  "children": []
+                },
+                {
+                  "title": "Dynamic Similarity and the Buckingham Pi Theorem",
+                  "level": 3,
+                  "line": 37,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "Mathematical Foundation",
+              "level": 2,
+              "line": 42,
+              "children": [
+                {
+                  "title": "Derivation from the Navier-Stokes Equations",
+                  "level": 3,
+                  "line": 45,
+                  "children": []
+                },
+                {
+                  "title": "Components of the Reynolds Number",
+                  "level": 3,
+                  "line": 64,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "Flow Regimes and Transitions",
+              "level": 2,
+              "line": 75,
+              "children": [
+                {
+                  "title": "Low Reynolds Number ($Re \\\\ll 1$): Stokes Flow",
+                  "level": 3,
+                  "line": 80,
+                  "children": []
+                },
+                {
+                  "title": "Moderate Reynolds Number: Instability and Vortex Shedding",
+                  "level": 3,
+                  "line": 94,
+                  "children": []
+                },
+                {
+                  "title": "High Reynolds Number ($Re \\\\gg 1$): Fully Developed Turbulence",
+                  "level": 3,
+                  "line": 99,
+                  "children": []
+                },
+                {
+                  "title": "The Critical Reynolds Number",
+                  "level": 3,
+                  "line": 102,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "Applications in Science and Engineering",
+              "level": 2,
+              "line": 108,
+              "children": [
+                {
+                  "title": "Pipe Flow and the Moody Diagram",
+                  "level": 3,
+                  "line": 113,
+                  "children": []
+                },
+                {
+                  "title": "Aerodynamics: From Drones to Airliners",
+                  "level": 3,
+                  "line": 122,
+                  "children": []
+                },
+                {
+                  "title": "Biological Systems: Life at Different Scales",
+                  "level": 3,
+                  "line": 130,
+                  "children": []
+                },
+                {
+                  "title": "Geophysical and Astrophysical Flows",
+                  "level": 3,
+                  "line": 149,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "Broader Context in Physics",
+              "level": 2,
+              "line": 154,
+              "children": [
+                {
+                  "title": "Relationship to Other Dimensionless Numbers",
+                  "level": 3,
+                  "line": 157,
+                  "children": []
+                },
+                {
+                  "title": "Historical Context: The Experiments of Osborne Reynolds",
+                  "level": 3,
+                  "line": 163,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "title": "References",
+              "level": 2,
+              "line": 173,
               "children": []
             }
           ]

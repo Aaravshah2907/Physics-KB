@@ -1,8 +1,8 @@
 # Physics Knowledge Base - Topic Index
 
-**Generated:** 2026-02-27 13:43:46
-**Total Files:** 14
-**Total Topics:** 266
+**Generated:** 2026-02-27 14:21:26
+**Total Files:** 15
+**Total Topics:** 288
 
 ---
 
@@ -20,8 +20,19 @@
 10. [Maxwell's Equations](#maxwell's-equations) (16 topics)
 11. [Physical Constants](#physical-constants) (18 topics)
 12. [Projectile Motion under Gravity](#projectile-motion) (26 topics)
-13. [Trajectory of a Particle Under Gravity](#trajectory-under-gravity) (13 topics)
-14. [Virtual Work](#virtual-work) (31 topics)
+13. [Reynolds Number](#thinking) (22 topics)
+14. [okay-so-i-need-to-come](#) ( topics)
+15. [](#) ( topics)
+16. [i-m-thinking-about-how-to](#) ( topics)
+17. [](#) ( topics)
+18. [wait-should-i-add-more-descriptors](#) ( topics)
+19. [](#) ( topics)
+20. [i-don-t-think-i-need](#) ( topics)
+21. [done-thinking](#) ( topics)
+22. [](#) ( topics)
+23. [filename.md](#) ( topics)
+24. [Trajectory of a Particle Under Gravity](#trajectory-under-gravity) (13 topics)
+25. [Virtual Work](#virtual-work) (31 topics)
 
 ---
 
@@ -415,6 +426,52 @@
 
 ---
 
+## Reynolds Number
+
+**File:** `notes/thinking
+okay-so-i-need-to-come
+
+i-m-thinking-about-how-to
+
+wait-should-i-add-more-descriptors
+
+i-don-t-think-i-need
+done-thinking
+
+filename.md`  
+**Complexity:** advanced  
+**Date:** 2026-02-27  
+**Topics:** 22  
+**Max Depth:** 3  
+**Tags:** `physics`, `fluid-dynamics`, `dimensionless-numbers`, `turbulence`, `classical-mechanics`  
+
+### Topic Hierarchy
+
+- **Reynolds Number** (L1, line 7)
+  - **Conceptual and Physical Significance** (L2, line 11)
+    - **Definition: The Ratio of Inertial to Viscous Forces** (L3, line 14)
+    - **Physical Intuition: Laminar vs. Turbulent Flow** (L3, line 28)
+    - **Dynamic Similarity and the Buckingham Pi Theorem** (L3, line 37)
+  - **Mathematical Foundation** (L2, line 42)
+    - **Derivation from the Navier-Stokes Equations** (L3, line 45)
+    - **Components of the Reynolds Number** (L3, line 64)
+  - **Flow Regimes and Transitions** (L2, line 75)
+    - **Low Reynolds Number ($Re \\ll 1$): Stokes Flow** (L3, line 80)
+    - **Moderate Reynolds Number: Instability and Vortex Shedding** (L3, line 94)
+    - **High Reynolds Number ($Re \\gg 1$): Fully Developed Turbulence** (L3, line 99)
+    - **The Critical Reynolds Number** (L3, line 102)
+  - **Applications in Science and Engineering** (L2, line 108)
+    - **Pipe Flow and the Moody Diagram** (L3, line 113)
+    - **Aerodynamics: From Drones to Airliners** (L3, line 122)
+    - **Biological Systems: Life at Different Scales** (L3, line 130)
+    - **Geophysical and Astrophysical Flows** (L3, line 149)
+  - **Broader Context in Physics** (L2, line 154)
+    - **Relationship to Other Dimensionless Numbers** (L3, line 157)
+    - **Historical Context: The Experiments of Osborne Reynolds** (L3, line 163)
+  - **References** (L2, line 173)
+
+---
+
 ## Trajectory of a Particle Under Gravity
 
 **File:** `notes/trajectory-under-gravity.md`  
@@ -491,20 +548,22 @@
 
 ### Topics by Complexity
 
-- **Advanced:** 11 files
+- **Advanced:** 12 files
 - **Basic:** 1 files
 - **Intermediate:** 2 files
 
 ### Topics by Tag
 
-- **physics:** 14 files
+- **physics:** 15 files
+- **classical-mechanics:** 4 files
 - **mechanics:** 3 files
 - **electromagnetism:** 3 files
-- **classical-mechanics:** 3 files
 - **theoretical-physics:** 2 files
 - **lagrangian-mechanics:** 2 files
+- **fluid-dynamics:** 2 files
 - **waves:** 1 files
 - **vector-calculus:** 1 files
+- **turbulence:** 1 files
 - **tensors:** 1 files
 - **relativity:** 1 files
 - **projectile-motion:** 1 files
@@ -515,7 +574,7 @@
 - **kinematics:** 1 files
 - **hamiltonian:** 1 files
 - **fundamental-physics:** 1 files
-- **fluid-dynamics:** 1 files
+- **dimensionless-numbers:** 1 files
 - **constraints:** 1 files
 - **classical-field-theory:** 1 files
 - **ballistics:** 1 files

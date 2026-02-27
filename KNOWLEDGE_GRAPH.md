@@ -14,6 +14,7 @@ graph TD
   maxwell_s_equations([Maxwell's Equations])
   physical_constants([Physical Constants])
   projectile_motion([Projectile Motion under Gravity])
+  thinking_okay_so_i_need_to_come__i_m_thinking_about_how_to__wait_should_i_add_more_descriptors__i_don_t_think_i_need_done_thinking__filename([Reynolds Number])
   trajectory_under_gravity([Trajectory of a Particle Under Gravity])
   virtual_work([Virtual Work])
   classical_mechanics --> hamiltonian_mechanics
@@ -47,6 +48,17 @@ graph TD
   physical_constants --> hamiltonian_mechanics
   physical_constants --> maxwell_s_equations
   projectile_motion --> classical_mechanics
+  projectile_motion --> thinking
+okay_so_i_need_to_come
+
+i_m_thinking_about_how_to
+
+wait_should_i_add_more_descriptors
+
+i_don_t_think_i_need
+done_thinking
+
+filename
   trajectory_under_gravity --> classical_mechanics
   trajectory_under_gravity --> eulerlagrange_equations_for_unconstrained_systems
   virtual_work --> generalized_coordinates
